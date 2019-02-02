@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pragun/pragun/sem4/graphics/graphics-boilerplate
+CMAKE_SOURCE_DIR = /home/pragun/pragun/sem4/graphics/Assignment2/3dgame
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pragun/pragun/sem4/graphics/graphics-boilerplate/build
+CMAKE_BINARY_DIR = /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles /home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -312,6 +312,33 @@ src/plane.cpp.s:
 	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/plane.cpp.s
 .PHONY : src/plane.cpp.s
 
+src/terrain.o: src/terrain.cpp.o
+
+.PHONY : src/terrain.o
+
+# target to build an object file
+src/terrain.cpp.o:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o
+.PHONY : src/terrain.cpp.o
+
+src/terrain.i: src/terrain.cpp.i
+
+.PHONY : src/terrain.i
+
+# target to preprocess a source file
+src/terrain.cpp.i:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.i
+.PHONY : src/terrain.cpp.i
+
+src/terrain.s: src/terrain.cpp.s
+
+.PHONY : src/terrain.s
+
+# target to generate assembly for a file
+src/terrain.cpp.s:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.s
+.PHONY : src/terrain.cpp.s
+
 src/timer.o: src/timer.cpp.o
 
 .PHONY : src/timer.o
@@ -369,6 +396,9 @@ help:
 	@echo "... src/plane.o"
 	@echo "... src/plane.i"
 	@echo "... src/plane.s"
+	@echo "... src/terrain.o"
+	@echo "... src/terrain.i"
+	@echo "... src/terrain.s"
 	@echo "... src/timer.o"
 	@echo "... src/timer.i"
 	@echo "... src/timer.s"

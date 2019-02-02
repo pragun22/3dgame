@@ -4,14 +4,15 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/ball.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/ball.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/color.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/color.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/input.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/input.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/main.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/main.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/nonedit.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/other_handlers.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/plane.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o"
-  "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/src/timer.cpp" "/home/pragun/pragun/sem4/graphics/graphics-boilerplate/build/CMakeFiles/graphics_asgn1.dir/src/timer.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/ball.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/ball.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/color.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/color.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/input.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/input.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/main.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/nonedit.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/other_handlers.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/plane.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/terrain.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/timer.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/timer.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

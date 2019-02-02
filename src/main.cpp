@@ -2,6 +2,7 @@
 #include "timer.h"
 #include "ball.h"
 #include "plane.h"
+#include "terrain.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -14,6 +15,7 @@ GLFWwindow *window;
 double xpos, ypos;
 bool flag = false;
 Ball ball1;
+Terrain terrain;
 Plane plane;
     float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
@@ -36,7 +38,7 @@ void draw() {
     float angle1 = cos(glm::radians(ypos/10.0f));
     float scroll = temp;
     float Z = 0.5 * 8* sin(glm::radians(angle2))/sin(glm::radians(angle1))+3;
-    glm::vec3 eye ( 0, 20, 28 );
+    glm::vec3 eye ( 0, 20, 98 );
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
     glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
@@ -59,16 +61,19 @@ void draw() {
     // Scene render
     // ball1.draw(VP);  
     plane.draw(VP);
+    // terrain.draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
+    int space = glfwGetKey(window, GLFW_KEY_SPACE);
+    if(space == GLFW_PRESS) plane.Up(1);
+    else if (space == GLFW_RELEASE) plane.Up(0);
     if (left) {
         if(!flag) flag = true;
         else flag = false;
      temp += 0.1f;
-
     }
 }
 
@@ -86,6 +91,7 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     ball1       = Ball(0, 0, COLOR_RED);
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
+    // terrain = Terrain(0.0f,0.0f,400,40,0,0);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform

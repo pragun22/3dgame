@@ -254,7 +254,7 @@ Plane::Plane(float x, float y, color_t color) {
     GLfloat vertex_prop[3*n];
     inc = 0;
     r = 2.0f;
-	for (int i = 0; i < 3*n; i+=9)
+	for (int i = 0; i < 3*n && inc <= n; i+=9)
 	{
 		float angle = 2*M_PI*inc/n;
 		// if(inc==n) angle = 0;
@@ -267,21 +267,22 @@ Plane::Plane(float x, float y, color_t color) {
 		vertex_buffer_data[i+6]=r*cos(2*M_PI*+(inc+3)/n);
 		vertex_buffer_data[i+7]=r*sin(2*M_PI*+(inc+5)/n);
 		vertex_buffer_data[i+8]=0;
-		inc+=6;
+		inc+=9;
 	}
 
-    this->propelar = create3DObject(GL_TRIANGLES, 2*n, vertex_buffer_data, color, GL_FILL);
     this->object = create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, color, GL_FILL);
     this->object1 = create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data1, color, GL_FILL);
     this->tail = create3DObject(GL_TRIANGLES, 6*n, vertex_tail, color, GL_FILL);
     this->tail_wing = create3DObject(GL_TRIANGLES, 16*3, vertex_tail_wing, color, GL_FILL);
     this->wing = create3DObject(GL_TRIANGLES, 16*3, vertex_wing_data, color, GL_FILL);
+    this->propelar = create3DObject(GL_TRIANGLES, 2*n, vertex_buffer_data, color, GL_FILL);
 }
 
 void Plane::draw(glm::mat4 VP) {
     Matrices.model = glm::mat4(1.0f);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
-    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 1, 1));
+    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 0, 0));
+    glm::mat4 rotate1    = glm::rotate((float) (this->pro * M_PI / 180.0f), glm::vec3(0, 0, 1));
     // No need as coords centered at 0, 0, 0 of cube arouund which we waant to rotate
     // rotate          = rotate * glm::translate(glm::vec3(0, -0.6, 0));
     Matrices.model *= (translate * rotate);
@@ -292,6 +293,9 @@ void Plane::draw(glm::mat4 VP) {
     draw3DObject(this->wing);
     draw3DObject(this->tail);
     draw3DObject(this->tail_wing);
+    Matrices.model *= (rotate1);
+    MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->propelar);
 
 }
@@ -299,10 +303,18 @@ void Plane::draw(glm::mat4 VP) {
 // void Plane::set_position(float x, float y) {
 //     this->position = glm::vec3(x, y, 0);
 // }
-
+void Plane::Up(int a){
+    if(a){
+        this->position.y += 0.3f;
+        this->rotation += 0.6f;
+        if(this->rotation>22.0f) this->rotation = 22.0f;
+    } 
+    else this->rotation = 0.0f;
+}
 void Plane::tick() {
-    this->rotation += speed;
-    this->pro += 5.0f;
+    // this->rotation += speed;
+    this->pro += 8.0f;
+    if(this->pro > 360.0f) this->pro = 0.0f;
     // this->position.x -= speed;
     // this->position.y -= speed;
 }
