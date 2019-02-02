@@ -9,10 +9,19 @@ public:
     Plane() {}
     Plane(float x, float y, color_t color);
     glm::vec3 position;
+    bool flag;
     float rotation;
     float pro;
+    float counter;
+    float tilt;
+    float speedx;
+    float speedy;
+    float speedz;
     void draw(glm::mat4 VP);
     void Up(int a);
+    void forward(int a);
+    void tilt_fn(int a,float value);
+    void rotate(int a,float v);    
     void set_position(float x, float y);
     void tick();
     double speed;
@@ -23,6 +32,7 @@ private:
     VAO *tail;
     VAO *tail_wing;
     VAO *propelar;
+    VAO *fire;
 };
 
 #endif 

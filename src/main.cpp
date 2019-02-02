@@ -38,9 +38,9 @@ void draw() {
     float angle1 = cos(glm::radians(ypos/10.0f));
     float scroll = temp;
     float Z = 0.5 * 8* sin(glm::radians(angle2))/sin(glm::radians(angle1))+3;
-    glm::vec3 eye ( 0, 20, 98 );
+    glm::vec3 eye ( 0,  plane.position.y +30, 38 + plane.position.z/0.99f );
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
-    glm::vec3 target (0, 0, 0);
+    glm::vec3 target (0, plane.position.y/1.2f +0, plane.position.z);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
     glm::vec3 up (0, 1, 0);
 
@@ -68,8 +68,31 @@ void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_LEFT);
     int right = glfwGetKey(window, GLFW_KEY_RIGHT);
     int space = glfwGetKey(window, GLFW_KEY_SPACE);
+    int w = glfwGetKey(window, GLFW_KEY_W);
+    int A = glfwGetKey(window, GLFW_KEY_A);
+    int D = glfwGetKey(window, GLFW_KEY_D);
+    int Q = glfwGetKey(window, GLFW_KEY_E);
+    int E = glfwGetKey(window, GLFW_KEY_Q);
     if(space == GLFW_PRESS) plane.Up(1);
     else if (space == GLFW_RELEASE) plane.Up(0);
+    if(w == GLFW_PRESS) plane.forward(1);
+    else if (w == GLFW_RELEASE) plane.forward(0);
+    if(D == GLFW_PRESS) plane.tilt_fn(1,-3.0f);
+    else if (D == GLFW_RELEASE) plane.tilt_fn(0,-3.0f);
+    if(A == GLFW_PRESS) plane.tilt_fn(1,3.0f);
+    else if (A == GLFW_RELEASE) plane.tilt_fn(0,3.0f);
+    if(Q == GLFW_PRESS){ 
+        plane.rotate(1,-2.0f);
+    }
+    else if (Q == GLFW_RELEASE){ 
+        plane.rotate(0,-2.0f);
+    }
+    if(E == GLFW_PRESS){ 
+        plane.rotate(1,2.0f);
+    }
+    else if (E == GLFW_RELEASE){ 
+        plane.rotate(0,2.0f);
+    }
     if (left) {
         if(!flag) flag = true;
         else flag = false;
