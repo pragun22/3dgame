@@ -311,16 +311,31 @@ Plane::Plane(float x, float y, color_t color) {
     this->fire = create3DObject(GL_TRIANGLES, 6*n, vertex_fire, COLOR_FIRE, GL_FILL);
 }
 
+glm::mat4 rotationMatrix(glm::vec3 axis, float angle)
+{
+    axis = glm::normalize(axis);
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+    
+    return glm::mat4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+                oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+                oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+                0.0,                                0.0,                                0.0,                                1.0);
+}
+
 void Plane::draw(glm::mat4 VP) {
+    // glRotatef(this->tilt, sin(this->counter * M_PI / 180.0f), 0, cos(this->counter * M_PI / 180.0f));
+    float ang = this->counter * M_PI / 180.0f;
     Matrices.model = glm::mat4(1.0f);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
     glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 0, 0));
-    glm::mat4 til    = glm::rotate((float) (this->tilt * M_PI / 180.0f), glm::vec3(0, 0, 1));
+    // glm::mat4 til    = glm::rotate((float) (this->tilt * M_PI / 180.0f), glm::vec3(0, 0, 1));
+    glm::mat4 til = rotationMatrix(glm::vec3(sin(ang),0,cos(ang)),(this->tilt * M_PI / 180.0f));
     glm::mat4 count    = glm::rotate((float) (this->counter * M_PI / 180.0f), glm::vec3(0, 1, 0));
     glm::mat4 rotate1    = glm::rotate((float) (this->pro * M_PI / 180.0f), glm::vec3(0, 0, 1));
-    // No need as coords centered at 0, 0, 0 of cube arouund which we waant to rotate
-    // rotate          = rotate * glm::translate(glm::vec3(0, -0.6, 0));
     Matrices.model *= (translate * rotate * til * count);
+    // Matrices.model *= (translate * rotate * count);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->object);
@@ -336,9 +351,6 @@ void Plane::draw(glm::mat4 VP) {
 
 }
 
-// void Plane::set_position(float x, float y) {
-//     this->position = glm::vec3(x, y, 0);
-// }
 void Plane::tilt_fn(int a,float value){
     if(a){
         this->tilt += value;
@@ -361,31 +373,38 @@ void Plane::tilt_fn(int a,float value){
 void Plane::rotate(int a,float value){
     if(a){
         this->counter += value;
-        if(this->counter > 60.0f) this->counter= 60.0f;
-        if(this->counter < -60.0f) this->counter= -60.0f;        
+        // if(this->counter > 60.0f) this->counter= 60.0f;
+        // if(this->counter < -60.0f) this->counter= -60.0f;        
     }
-    else{
-        if(this->counter > 0.0f){
-            this->counter -= 1.0f;
-            if(this->counter < 0.0f) this->counter = 0.0f;
-        }
-        else if(this->counter < 0.0f){
-            this->counter += 1.0f;
-            if(this->counter > 0.0f) this->counter = 0.0f;
-        }
+    // else{
+    //     if(this->counter > 0.0f){
+    //         this->counter -= 1.0f;
+    //         if(this->counter < 0.0f) this->counter = 0.0f;
+    //     }
+    //     else if(this->counter < 0.0f){
+    //         this->counter += 1.0f;
+    //         if(this->counter > 0.0f) this->counter = 0.0f;
+    //     }
 
-    }
+    // }
 }
 void Plane::forward(int a){
+    float angle1 = cos((this->counter * M_PI / 180.0f));
+    float angle2 = sin((this->counter * M_PI / 180.0f));
     if(a){
         this->flag = true;
-        this->speedz += 0.5f;
+        this->speedz += 0.5f*angle1;
+        this->speedx -= 0.5f*angle2;
         if(this->speedz>10.0f) this->speedz = 10.0f;
+        if(this->speedx<-10.0f) this->speedx = -10.0f;
     } 
     else {
         this->flag = false;
-        this->speedz -= 0.4f;
+        if(this->speedz > 2.0f) this->speedz -= 0.4f;
         if(this->speedz<2.0f) this->speedz = 2.0f;
+
+        if(this->speedx < 0.0f) this->speedx += 0.4f;
+        if(this->speedx>0.0f) this->speedx = 0.0f;
     }
 
 }
@@ -404,13 +423,10 @@ void Plane::Up(int a){
     }
 }
 void Plane::tick() {
-    // this->rotation += speed;
     this->pro += 8.0f;
     if(this->pro > 360.0f) this->pro = 0.0f;
-    this->position.z += this->speedz;
+    this->position.z -= this->speedz;
     this->position.x += this->speedx;
     this->position.y += this->speedy;
-    // this->position.x -= speed;
-    // this->position.y -= speed;
 }
 

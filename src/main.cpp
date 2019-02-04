@@ -17,7 +17,7 @@ bool flag = false;
 Ball ball1;
 Terrain terrain;
 Plane plane;
-    float temp = 0.0f;
+float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 
@@ -34,16 +34,23 @@ void draw() {
     glUseProgram (programID);
     // Eye - Location of camera. Don't change unless you are sure!!
     // else temp = 0;
-    float angle2 = sin(glm::radians(xpos/10.0f));
-    float angle1 = cos(glm::radians(ypos/10.0f));
-    float scroll = temp;
-    float Z = 0.5 * 8* sin(glm::radians(angle2))/sin(glm::radians(angle1))+3;
-    glm::vec3 eye ( 0,  plane.position.y +30, 38 + plane.position.z/0.99f );
+    //follow cam
+    float angle1 = cos((plane.counter * M_PI / 180.0f));
+    float angle2 = sin((plane.counter * M_PI / 180.0f));
+    float camx = plane.position.x + (50)*angle2;
+    float camz = plane.position.z + (50)*angle1;
+    cout<<angle1<<"-angle-"<<angle2<<endl;
+    cout<<camx<<"-cam-"<<camz<<endl;
+    glm::vec3 eye ( camx ,  plane.position.y + 20 , camz);
+    // glm::vec3 eye ( (plane.position.x),  plane.position.y + 20 , (plane.position.z + 50) );
+    // glm::vec3 eye ( 0,  35 ,13 );
     // Target - Where is the camera looking at.  Don't change unless you are sure!!
-    glm::vec3 target (0, plane.position.y/1.2f +0, plane.position.z);
+
+    glm::vec3 target (plane.position.x, plane.position.y +0, plane.position.z);
+    // glm::vec3 target (0, 0, 0);
     // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
     glm::vec3 up (0, 1, 0);
-
+    //ends here
     // Compute Camera matrix (view)
     Matrices.view = glm::lookAt(eye,target,up);
     // Don't change unless you are sure!!
@@ -61,7 +68,7 @@ void draw() {
     // Scene render
     // ball1.draw(VP);  
     plane.draw(VP);
-    // terrain.draw(VP);
+    terrain.draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
@@ -103,7 +110,7 @@ void tick_input(GLFWwindow *window) {
 void tick_elements() {
     ball1.tick();
     plane.tick();
-    camera_rotation_angle += 1;
+    terrain.tick();
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -112,9 +119,8 @@ void initGL(GLFWwindow *window, int width, int height) {
     /* Objects should be created before any other gl function and shaders */
     // Create the models
 
-    ball1       = Ball(0, 0, COLOR_RED);
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
-    // terrain = Terrain(0.0f,0.0f,400,40,0,0);
+    terrain = Terrain(-400.0f,-200.0f,400,800);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform

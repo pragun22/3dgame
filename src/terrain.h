@@ -7,9 +7,10 @@
 class Terrain {
 public:
     Terrain() {}
-    Terrain(float x, float y,int height, int widht,float range,float level);
+    Terrain(float x, float y,int height, int widht);
     glm::vec3 position;
     float rotation;
+    float speedz = 2.0f;
     int height;
     int width;
     double sample(int x, int y);
@@ -22,6 +23,8 @@ public:
     double speed;
 private:
     VAO *object;
+    VAO *object1;
+    VAO *object2;
 };
 
 #endif 
