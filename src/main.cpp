@@ -73,7 +73,7 @@ void draw() {
     ypos = min(ypos,600);
     cout<<xpos<<"--"<<ypos<<endl;
     float helicamx = camx  + (float(xpos-300.0f)/5.0f)*angle1  ;
-    float helicamz = camz  + (float(xpos-300.0f)/5.0f)*angle2 ;
+    float helicamz = camz  - (float(xpos-300.0f)/5.0f)*angle2 ;
     float helicamy = plane.position.y + float(ypos-300.0f)/5.0f;
     eye[4] = glm::vec3( helicamx , helicamy , helicamz);
     target[4] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
