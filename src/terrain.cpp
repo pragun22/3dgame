@@ -1,14 +1,14 @@
 #include "terrain.h"
 #include "main.h"
 Terrain::Terrain(float x, float y, int height, int width) {
-        this->position = glm::vec3(x, y, 0);
+        float w = width;
+        float h = height;
+        float span = 5.0f;
+        this->position = glm::vec3(x, -7.0f, y);
         this->rotation = 0.0f;
         this->height = height;
         this->width = width;
         this->speedz = 2.0f;
-        float w = width;
-        float h = height;
-        float span = 5.0f;
         const GLfloat vertex[]={
             0.0f,0.0f,0.0f,
             w, 0.0f, 0.0f,

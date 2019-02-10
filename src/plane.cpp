@@ -334,7 +334,8 @@ void Plane::draw(glm::mat4 VP) {
     glm::mat4 til = rotationMatrix(glm::vec3(sin(ang),0,cos(ang)),(this->tilt * M_PI / 180.0f));
     glm::mat4 count    = glm::rotate((float) (this->counter * M_PI / 180.0f), glm::vec3(0, 1, 0));
     glm::mat4 rotate1    = glm::rotate((float) (this->pro * M_PI / 180.0f), glm::vec3(0, 0, 1));
-    Matrices.model *= (translate * rotate * til * count);
+    // Matrices.model *= (translate * count* rotate *til );
+    Matrices.model *= (translate * til* rotate * count );
     // Matrices.model *= (translate * rotate * count);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
@@ -354,7 +355,9 @@ void Plane::draw(glm::mat4 VP) {
 void Plane::tilt_fn(int a,float value){
     if(a){
         this->tilt += value;
-        this->position.x -= this->tilt/200.0f;
+        float ang = this->counter * M_PI / 180.0f;
+        this->position.x += this->tilt/100.0f*cos(ang);
+        this->position.z -= this->tilt/100.0f*sin(ang);
         if(this->tilt > 75.0f) this->tilt= 75.0f;
         if(this->tilt < -75.0f) this->tilt= -75.0f;        
     }
@@ -395,8 +398,8 @@ void Plane::forward(int a){
         this->flag = true;
         this->speedz += 0.5f*angle1;
         this->speedx -= 0.5f*angle2;
-        if(this->speedz>10.0f) this->speedz = 10.0f;
-        if(this->speedx<-10.0f) this->speedx = -10.0f;
+        if(this->speedz>4.0f) this->speedz = 4.0f;
+        if(this->speedx<-4.0f) this->speedx = -4.0f;
     } 
     else {
         this->flag = false;

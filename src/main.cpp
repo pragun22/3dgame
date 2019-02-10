@@ -19,8 +19,16 @@ Terrain terrain;
 Plane plane;
 float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
+int cam_mode = 0;
 float camera_rotation_angle = 0;
-
+float min(int a,int b)
+{
+    return a>b?b:a;
+}
+float max(int a,int b)
+{
+    return a>b?a:b;
+}
 Timer t60(1.0 / 60);
 
 /* Render the scene with openGL */
@@ -39,20 +47,39 @@ void draw() {
     float angle2 = sin((plane.counter * M_PI / 180.0f));
     float camx = plane.position.x + (50)*angle2;
     float camz = plane.position.z + (50)*angle1;
-    cout<<angle1<<"-angle-"<<angle2<<endl;
-    cout<<camx<<"-cam-"<<camz<<endl;
-    glm::vec3 eye ( camx ,  plane.position.y + 20 , camz);
-    // glm::vec3 eye ( (plane.position.x),  plane.position.y + 20 , (plane.position.z + 50) );
-    // glm::vec3 eye ( 0,  35 ,13 );
-    // Target - Where is the camera looking at.  Don't change unless you are sure!!
-
-    glm::vec3 target (plane.position.x, plane.position.y +0, plane.position.z);
-    // glm::vec3 target (0, 0, 0);
-    // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
-    glm::vec3 up (0, 1, 0);
+    // cout<<angle1<<"-angle-"<<angle2<<endl;
+    // cout<<camx<<"-cam-"<<camz<<endl;
+    glm::vec3 eye[6]; 
+    glm::vec3 target[6];
+    glm::vec3 up;
+    up = glm::vec3(0, 1, 0);
+    // follow cam
+    eye[0] = glm::vec3( camx ,  plane.position.y + 20 , camz);
+    target[0] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
+   // Top view
+    eye[1] = glm::vec3( plane.position.x , 200.0f  , plane.position.z + 50.0f);
+    target[1] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
+    //tower view
+    eye[2] = glm::vec3( camx -200.0f,  plane.position.y+30.0f , plane.position.z + 50.0f);
+    target[2] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
+    // plane's view
+    eye[3] = glm::vec3( plane.position.x, plane.position.y +0, plane.position.z);
+    target[3] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z-30.0f);
+    // helicopter view
+    glfwGetCursorPos(window, &xpos, &ypos);
+    xpos = max(xpos,0);
+    ypos = max(ypos,0);
+    xpos = min(xpos,600);
+    ypos = min(ypos,600);
+    cout<<xpos<<"--"<<ypos<<endl;
+    float helicamx = camx+ (float(xpos-300.0f)/5.0f)*angle2 ;
+    float helicamz = camz + (float(xpos-300.0f)/5.0f)*angle1 ;
+    float helicamy = plane.position.y + float(ypos-300.0f)/5.0f;
+    eye[4] = glm::vec3( helicamx , helicamy , helicamz);
+    target[4] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
     //ends here
     // Compute Camera matrix (view)
-    Matrices.view = glm::lookAt(eye,target,up);
+    Matrices.view = glm::lookAt(eye[cam_mode],target[cam_mode],up);
     // Don't change unless you are sure!!
     // Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
 
@@ -80,14 +107,24 @@ void tick_input(GLFWwindow *window) {
     int D = glfwGetKey(window, GLFW_KEY_D);
     int Q = glfwGetKey(window, GLFW_KEY_E);
     int E = glfwGetKey(window, GLFW_KEY_Q);
+    int mod0 = glfwGetKey(window, GLFW_KEY_0);
+    int mod1 = glfwGetKey(window, GLFW_KEY_1);
+    int mod2 = glfwGetKey(window, GLFW_KEY_2);
+    int mod3 = glfwGetKey(window, GLFW_KEY_3);
+    int mod4 = glfwGetKey(window, GLFW_KEY_4);
+    if(mod0) cam_mode = 0;
+    if(mod1) cam_mode = 1;
+    if(mod2) cam_mode = 2;
+    if(mod3) cam_mode = 3;
+    if(mod4) cam_mode = 4;
     if(space == GLFW_PRESS) plane.Up(1);
     else if (space == GLFW_RELEASE) plane.Up(0);
     if(w == GLFW_PRESS) plane.forward(1);
     else if (w == GLFW_RELEASE) plane.forward(0);
-    if(D == GLFW_PRESS) plane.tilt_fn(1,-3.0f);
-    else if (D == GLFW_RELEASE) plane.tilt_fn(0,-3.0f);
-    if(A == GLFW_PRESS) plane.tilt_fn(1,3.0f);
-    else if (A == GLFW_RELEASE) plane.tilt_fn(0,3.0f);
+    if(A == GLFW_PRESS) plane.tilt_fn(1,-3.0f);
+    else if (A == GLFW_RELEASE) plane.tilt_fn(0,-3.0f);
+    if(D == GLFW_PRESS) plane.tilt_fn(1,3.0f);
+    else if (D == GLFW_RELEASE) plane.tilt_fn(0,3.0f);
     if(Q == GLFW_PRESS){ 
         plane.rotate(1,-2.0f);
     }
@@ -120,7 +157,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     // Create the models
 
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
-    terrain = Terrain(-400.0f,-200.0f,400,800);
+    terrain = Terrain(0.0f,0.0f,1600,2600);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
