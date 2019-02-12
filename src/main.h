@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <unistd.h>
 #include <fstream>
 #include <vector>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -88,6 +89,9 @@ extern const color_t COLOR_BACKGROUND;
 extern const color_t COLOR_YELLOW;
 extern const color_t COLOR_SILVER;
 extern const color_t COLOR_JET;
+extern const color_t COLOR_TAPU;
+extern const color_t COLOR_VOL;
+extern const color_t COLOR_SMOKE;
 extern const color_t COLOR_FIRE;
 
 #endif

@@ -18,6 +18,7 @@ Ball ball1;
 Terrain terrain;
 Plane plane;
 Tapu tapu;
+vector<Lava> lava;
 float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 int cam_mode = 0;
@@ -98,6 +99,7 @@ void draw() {
     plane.draw(VP);
     terrain.draw(VP);
     tapu.draw(VP);
+
 }
 
 void tick_input(GLFWwindow *window) {
@@ -149,7 +151,8 @@ void tick_input(GLFWwindow *window) {
 void tick_elements() {
     ball1.tick();
     plane.tick();
-    terrain.tick();
+    tapu.tick();
+    // terrain.tick();
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -160,7 +163,7 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
     terrain = Terrain(0.0f,0.0f,1600,2600);
-    tapu = Tapu(0.0f,0.0f,1600,2600);
+    tapu = Tapu(35.0f,-35.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
