@@ -27,4 +27,23 @@ private:
     VAO *object2;
 };
 
+class Tapu {
+public:
+    Tapu() {}
+    Tapu(float x, float y,int height, int widht);
+    glm::vec3 position;
+    float rotation;
+    float speedz = 2.0f;
+    int height;
+    int width;
+    void draw(glm::mat4 VP);
+    void set_position(float x, float y);
+    void tick();
+    double speed;
+private:
+    VAO *object;
+    VAO *object1;
+    VAO *object2;
+};
+
 #endif 

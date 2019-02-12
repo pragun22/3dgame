@@ -428,7 +428,7 @@ void Plane::Up(int a){
 void Plane::tick() {
     this->pro += 8.0f;
     if(this->pro > 360.0f) this->pro = 0.0f;
-    this->position.z -= this->speedz;
+    // this->position.z -= this->speedz;
     this->position.x += this->speedx;
     this->position.y += this->speedy;
 }

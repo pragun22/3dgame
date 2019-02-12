@@ -17,6 +17,7 @@ bool flag = false;
 Ball ball1;
 Terrain terrain;
 Plane plane;
+Tapu tapu;
 float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 int cam_mode = 0;
@@ -96,6 +97,7 @@ void draw() {
     // ball1.draw(VP);  
     plane.draw(VP);
     terrain.draw(VP);
+    tapu.draw(VP);
 }
 
 void tick_input(GLFWwindow *window) {
@@ -158,6 +160,7 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
     terrain = Terrain(0.0f,0.0f,1600,2600);
+    tapu = Tapu(0.0f,0.0f,1600,2600);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
