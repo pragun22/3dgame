@@ -44,6 +44,7 @@ struct VAO {
     GLuint VertexArrayID;
     GLuint VertexBuffer;
     GLuint ColorBuffer;
+    GLuint normalBuffer;
 
     GLenum PrimitiveMode;
     GLenum FillMode;

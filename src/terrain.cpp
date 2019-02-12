@@ -58,7 +58,15 @@ Terrain::Terrain(float x, float y, int height, int width) {
             w, span, -h,
             w, 0.0f, -h             
         };
-    this->object = create3DObject(GL_TRIANGLES, 12*3, vertex, COLOR_BLACK, GL_FILL);
+        GLfloat normal[36*3];
+        for(int i = 0; i < 36*3; i+=3)
+        {
+            normal[i] = 0.0f;
+            normal[i+1] = 1.0f;
+            normal[i+2] = 0.0f;
+        }
+        
+    this->object = create3DObject(GL_TRIANGLES, 12*3, vertex, COLOR_BLACK, normal, GL_FILL);
 }
 void Terrain::draw(glm::mat4 VP) {
     Matrices.model = glm::mat4(1.0);

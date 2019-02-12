@@ -148,8 +148,6 @@ GLuint LoadShaders(const char *vertex_file_path, const char *fragment_file_path)
     return ProgramID;
 }
 
-
-/* Generate VAO, VBOs and return VAO handle */
 struct VAO *create3DObject(GLenum primitive_mode, int numVertices, const GLfloat *vertex_buffer_data, const GLfloat *color_buffer_data, GLenum fill_mode) {
     struct VAO *vao = new struct VAO;
     vao->PrimitiveMode = primitive_mode;
@@ -184,7 +182,54 @@ struct VAO *create3DObject(GLenum primitive_mode, int numVertices, const GLfloat
         0,                            // stride
         (void *) 0                    // array buffer offset
     );
+    return vao;
+}
+/* Generate VAO, VBOs and return VAO handle */
+struct VAO *create3DObject(GLenum primitive_mode, int numVertices, const GLfloat *vertex_buffer_data, const GLfloat *color_buffer_data, const GLfloat *normal_buffer_data, GLenum fill_mode) {
+    struct VAO *vao = new struct VAO;
+    vao->PrimitiveMode = primitive_mode;
+    vao->NumVertices   = numVertices;
+    vao->FillMode      = fill_mode;
 
+    // Create Vertex Array Object
+    // Should be done after CreateWindow and before any other GL calls
+    glGenVertexArrays(1, &(vao->VertexArrayID)); // VAO
+    glGenBuffers (1, &(vao->VertexBuffer)); // VBO - vertices
+    glGenBuffers (1, &(vao->ColorBuffer)); // VBO - colors
+    glGenBuffers (1, &(vao->normalBuffer)); // VBO - colors
+
+    glBindVertexArray (vao->VertexArrayID); // Bind the VAO
+    glBindBuffer (GL_ARRAY_BUFFER, vao->VertexBuffer); // Bind the VBO vertices
+    glBufferData (GL_ARRAY_BUFFER, 3 * numVertices * sizeof(GLfloat), vertex_buffer_data, GL_STATIC_DRAW); // Copy the vertices into VBO
+    glVertexAttribPointer(
+        0,                            // attribute 0. Vertices
+        3,                            // size (x,y,z)
+        GL_FLOAT,                     // type
+        GL_FALSE,                     // normalized?
+        0,                            // stride
+        (void *) 0                      // array buffer offset
+    );
+
+    glBindBuffer (GL_ARRAY_BUFFER, vao->ColorBuffer); // Bind the VBO colors
+    glBufferData (GL_ARRAY_BUFFER, 3 * numVertices * sizeof(GLfloat), color_buffer_data, GL_STATIC_DRAW); // Copy the vertex colors
+    glVertexAttribPointer(
+        1,                            // attribute 1. Color
+        3,                            // size (r,g,b)
+        GL_FLOAT,                     // type
+        GL_FALSE,                     // normalized?
+        0,                            // stride
+        (void *) 0                    // array buffer offset
+    );
+    glBindBuffer(GL_ARRAY_BUFFER, vao->normalBuffer);
+     glBufferData(GL_ARRAY_BUFFER, 3 * numVertices * sizeof(GLfloat), normal_buffer_data, GL_STATIC_DRAW);
+    glVertexAttribPointer(
+        2,                                // attribute
+        3,                                // size
+        GL_FLOAT,                         // type
+        GL_FALSE,                         // normalized?
+        0,                                // stride
+        (void*)0                          // array buffer offset
+    );
     return vao;
 }
 
@@ -221,6 +266,11 @@ void draw3DObject(struct VAO *vao) {
     glEnableVertexAttribArray(1);
     // Bind the VBO to use
     glBindBuffer(GL_ARRAY_BUFFER, vao->ColorBuffer);
+
+    // Enable Vertex Attribute 2 - Color
+    glEnableVertexAttribArray(2);
+    // Bind the VBO to use
+    glBindBuffer(GL_ARRAY_BUFFER, vao->normalBuffer);    
 
     // Draw the geometry !
     glDrawArrays(vao->PrimitiveMode, 0, vao->NumVertices); // Starting from vertex 0; 3 vertices total -> 1 triangle
