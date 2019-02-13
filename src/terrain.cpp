@@ -330,3 +330,96 @@ bool Lava::tick(int a) {
     if(this->s>4.0f) return true;
     return false;
 }
+
+Canon::Canon(float x, float y){
+        this->speedz = 2.0f;
+        this->position = glm::vec3(x, -1.0f, y);
+        this->rotation = 0.0f;
+        int n= 50;
+        int inc = 0;
+        this->timer = clock();
+        float r1 = 25.0f;
+        GLfloat vertex_buffer_data[9*n];
+        float h1 = 1.0f;
+        inc = 0;
+        for (int i = 0; i < 9*n; i+=9){
+            float angle = 2*M_PI*inc/n;
+            // if(inc==n) angle = 0;
+            // float r = (((rand()+1)%2)/4.0f)* (r1);
+            vertex_buffer_data[i]=r1*cos(angle);
+            vertex_buffer_data[i+1]=h1;
+            vertex_buffer_data[i+2]=r1*sin(angle);
+            vertex_buffer_data[i+3]=0;
+            vertex_buffer_data[i+4]=h1;
+            vertex_buffer_data[i+5]=0;
+            vertex_buffer_data[i+6]=r1*cos(2*M_PI*+(inc+1)/n);
+            vertex_buffer_data[i+7]=h1;
+            vertex_buffer_data[i+8]=r1*sin(2*M_PI*+(inc+1)/n);
+            inc++;
+	    }
+        GLfloat wheel_buffer_data[18*n];
+        inc = 0;
+        float r = 2.0f;
+        float y_offset = 3.0f;
+        float x_offset = 1.5f;
+        for (int i = 0; i < 9*n; i+=9){
+            float angle = 2*M_PI*inc/n;
+            // if(inc==n) angle = 0;
+            float r = (((rand()%2+1))/4.0f)* (r1);
+            wheel_buffer_data[i]=-1*x_offset;
+            wheel_buffer_data[i+1]=y_offset+r*sin(angle);
+            wheel_buffer_data[i+2]=r*cos(angle);
+            wheel_buffer_data[i+3]=-1*x_offset;
+            wheel_buffer_data[i+4]=y_offset+0;
+            wheel_buffer_data[i+5]=0;
+            wheel_buffer_data[i+6]=-1*x_offset;
+            wheel_buffer_data[i+7]=y_offset+r*sin(2*M_PI*+(inc+1)/n);
+            wheel_buffer_data[i+8]=r*cos(2*M_PI*+(inc+1)/n);
+            inc++;
+	    }
+        inc = 0;
+        for (int i = 0; i < 9*n; i+=9){
+            float angle = 2*M_PI*inc/n;
+            // if(inc==n) angle = 0;
+            // float r = (((rand()+1)%2)/4.0f)* (r1);
+            wheel_buffer_data[9*n+i]=x_offset;
+            wheel_buffer_data[9*n+i+1]=y_offset+r*sin(angle);
+            wheel_buffer_data[9*n+i+2]=r*cos(angle);
+            wheel_buffer_data[9*n+i+3]=x_offset;
+            wheel_buffer_data[9*n+i+4]=y_offset+0;
+            wheel_buffer_data[9*n+i+5]=0;
+            wheel_buffer_data[9*n+i+6]=x_offset;
+            wheel_buffer_data[9*n+i+7]=y_offset+r*sin(2*M_PI*+(inc+1)/n);
+            wheel_buffer_data[9*n+i+8]=r*cos(2*M_PI*+(inc+1)/n);
+            inc++;
+	    }
+        this->object1 = make_cylinder(0, 0, 25.5f, 25.0f, 0 , 1.0f,COLOR_TAPU2);
+        this->object = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, COLOR_TAPU2, GL_FILL);
+        this->object2 = create3DObject(GL_TRIANGLES, 6*n, wheel_buffer_data, COLOR_GREEN, GL_FILL);
+        this->tope = make_cylinder(0.0f,0.0f,1.5f,1.0f, 3.0f, 11.0f,COLOR_YELLOW);
+
+
+}
+void Canon::draw(glm::mat4 VP) {
+    for(int i = 0; i < this->lava.size(); i++){
+        this->lava[i].draw(VP);
+    }
+    Matrices.model = glm::mat4(1.0);
+    glm::mat4 translate = glm::translate (this->position);    // glTranslatef
+    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 1, 1));
+    Matrices.model *= (translate * rotate);
+    glm::mat4 MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    draw3DObject(this->object);
+    draw3DObject(this->tope);
+    draw3DObject(this->object1);
+    draw3DObject(this->object2);
+}
+
+void Canon::set_position(float x, float y) {
+    this->position = glm::vec3(x, y, 0);
+}
+
+void Canon::tick() {
+    
+}

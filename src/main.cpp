@@ -3,12 +3,14 @@
 #include "ball.h"
 #include "plane.h"
 #include "terrain.h"
+#include "display.h"
 using namespace std;
 
 GLMatrices Matrices;
+GLMatrices Matrices1;
 GLuint     programID;
 GLFWwindow *window;
-
+Display display;
 /**************************
 * Customizable functions *
 **************************/
@@ -19,6 +21,7 @@ Terrain terrain;
 Plane plane;
 Tapu tapu;
 vector<Lava> lava;
+vector<Canon> canon;
 float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 int cam_mode = 0;
@@ -84,10 +87,16 @@ void draw() {
     Matrices.view = glm::lookAt(eye[cam_mode],target[cam_mode],up);
     // Don't change unless you are sure!!
     // Matrices.view = glm::lookAt(glm::vec3(0, 0, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)); // Fixed camera for 2D (ortho) in XY plane
-
+    glm::vec3 dis_eye ( 0, 0, 10);
+    // Target - Where is the camera looking at.  Don't change unless you are sure!!
+    glm::vec3 dis_target (0, 0, 0);
+    // Up - Up vector defines tilt of camera.  Don't change unless you are sure!!
+    glm::vec3 dis_up (0, 1, 0);
+    Matrices1.view = glm::lookAt( dis_eye, dis_target, dis_up ); // Rotating Camera for 3D
     // Compute ViewProject matrix as view/camera might not be changed for this frame (basic scenario)
     // Don't change unless you are sure!!
     glm::mat4 VP = Matrices.projection * Matrices.view;
+    glm::mat4 VP1 = Matrices1.projection * Matrices1.view;
 
     // Send our transformation to the currently bound shader, in the "MVP" uniform
     // For each model you render, since the MVP will be different (at least the M part)
@@ -99,6 +108,10 @@ void draw() {
     plane.draw(VP);
     terrain.draw(VP);
     tapu.draw(VP);
+    for(int i = 0; i < canon.size(); i++){
+        canon[i].draw(VP);
+    }
+    display.draw(VP1);
 
 }
 
@@ -152,6 +165,7 @@ void tick_elements() {
     ball1.tick();
     plane.tick();
     tapu.tick();
+    display.tick();
     // terrain.tick();
 }
 
@@ -164,10 +178,13 @@ void initGL(GLFWwindow *window, int width, int height) {
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
     terrain = Terrain(0.0f,0.0f,1600,2600);
     tapu = Tapu(35.0f,-35.0f);
+    canon.push_back(Canon(90.0f,-90.0f));
+    display = Display(-3.0f,3.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
     Matrices.MatrixID = glGetUniformLocation(programID, "MVP");
+    Matrices1.MatrixID = glGetUniformLocation(programID, "MVP");
 
 
     reshapeWindow (window, width, height);
@@ -233,5 +250,8 @@ void reset_screen() {
     float left   = screen_center_x - 4 / screen_zoom;
     float right  = screen_center_x + 4 / screen_zoom;
     Matrices.projection = glm::perspective(45.0f,1.0f,0.2f,10000.0f);
+    // Matrices1.projection = glm::perspective(45.0f,1.0f,0.2f,10000.0f);
+        Matrices1.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
+
     // Matrices.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
 }

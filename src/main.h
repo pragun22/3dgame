@@ -90,6 +90,7 @@ extern const color_t COLOR_YELLOW;
 extern const color_t COLOR_SILVER;
 extern const color_t COLOR_JET;
 extern const color_t COLOR_TAPU;
+extern const color_t COLOR_TAPU2;
 extern const color_t COLOR_VOL;
 extern const color_t COLOR_SMOKE;
 extern const color_t COLOR_FIRE;

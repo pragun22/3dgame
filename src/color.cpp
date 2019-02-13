@@ -10,5 +10,6 @@ const color_t COLOR_SILVER = {192, 192, 192};
 const color_t COLOR_FIRE = {230, 41, 44};
 const color_t COLOR_JET = {23, 117, 33};
 const color_t COLOR_TAPU = {223, 159, 113};
+const color_t COLOR_TAPU2 = {139, 69, 19};
 const color_t COLOR_VOL = {139, 0, 0};
 const color_t COLOR_SMOKE = {171, 171, 171};

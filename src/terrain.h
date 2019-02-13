@@ -68,4 +68,25 @@ private:
     VAO* tope;
     VAO *object2;
 };
+class Canon {
+public:
+    Canon() {}
+    Canon(float x, float y);
+    glm::vec3 position;
+    clock_t timer;
+    float rotation;
+    std::vector<Lava> lava; 
+    float speedz = 2.0f;
+    int height;
+    int width;
+    void draw(glm::mat4 VP);
+    void set_position(float x, float y);
+    void tick();
+    double speed;
+private:
+    VAO *object;
+    VAO *object1;
+    VAO* tope;
+    VAO *object2;
+};
 #endif 

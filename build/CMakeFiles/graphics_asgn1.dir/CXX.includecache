@@ -20,6 +20,16 @@ main.h
 main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
 
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/display.cpp
+display.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/display.h
+main.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/display.h
+main.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/input.cpp
 iostream
 -
@@ -53,6 +63,8 @@ plane.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/plane.h
 terrain.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/terrain.h
+display.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/display.h
 
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
 iostream
