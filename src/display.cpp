@@ -133,6 +133,6 @@ void Display::draw(glm::mat4 VP) {
 }
 
 void Display::tick() {
-    this->speedo += 0.1f;
+    this->speedo -= 0.1f;
 }
 
