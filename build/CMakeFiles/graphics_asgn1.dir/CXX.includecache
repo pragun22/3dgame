@@ -165,6 +165,8 @@ main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/terrain.h
 main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+plane.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/plane.h
 
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/timer.cpp
 timer.h

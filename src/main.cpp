@@ -217,6 +217,10 @@ void tick_elements() {
     tapu.tick();
     display.tick();
     score_tick(4.0f, 170218);
+    for(int i = 0; i < canon.size(); i++){
+        canon[i].tick(&plane);
+    }
+    
     // terrain.tick();
 }
 

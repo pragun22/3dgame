@@ -334,7 +334,7 @@ bool Lava::tick(int a) {
 Canon::Canon(float x, float y){
         this->speedz = 2.0f;
         this->position = glm::vec3(x, -1.0f, y);
-        this->rotation = 0.0f;
+        this->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
         int n= 50;
         int inc = 0;
         this->timer = clock();
@@ -360,12 +360,10 @@ Canon::Canon(float x, float y){
         GLfloat wheel_buffer_data[18*n];
         inc = 0;
         float r = 2.0f;
-        float y_offset = 3.0f;
-        float x_offset = 1.5f;
+        float y_offset = 1.0f;
+        float x_offset = 3.5f;
         for (int i = 0; i < 9*n; i+=9){
             float angle = 2*M_PI*inc/n;
-            // if(inc==n) angle = 0;
-            float r = (((rand()%2+1))/4.0f)* (r1);
             wheel_buffer_data[i]=-1*x_offset;
             wheel_buffer_data[i+1]=y_offset+r*sin(angle);
             wheel_buffer_data[i+2]=r*cos(angle);
@@ -395,8 +393,8 @@ Canon::Canon(float x, float y){
 	    }
         this->object1 = make_cylinder(0, 0, 25.5f, 25.0f, 0 , 1.0f,COLOR_TAPU2);
         this->object = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, COLOR_TAPU2, GL_FILL);
-        this->object2 = create3DObject(GL_TRIANGLES, 6*n, wheel_buffer_data, COLOR_GREEN, GL_FILL);
-        this->tope = make_cylinder(0.0f,0.0f,1.5f,1.0f, 3.0f, 11.0f,COLOR_YELLOW);
+        this->object2 = create3DObject(GL_TRIANGLES, 6*n, wheel_buffer_data, COLOR_BLACK, GL_FILL);
+        this->tope = make_cylinder(0.0f,0.0f,3.5f,2.0f, 1.0f, 15.0f,COLOR_REAL_BLACK);
 
 
 }
@@ -406,20 +404,44 @@ void Canon::draw(glm::mat4 VP) {
     }
     Matrices.model = glm::mat4(1.0);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
-    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 1, 1));
-    Matrices.model *= (translate * rotate);
+    glm::mat4 rotate_x    = glm::rotate((float) (this->rotation.x), glm::vec3(1, 0, 0));
+    glm::mat4 rotate_y    = glm::rotate((float) (this->rotation.y), glm::vec3(0, 1, 0));
+    glm::mat4 rotate_z    = glm::rotate((float) (this->rotation.z), glm::vec3(0, 0, 1));
+    Matrices.model *= (translate);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->object);
-    draw3DObject(this->tope);
     draw3DObject(this->object1);
+    glm::mat4 scale = glm::scale(glm::vec3(1.5,1.5,1.5));
+    Matrices.model = ( translate * scale);
+    MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->object2);
+    Matrices.model *= ( rotate_z * rotate_y * rotate_x );
+    MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    draw3DObject(this->tope);
 }
 
 void Canon::set_position(float x, float y) {
     this->position = glm::vec3(x, y, 0);
 }
+// float min(int a,int b)
+// {
+//     return a>b?b:a;
+// }
+float maxu(float a,float b)
+{
+    return a>b?a:b;
+}
 
-void Canon::tick() {
-    
+void Canon::tick(Plane* plane) {
+    float a = plane->position.y - this->position.y;
+    float b = plane->position.x - this->position.x;
+    float c = plane->position.z - this->position.z;
+    this->rotation.y = atan(float(b/c));
+    this->rotation.x = atan(float(c/a));
+    // this->rotation.z = atan(float(a/b));
+    // std::cout<<this->rotation.z<<"-"<<this->rotation.y*180.0f/M_PI<<"-"<<this->rotation.x*180.0f/M_PI<<std::endl;
+
 }

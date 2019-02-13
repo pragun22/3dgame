@@ -40,6 +40,7 @@ CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/score.cpp
 CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/score.h
 
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/main.h
+CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/plane.h
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/terrain.cpp
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/terrain.h
 

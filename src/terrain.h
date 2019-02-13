@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include "plane.h"
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
@@ -74,14 +74,14 @@ public:
     Canon(float x, float y);
     glm::vec3 position;
     clock_t timer;
-    float rotation;
+    glm::vec3 rotation;
     std::vector<Lava> lava; 
     float speedz = 2.0f;
     int height;
     int width;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick();
+    void tick(Plane* plane);
     double speed;
 private:
     VAO *object;
