@@ -339,6 +339,33 @@ src/plane.cpp.s:
 	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/plane.cpp.s
 .PHONY : src/plane.cpp.s
 
+src/score.o: src/score.cpp.o
+
+.PHONY : src/score.o
+
+# target to build an object file
+src/score.cpp.o:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/score.cpp.o
+.PHONY : src/score.cpp.o
+
+src/score.i: src/score.cpp.i
+
+.PHONY : src/score.i
+
+# target to preprocess a source file
+src/score.cpp.i:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/score.cpp.i
+.PHONY : src/score.cpp.i
+
+src/score.s: src/score.cpp.s
+
+.PHONY : src/score.s
+
+# target to generate assembly for a file
+src/score.cpp.s:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/score.cpp.s
+.PHONY : src/score.cpp.s
+
 src/terrain.o: src/terrain.cpp.o
 
 .PHONY : src/terrain.o
@@ -426,6 +453,9 @@ help:
 	@echo "... src/plane.o"
 	@echo "... src/plane.i"
 	@echo "... src/plane.s"
+	@echo "... src/score.o"
+	@echo "... src/score.i"
+	@echo "... src/score.s"
 	@echo "... src/terrain.o"
 	@echo "... src/terrain.i"
 	@echo "... src/terrain.s"

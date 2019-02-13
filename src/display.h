@@ -12,6 +12,7 @@ public:
     bool flag;
     float rotation;
     float speedo;
+    float fuelo;
     void draw(glm::mat4 VP);
     void tick();
 private:

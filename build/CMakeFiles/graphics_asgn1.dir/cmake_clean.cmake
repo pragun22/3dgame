@@ -7,6 +7,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o"
+  "CMakeFiles/graphics_asgn1.dir/src/score.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o"
   "CMakeFiles/graphics_asgn1.dir/src/timer.cpp.o"
   "graphics_asgn1.pdb"

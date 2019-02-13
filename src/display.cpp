@@ -1,6 +1,7 @@
 #include "display.h"
 #define GLM_ENABLE_EXPERIMENTAL
 #include "main.h"
+#include "score.h"
 // VAO* make_cylinder(float x, float z, float r, float r1, float h, float h1,color_t color){
 //         int n= 40;
 //         int inc = 0;
@@ -42,6 +43,7 @@ Display::Display(float x, float y) {
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     this->speedo = 45.0f;
+    this->fuelo = 0.0f;
     int n = 40;
     GLfloat vertex_buffer_data[9*n];
     float r1 = 3.3f;
@@ -110,8 +112,18 @@ Display::Display(float x, float y) {
          0.3f, 0, 0,
          0, 2.8f, 0
     };
+    const GLfloat fuel_data[]={
+        0.0f, -0.3f, 0.0f,
+        0.0f, -0.8f, 0.0f,
+        6.6f, -0.3f, 0.0f,
+        
+        6.6f, -0.3f, 0.0f,
+        0.0f, -0.8f, 0.0f,
+        6.6f, -0.8f, 0.0f
+    };
     this->speed = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, color, GL_FILL);
     this->pointer = create3DObject(GL_TRIANGLES, 3, pointer_data,COLOR_YELLOW,GL_FILL);
+    this->fuel =  create3DObject(GL_TRIANGLES, 6, fuel_data,COLOR_FUEL,GL_FILL);
 }
 
 void Display::draw(glm::mat4 VP) {
@@ -130,9 +142,17 @@ void Display::draw(glm::mat4 VP) {
     MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->pointer);
+    glm::mat4 translate1 = glm::translate (glm::vec3(this->position.x-1.1f,this->position.y,this->position.z));    // glTranslatef
+    glm::mat4 rotate2 = glm::rotate((float) (this->fuelo * M_PI / 180.0f), glm::vec3(0, 1, 0));
+    Matrices.model = (translate1  * rotate * scale * rotate2);
+    MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    draw3DObject(this->fuel);
 }
 
 void Display::tick() {
-    this->speedo -= 0.1f;
+    if(this->speedo > -90.0f) this->speedo -= 0.1f;
+    if(this->fuelo < 90.0f ) this->fuelo += 0.03f;
+    
 }
 

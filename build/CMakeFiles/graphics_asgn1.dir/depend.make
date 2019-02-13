@@ -11,6 +11,7 @@ CMakeFiles/graphics_asgn1.dir/src/color.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/display.cpp
 CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/display.h
 CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/main.h
+CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/score.h
 
 CMakeFiles/graphics_asgn1.dir/src/input.cpp.o: ../src/input.cpp
 CMakeFiles/graphics_asgn1.dir/src/input.cpp.o: ../src/main.h
@@ -20,6 +21,7 @@ CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/display.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/plane.h
+CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/score.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/terrain.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/timer.h
 
@@ -32,6 +34,10 @@ CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o: ../src/other_handlers.cp
 CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/plane.cpp
 CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/plane.h
+
+CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/main.h
+CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/score.cpp
+CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/score.h
 
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/terrain.cpp

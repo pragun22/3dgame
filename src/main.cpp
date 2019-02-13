@@ -4,6 +4,7 @@
 #include "plane.h"
 #include "terrain.h"
 #include "display.h"
+#include "score.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -22,6 +23,16 @@ Plane plane;
 Tapu tapu;
 vector<Lava> lava;
 vector<Canon> canon;
+vector<Zero> zero;
+vector<One> one;
+vector<Two> two;
+vector<Three> three;
+vector<Four> four;
+vector<Five> five;
+vector<Six> six;
+vector<Seven> seven;
+vector<Eight> eight;
+vector<Nine> nine;
 float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 int cam_mode = 0;
@@ -33,6 +44,26 @@ float min(int a,int b)
 float max(int a,int b)
 {
     return a>b?a:b;
+}
+void score_tick(float x, int score){
+    float pos = screen_center_x + 4 / screen_zoom-0.3f;
+    float top    = screen_center_y + 4 / screen_zoom - 0.3f;
+    if(score == 0 ){ if(zero.size()>0) zero.pop_back(); zero.push_back(Zero(pos, top));}
+    while(score>0){
+        int temp = score % 10;
+        if(temp==0){ zero.push_back(Zero(pos, top));}
+        if(temp==1){ one.push_back(One(pos, top));}
+        if(temp==2){ two.push_back(Two(pos, top));}
+        if(temp==3){ three.push_back(Three(pos, top));}
+        if(temp==4){ four.push_back(Four(pos, top));}
+        if(temp==5){ five.push_back(Five(pos, top));}
+        if(temp==6){ six.push_back(Six(pos, top));}
+        if(temp==7){ seven.push_back(Seven(pos, top));}
+        if(temp==8){ eight.push_back(Eight(pos, top));}
+        if(temp==9){ nine.push_back(Nine(pos, top));}
+        pos -= 0.3f;
+        score = score / 10;
+    }
 }
 Timer t60(1.0 / 60);
 
@@ -112,7 +143,26 @@ void draw() {
         canon[i].draw(VP);
     }
     display.draw(VP1);
-
+    for(int i = 0; i < zero.size();i++) zero[i].draw(VP1);
+    for(int i = 0; i < one.size();i++) one[i].draw(VP1);
+    for(int i = 0; i < two.size();i++) two[i].draw(VP1);
+    for(int i = 0; i < three.size();i++) three[i].draw(VP1);
+    for(int i = 0; i < four.size();i++) four[i].draw(VP1);
+    for(int i = 0; i < five.size();i++) five[i].draw(VP1);
+    for(int i = 0; i < six.size();i++) six[i].draw(VP1);
+    for(int i = 0; i < seven.size();i++) seven[i].draw(VP1);
+    for(int i = 0; i < eight.size();i++) eight[i].draw(VP1);
+    for(int i = 0; i < nine.size();i++) nine[i].draw(VP1);
+    if(zero.size()>0) zero.clear(); 
+    if(one.size()>0) one.clear(); 
+    if(two.size()>0)two.clear();
+    if(three.size()>0)three.clear();
+    if(four.size()>0)four.clear();
+    if(five.size()>0)five.clear();
+    if(six.size()>0)six.clear();
+    if(seven.size()>0)seven.clear();
+    if(eight.size()>0)eight.clear();
+    if(nine.size()>0)nine.clear();
 }
 
 void tick_input(GLFWwindow *window) {
@@ -166,6 +216,7 @@ void tick_elements() {
     plane.tick();
     tapu.tick();
     display.tick();
+    score_tick(4.0f, 170218);
     // terrain.tick();
 }
 

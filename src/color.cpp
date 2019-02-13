@@ -13,3 +13,6 @@ const color_t COLOR_TAPU = {223, 159, 113};
 const color_t COLOR_TAPU2 = {139, 69, 19};
 const color_t COLOR_VOL = {139, 0, 0};
 const color_t COLOR_SMOKE = {171, 171, 171};
+const color_t COLOR_FUEL = {132, 75, 23};
+const color_t COLOR_REAL_BLACK = { 1, 1, 1};
+
