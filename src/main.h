@@ -99,5 +99,6 @@ extern const color_t COLOR_SMOKE;
 extern const color_t COLOR_FIRE;
 extern const color_t COLOR_FUEL;
 extern const color_t COLOR_REAL_BLACK;
+extern const color_t COLOR_OLIVE;
 
 #endif

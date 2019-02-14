@@ -33,6 +33,7 @@ vector<Six> six;
 vector<Seven> seven;
 vector<Eight> eight;
 vector<Nine> nine;
+vector<Gola> gola;
 float temp = 0.0f;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 int cam_mode = 0;
@@ -45,6 +46,7 @@ float max(int a,int b)
 {
     return a>b?a:b;
 }
+
 void score_tick(float x, int score){
     float pos = screen_center_x + 4 / screen_zoom-0.3f;
     float top    = screen_center_y + 4 / screen_zoom - 0.3f;
@@ -142,6 +144,9 @@ void draw() {
     for(int i = 0; i < canon.size(); i++){
         canon[i].draw(VP);
     }
+    for(int i = 0; i < gola.size(); i++){
+        gola[i].draw(VP);
+    }
     display.draw(VP1);
     for(int i = 0; i < zero.size();i++) zero[i].draw(VP1);
     for(int i = 0; i < one.size();i++) one[i].draw(VP1);
@@ -179,6 +184,8 @@ void tick_input(GLFWwindow *window) {
     int mod2 = glfwGetKey(window, GLFW_KEY_2);
     int mod3 = glfwGetKey(window, GLFW_KEY_3);
     int mod4 = glfwGetKey(window, GLFW_KEY_4);
+    int up = glfwGetKey(window, GLFW_KEY_UP);
+    if(up) plane.shoot();
     if(mod0) cam_mode = 0;
     if(mod1) cam_mode = 1;
     if(mod2) cam_mode = 2;
@@ -234,6 +241,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     terrain = Terrain(0.0f,0.0f,1600,2600);
     tapu = Tapu(35.0f,-35.0f);
     canon.push_back(Canon(90.0f,-90.0f));
+    // gola.push_back(Gola(15,5,4));
     display = Display(-3.0f,3.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");

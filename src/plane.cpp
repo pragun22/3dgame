@@ -1,13 +1,50 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "plane.h"
 #include "main.h"
-
+VAO* make_cyl(float x, float z, float r, float r1, float h, float h1,color_t color){
+        int n= 40;
+        int inc = 0;
+        GLfloat vertex_buffer_data[18*n];
+        for (int i = 0; i < 9*n; i+=9)
+        {
+            float angle = 2*M_PI*inc/n;
+            // if(inc==n) angle = 0;
+            vertex_buffer_data[i]=x+r*cos(angle);
+            vertex_buffer_data[i+2]=h;
+            vertex_buffer_data[i+1]=z+r*sin(angle);
+            vertex_buffer_data[i+3]=x+r1*cos(angle);
+            vertex_buffer_data[i+5]=h1;
+            vertex_buffer_data[i+4]=z+r1*sin(angle);
+            vertex_buffer_data[i+6]=x+r*cos(2*M_PI*+(inc+1)/n);
+            vertex_buffer_data[i+8]=h;
+            vertex_buffer_data[i+7]=z+r*sin(2*M_PI*+(inc+1)/n);
+            inc++;
+        }
+        inc = 0;
+        for (int i = 0; i < 9*n; i+=9)
+        {
+            float angle = 2*M_PI*inc/n;
+            float angle2 = 2*M_PI*(inc+1)/n;
+            vertex_buffer_data[9*n+i]=x+r1*cos(angle);
+            vertex_buffer_data[9*n+i+2]=h1;
+            vertex_buffer_data[9*n+i+1]=z+r1*sin(angle);
+            vertex_buffer_data[9*n+i+3]=z+r*cos(angle2);
+            vertex_buffer_data[9*n+i+5]=h;
+            vertex_buffer_data[9*n+i+4]=z+r*sin(angle2);
+            vertex_buffer_data[9*n+i+6]=x+r1*cos(2*M_PI*+(inc+1)/n);
+            vertex_buffer_data[9*n+i+8]=h1;
+            vertex_buffer_data[9*n+i+7]=z+r1*sin(2*M_PI*+(inc+1)/n);
+            inc++;
+        }
+        return create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, color, GL_FILL);
+}
 Plane::Plane(float x, float y, color_t color) {
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     this->pro = 0.0f;
     this->counter = 0.0f;
     this->tilt = 0.0f;
+    this->shoot_timer = clock();
     this->speedx = 0.0f;
     this->speedy = 0.0f;
     this->speedz = 2.0f;
@@ -350,6 +387,10 @@ void Plane::draw(glm::mat4 VP) {
     draw3DObject(this->propelar);
     if(this->flag)  draw3DObject(this->fire);
 
+    for(int i = 0 ; i < this->ammo.size() ; i++){
+        this->ammo[i].draw(VP);
+    }
+
 }
 
 void Plane::tilt_fn(int a,float value){
@@ -379,17 +420,6 @@ void Plane::rotate(int a,float value){
         // if(this->counter > 60.0f) this->counter= 60.0f;
         // if(this->counter < -60.0f) this->counter= -60.0f;        
     }
-    // else{
-    //     if(this->counter > 0.0f){
-    //         this->counter -= 1.0f;
-    //         if(this->counter < 0.0f) this->counter = 0.0f;
-    //     }
-    //     else if(this->counter < 0.0f){
-    //         this->counter += 1.0f;
-    //         if(this->counter > 0.0f) this->counter = 0.0f;
-    //     }
-
-    // }
 }
 void Plane::forward(int a){
     float angle1 = cos((this->counter * M_PI / 180.0f));
@@ -431,5 +461,46 @@ void Plane::tick() {
     // this->position.z -= this->speedz;
     this->position.x += this->speedx;
     this->position.y += this->speedy;
+    for(int i = 0 ; i < this->ammo.size() ; i++){
+        this->ammo[i].tick();
+    }
 }
+void Plane::shoot(){
+    clock_t end = clock();
+    float t =  (float)(end - this->shoot_timer)/CLOCKS_PER_SEC;
+    if(t > 0.3){
+        this->ammo.push_back(Missile(this->position.x, this->position.y - 2.0f, this->position.z + 2.0f,this->counter));
+        this->shoot_timer = clock();
+    } 
+}
+
+Missile::Missile(float x, float y,float z,float yaw) {
+    this->position = glm::vec3(x, y, z);
+    this->rotation = yaw;
+    this->object = make_cyl(0,0,3.0f,2.8f,0.0f,-6.0f,COLOR_OLIVE);
+    this->object1 = make_cyl(0,0,2.8f,0.4f,-6.0f,-10.0f,COLOR_OLIVE);
+}
+
+void Missile::draw(glm::mat4 VP) {
+    Matrices.model = glm::mat4(1.0f);
+    glm::mat4 translate = glm::translate (this->position);    // glTranslatef
+    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(0, 1, 0));
+    glm::mat4 scale = glm::scale(glm::vec3(0.3,0.3,0.3));
+    // No need as coords centered at 0, 0, 0 of cube arouund which we waant to rotate
+    // rotate          = rotate * glm::translate(glm::vec3(0, -0.6, 0));
+    Matrices.model *= (translate * rotate * scale);
+    glm::mat4 MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    draw3DObject(this->object);
+    draw3DObject(this->object1);
+}
+
+void Missile::tick() {
+    float angle1 = cos((this->rotation * M_PI / 180.0f));
+    float angle2 = sin((this->rotation * M_PI / 180.0f));
+    this->position.z -= 0.5f*angle1;
+    this->position.x -= 0.5f*angle2;
+
+}
+
 

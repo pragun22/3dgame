@@ -4,6 +4,28 @@
 #define PLANE_H
 
 
+class Missile {
+public:
+    Missile() {}
+    Missile(float x, float y, float z,float yaw);
+    glm::vec3 position;
+    bool flag;
+    float rotation;
+    float pro;
+    float counter;
+    float tilt;
+    float speedx;
+    float speedy;
+    float speedz;
+    void draw(glm::mat4 VP);
+    void set_position(float x, float y);
+    void tick();
+
+    double speed;
+private:
+    VAO *object;
+    VAO *object1;
+};
 class Plane {
 public:
     Plane() {}
@@ -11,7 +33,10 @@ public:
     glm::vec3 position;
     bool flag;
     float rotation;
+    clock_t shoot_timer;
+
     float pro;
+    std::vector<Missile> ammo;
     float counter;
     float tilt;
     float speedx;
@@ -24,6 +49,7 @@ public:
     void rotate(int a,float v);    
     void set_position(float x, float y);
     void tick();
+    void shoot();
     double speed;
 private:
     VAO *object;

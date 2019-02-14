@@ -15,4 +15,5 @@ const color_t COLOR_VOL = {139, 0, 0};
 const color_t COLOR_SMOKE = {171, 171, 171};
 const color_t COLOR_FUEL = {132, 75, 23};
 const color_t COLOR_REAL_BLACK = { 1, 1, 1};
-
+const color_t COLOR_OLIVE = {255, 255, 0};
+// const color_t COLOR_OLIVE = {107, 142, 35};
