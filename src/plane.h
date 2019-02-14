@@ -34,7 +34,6 @@ public:
     bool flag;
     float rotation;
     clock_t shoot_timer;
-
     float pro;
     std::vector<Missile> ammo;
     float counter;
