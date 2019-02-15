@@ -111,7 +111,7 @@ void draw() {
     ypos = max(ypos,0);
     xpos = min(xpos,600);
     ypos = min(ypos,600);
-    cout<<xpos<<"--"<<ypos<<endl;
+    // cout<<xpos<<"--"<<yposs<<endl;
     float helicamx = camx  + (float(xpos-300.0f)/5.0f)*angle1  ;
     float helicamz = camz  - (float(xpos-300.0f)/5.0f)*angle2 ;
     float helicamy = plane.position.y + float(ypos-300.0f)/5.0f;
@@ -234,6 +234,7 @@ void tick_elements() {
     score_tick(4.0f, 170218);
     for(int i = 0; i < canon.size(); i++){
         canon[i].tick(&plane);
+        canon[i].shoot(&plane);
     }
     
     // terrain.tick();
@@ -299,7 +300,7 @@ int main(int argc, char **argv) {
             tick_input(window);
             reset_screen();
 
-            glfwGetCursorPos(window, &xpos, &ypos);
+            // glfwGetCursorPos(window, &xpos, &ypos);
             // cout<<xpos<<"--"<<ypos<<endl;
 
         }

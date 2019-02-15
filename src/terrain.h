@@ -68,32 +68,12 @@ private:
     VAO* tope;
     VAO *object2;
 };
-class Canon {
-public:
-    Canon() {}
-    Canon(float x, float y);
-    glm::vec3 position;
-    clock_t timer;
-    glm::vec3 rotation;
-    std::vector<Lava> lava; 
-    float speedz = 2.0f;
-    int height;
-    int width;
-    void draw(glm::mat4 VP);
-    void set_position(float x, float y);
-    void tick(Plane* plane);
-    double speed;
-private:
-    VAO *object;
-    VAO *object1;
-    VAO* tope;
-    VAO *object2;
-};
 class Gola {
 public:
     Gola() {}
-    Gola(float x, float y,float radius);
+    Gola(float x, float y,float z,float radius,glm::vec3 dir);
     glm::vec3 position;
+    glm::vec3 dir;
     clock_t timer;
     float rotation;
     std::vector<Lava> lava; 
@@ -105,6 +85,29 @@ public:
     void tick();
     double speed;
 private:
+    std::vector<VAO*> object;
+};
+class Canon {
+public:
+    Canon() {}
+    Canon(float x, float y);
+    glm::vec3 position;
+    clock_t timer;
+    clock_t shoot_timer;
+    glm::vec3 rotation;
+    std::vector<Gola> gola; 
+    float speedz = 2.0f;
+    int height;
+    int width;
+    void draw(glm::mat4 VP);
+    void set_position(float x, float y);
+    void tick(Plane* plane);
+    void shoot(Plane* plane);
+    double speed;
+private:
     VAO *object;
+    VAO *object1;
+    VAO* tope;
+    VAO *object2;
 };
 #endif 

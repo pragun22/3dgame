@@ -217,6 +217,7 @@ Canon::Canon(float x, float y){
         this->speedz = 2.0f;
         this->position = glm::vec3(x, -1.0f, y);
         this->rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+        this->shoot_timer = clock();
         int n= 50;
         int inc = 0;
         this->timer = clock();
@@ -226,8 +227,6 @@ Canon::Canon(float x, float y){
         inc = 0;
         for (int i = 0; i < 9*n; i+=9){
             float angle = 2*M_PI*inc/n;
-            // if(inc==n) angle = 0;
-            // float r = (((rand()+1)%2)/4.0f)* (r1);
             vertex_buffer_data[i]=r1*cos(angle);
             vertex_buffer_data[i+1]=h1;
             vertex_buffer_data[i+2]=r1*sin(angle);
@@ -281,8 +280,8 @@ Canon::Canon(float x, float y){
 
 }
 void Canon::draw(glm::mat4 VP) {
-    for(int i = 0; i < this->lava.size(); i++){
-        this->lava[i].draw(VP);
+    for(int i = 0; i < this->gola.size(); i++){
+        this->gola[i].draw(VP);
     }
     Matrices.model = glm::mat4(1.0);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
@@ -308,6 +307,22 @@ void Canon::draw(glm::mat4 VP) {
 void Canon::set_position(float x, float y) {
     this->position = glm::vec3(x, y, 0);
 }
+void Canon::shoot(Plane* plane){
+    clock_t end = clock();
+    float t =  (float)(end - this->shoot_timer)/CLOCKS_PER_SEC;
+    if(t > 5.3f){
+        float b = plane->position.y - this->position.y;
+        float a = plane->position.x - this->position.x;
+        float c = plane->position.z - this->position.z;
+        // std::cout<<"shooting begins"<<std::endl;
+        // std::cout<<a<<"//"<<b<<"//"<<c<<std::endl;
+        glm::vec3 dir = glm::vec3(a,b,c);
+        dir = normalize(dir);
+        // std::cout<<dir.x<<"  "<<dir.y<<"  "<<dir.z<<" this is the direction"<<std::endl;
+        this->gola.push_back(Gola(this->position.x, this->position.y + 2.0f, this->position.z ,2.8f,dir));
+        this->shoot_timer = clock();
+    } 
+}
 // float min(int a,int b)
 // {
 //     return a>b?b:a;
@@ -323,22 +338,30 @@ void Canon::tick(Plane* plane) {
     float c = plane->position.z - this->position.z;
     this->rotation.y = atan(float(b/c));
     this->rotation.x = atan(float(c/a));
-    // this->rotation.z = atan(float(a/b));
-    // std::cout<<this->rotation.z<<"-"<<th
+    // this->rotation.z = atan(-1*float(b/a));
+    // std::cout<<this->rotation.x<<"-this is position x"<<std::endl;
+    for(int  i = 0; i < gola.size(); i++){
+            gola[i].tick();
+    }
+    
 }
-std::vector<float> vertices;
-float x, y, z, xy;  
-float stackCount = 18.0f;
-float sectorCount = 36.0f;
-float sectorStep = 2 * M_PI / sectorCount;
-float stackStep = M_PI / stackCount;
-float sectorAngle, stackAngle;
-std::vector<int> indices;
-int k1, k2;
-Gola::Gola(float x, float y, float radius){
-    this->speedz = 2.0f;
-    this->position = glm::vec3(x, -1.0f, y);
-    this->rotation = 0.0f;   
+Gola::Gola(float x, float y,float z, float r, glm::vec3 dir){
+    this->speed = 2.0f;
+    this->position = glm::vec3(x, y, z);
+    this->rotation = 0.0f; 
+    this->dir = dir;  
+        float yc = 0.0f;
+    float delta = 0.1f;
+    while(yc <= r){
+        float ycor = yc;
+        float theta = sqrt(1-float(yc/r));
+        float r0 = r*theta;        
+        yc += delta;
+        theta = sqrt(1 - float(yc/r));
+        float r1 = r * theta;
+        this->object.push_back(make_c(0,ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
+        this->object.push_back(make_c(0,-1.0f*ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
+    }
 }
 void Gola::draw(glm::mat4 VP) {
     Matrices.model = glm::mat4(1.0);
@@ -347,5 +370,10 @@ void Gola::draw(glm::mat4 VP) {
     Matrices.model *= (translate * rotate);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
-    draw3DObject(this->object);
+    for(int i=0 ; i<this->object.size() ; i++ ) draw3DObject(this->object[i]);
+}
+void Gola::tick(){
+    this->position.x = this->position.x + this->speed*(this->dir.x);
+    this->position.y = this->position.y + this->speed*(this->dir.y);
+    this->position.z = this->position.z + this->speed*(this->dir.z);
 }
