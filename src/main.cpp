@@ -5,6 +5,7 @@
 #include "terrain.h"
 #include "display.h"
 #include "score.h"
+#include "enemies.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -21,6 +22,7 @@ Ball ball1;
 Terrain terrain;
 Plane plane;
 Tapu tapu;
+vector<Parachute> para;
 vector<Lava> lava;
 vector<Canon> canon;
 vector<Zero> zero;
@@ -147,6 +149,10 @@ void draw() {
     for(int i = 0; i < gola.size(); i++){
         gola[i].draw(VP);
     }
+    for(int  i = 0; i < para.size(); i++){
+        para[i].draw(VP);
+    }
+    
     display.draw(VP1);
     for(int i = 0; i < zero.size();i++) zero[i].draw(VP1);
     for(int i = 0; i < one.size();i++) one[i].draw(VP1);
@@ -242,6 +248,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     tapu = Tapu(35.0f,-35.0f);
     canon.push_back(Canon(90.0f,-90.0f));
     // gola.push_back(Gola(15,5,4));
+    para.push_back(Parachute(3.0f,4.0f,-3.0f,3.0f));
     display = Display(-3.0f,3.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");

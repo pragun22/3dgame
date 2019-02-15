@@ -32,6 +32,14 @@ score.h
 main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
 
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.cpp
+enemies.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.h
+
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.h
+main.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/input.cpp
 iostream
 -
@@ -69,6 +77,8 @@ display.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/display.h
 score.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/score.h
+enemies.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.h
 
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
 iostream

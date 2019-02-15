@@ -13,11 +13,16 @@ CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/display.h
 CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/display.cpp.o: ../src/score.h
 
+CMakeFiles/graphics_asgn1.dir/src/enemies.cpp.o: ../src/enemies.cpp
+CMakeFiles/graphics_asgn1.dir/src/enemies.cpp.o: ../src/enemies.h
+CMakeFiles/graphics_asgn1.dir/src/enemies.cpp.o: ../src/main.h
+
 CMakeFiles/graphics_asgn1.dir/src/input.cpp.o: ../src/input.cpp
 CMakeFiles/graphics_asgn1.dir/src/input.cpp.o: ../src/main.h
 
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/ball.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/display.h
+CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/enemies.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/main.cpp.o: ../src/plane.h
