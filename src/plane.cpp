@@ -390,6 +390,9 @@ void Plane::draw(glm::mat4 VP) {
     for(int i = 0 ; i < this->ammo.size() ; i++){
         this->ammo[i].draw(VP);
     }
+    for(int i = 0 ; i < this->bomb.size() ; i++){
+        this->bomb[i].draw(VP);
+    }
 
 }
 
@@ -464,6 +467,9 @@ void Plane::tick() {
     for(int i = 0 ; i < this->ammo.size() ; i++){
         this->ammo[i].tick();
     }
+    for(int i = 0 ; i < this->bomb.size() ; i++){
+        this->bomb[i].tick();
+    }
 }
 void Plane::shoot(){
     clock_t end = clock();
@@ -473,7 +479,14 @@ void Plane::shoot(){
         this->shoot_timer = clock();
     } 
 }
-
+void Plane::drop(){
+    clock_t end = clock();
+    float t =  (float)(end - this->shoot_timer)/CLOCKS_PER_SEC;
+    if(t > 0.3){
+        this->bomb.push_back(Bomb(this->position.x, this->position.y - 2.0f, this->position.z + 2.0f,1.0f));
+        this->shoot_timer = clock();
+    } 
+}
 Missile::Missile(float x, float y,float z,float yaw) {
     this->position = glm::vec3(x, y, z);
     this->rotation = yaw;
@@ -508,6 +521,7 @@ Bomb::Bomb(float x, float y,float z,float r) {
     this->rotation = 0.0f;
     float yc = 0.0f;
     float delta = 0.1f;
+     this->object1 =  make_cylinder(0,0,0.1f,0.1f,r,r+0.4f,COLOR_RED);
     while(yc <= r){
         float ycor = yc;
         float theta = sqrt(1-float(yc/r));
@@ -515,8 +529,8 @@ Bomb::Bomb(float x, float y,float z,float r) {
         yc += delta;
         theta = sqrt(1 - float(yc/r));
         float r1 = r * theta;
-        this->object.push_back(make_c(0,ycor,0,r0,r1,0.0f,delta,COLOR_SEA_GREEN));
-        // this->para.push_back(make_c(0,-1.0f*ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
+        this->object.push_back(make_c(0,ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
+        this->object.push_back(make_c(0,-1.0f*ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
     }
 }
 
@@ -533,14 +547,11 @@ void Bomb::draw(glm::mat4 VP) {
     for(int i = 0 ; i < this->object.size() ; i++){
         draw3DObject(this->object[i]);
     }
+    draw3DObject(this->object1);
 }
 
 void Bomb::tick() {
-    float angle1 = cos((this->rotation * M_PI / 180.0f));
-    float angle2 = sin((this->rotation * M_PI / 180.0f));
-    this->position.z -= 0.5f*angle1;
-    this->position.x -= 0.5f*angle2;
-
+    this->position.y -= 0.2f;
 }
 
 

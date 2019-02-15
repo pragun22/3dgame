@@ -191,6 +191,8 @@ void tick_input(GLFWwindow *window) {
     int mod3 = glfwGetKey(window, GLFW_KEY_3);
     int mod4 = glfwGetKey(window, GLFW_KEY_4);
     int up = glfwGetKey(window, GLFW_KEY_UP);
+    int b = glfwGetKey(window, GLFW_KEY_B);
+    if(b)  plane.drop();
     if(up) plane.shoot();
     if(mod0) cam_mode = 0;
     if(mod1) cam_mode = 1;

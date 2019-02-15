@@ -72,6 +72,7 @@ public:
     void set_position(float x, float y);
     void tick();
     void shoot();
+    void drop();
     double speed;
 private:
     VAO *object;
