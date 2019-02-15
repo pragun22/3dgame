@@ -244,11 +244,11 @@ void initGL(GLFWwindow *window, int width, int height) {
     // Create the models
 
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
-    terrain = Terrain(0.0f,0.0f,1600,2600);
+    terrain = Terrain(0.0f,10.0f,1000,2600);
     tapu = Tapu(35.0f,-35.0f);
     canon.push_back(Canon(90.0f,-90.0f));
     // gola.push_back(Gola(15,5,4));
-    para.push_back(Parachute(3.0f,4.0f,-3.0f,3.0f));
+    para.push_back(Parachute(3.0f,14.0f,-3.0f,3.0f));
     display = Display(-3.0f,3.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -324,4 +324,45 @@ void reset_screen() {
         Matrices1.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
 
     // Matrices.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
+}
+VAO* make_c(float x, float y, float z, float r, float r1, float h, float h1,color_t color){
+        int n= 40;
+        int inc = 0;
+        GLfloat vertex_buffer_data[18*n];
+        for (int i = 0; i < 9*n; i+=9)
+        {
+            float angle = 2*M_PI*inc/n;
+            // if(inc==n) angle = 0;
+            vertex_buffer_data[i]=x+r*cos(angle);
+            vertex_buffer_data[i+1]=y+h;
+            vertex_buffer_data[i+2]=z+r*sin(angle);
+            vertex_buffer_data[i+3]=x+r1*cos(angle);
+            vertex_buffer_data[i+4]=y+h1;
+            vertex_buffer_data[i+5]=z+r1*sin(angle);
+            vertex_buffer_data[i+6]=x+r*cos(2*M_PI*+(inc+1)/n);
+            vertex_buffer_data[i+7]=y+h;
+            vertex_buffer_data[i+8]=z+r*sin(2*M_PI*+(inc+1)/n);
+            inc++;
+        }
+        inc = 0;
+        for (int i = 0; i < 9*n; i+=9)
+        {
+            float angle = 2*M_PI*inc/n;
+            float angle2 = 2*M_PI*(inc+1)/n;
+            vertex_buffer_data[9*n+i]=x+r1*cos(angle);
+            vertex_buffer_data[9*n+i+1]=y+h1;
+            vertex_buffer_data[9*n+i+2]=z+r1*sin(angle);
+            vertex_buffer_data[9*n+i+3]=x+r*cos(angle2);
+            vertex_buffer_data[9*n+i+4]=y+h;
+            vertex_buffer_data[9*n+i+5]=z+r*sin(angle2);
+            vertex_buffer_data[9*n+i+6]=x+r1*cos(2*M_PI*+(inc+1)/n);
+            vertex_buffer_data[9*n+i+7]=y+h1;
+            vertex_buffer_data[9*n+i+8]=z+r1*sin(2*M_PI*+(inc+1)/n);
+            inc++;
+        }
+        return create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, color, GL_FILL);
+        // return create3DObject(GL_TRIANGLES_ADJACENCY, 6*n, vertex_buffer_data, color, GL_FILL);
+        // return create3DObject(GL_TRIANGLE_STRIP, 6*n, vertex_buffer_data, color, GL_FILL);
+        // return create3DObject(GL_TRIANGLE_LIST_SUN, 6*n, vertex_buffer_data, color, GL_FILL);
+        // return create3DObject(GL_TRIANGLE_MESH_SUN, 6*n, vertex_buffer_data, color, GL_FILL);
 }

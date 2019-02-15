@@ -46,6 +46,7 @@ void reshapeWindow(GLFWwindow *window, int width, int height);
 //needed functions
 VAO* make_cylinder(float x, float z, float r, float r1, float h, float h1,color_t color);
 glm::mat4 rotationMatrix(glm::vec3 axis, float angle);
+VAO* make_c(float x, float y, float z, float r, float r1, float h, float h1,color_t color);
 // Types
 struct VAO {
     GLuint VertexArrayID;
@@ -100,5 +101,7 @@ extern const color_t COLOR_FIRE;
 extern const color_t COLOR_FUEL;
 extern const color_t COLOR_REAL_BLACK;
 extern const color_t COLOR_OLIVE;
+extern const color_t COLOR_WOOD_GREEN ;
+extern const color_t COLOR_SEA_GREEN ;
 
 #endif

@@ -23,11 +23,8 @@ public:
 
     double speed;
 private:
-    VAO *object;
-    VAO *object1;
-    VAO *object2;
-    VAO *object3;
-    VAO *object4;
+    VAO *person;
+    VAO *ropes;
     std::vector<VAO*> para;
 };
 

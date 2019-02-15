@@ -503,4 +503,45 @@ void Missile::tick() {
 
 }
 
+Bomb::Bomb(float x, float y,float z,float r) {
+    this->position = glm::vec3(x, y, z);
+    this->rotation = 0.0f;
+    float yc = 0.0f;
+    float delta = 0.1f;
+    while(yc <= r){
+        float ycor = yc;
+        float theta = sqrt(1-float(yc/r));
+        float r0 = r*theta;        
+        yc += delta;
+        theta = sqrt(1 - float(yc/r));
+        float r1 = r * theta;
+        this->object.push_back(make_c(0,ycor,0,r0,r1,0.0f,delta,COLOR_SEA_GREEN));
+        // this->para.push_back(make_c(0,-1.0f*ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
+    }
+}
+
+void Bomb::draw(glm::mat4 VP) {
+    Matrices.model = glm::mat4(1.0f);
+    glm::mat4 translate = glm::translate (this->position);    // glTranslatef
+    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(0, 1, 0));
+    glm::mat4 scale = glm::scale(glm::vec3(1,1,1));
+    // No need as coords centered at 0, 0, 0 of cube arouund which we waant to rotate
+    // rotate          = rotate * glm::translate(glm::vec3(0, -0.6, 0));
+    Matrices.model *= (translate * rotate * scale);
+    glm::mat4 MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    for(int i = 0 ; i < this->object.size() ; i++){
+        draw3DObject(this->object[i]);
+    }
+}
+
+void Bomb::tick() {
+    float angle1 = cos((this->rotation * M_PI / 180.0f));
+    float angle2 = sin((this->rotation * M_PI / 180.0f));
+    this->position.z -= 0.5f*angle1;
+    this->position.x -= 0.5f*angle2;
+
+}
+
+
 
