@@ -208,7 +208,15 @@ void tick_input(GLFWwindow *window) {
     int b = glfwGetKey(window, GLFW_KEY_B);
     int down  = glfwGetKey(window, GLFW_KEY_V);
     if(b)  plane.drop();
-    if(up) plane.shoot();
+    if(up){
+    float angle2 = sin((plane.counter * M_PI / 180.0f));
+        float b = tar.position.y - plane.position.y;
+        float a = tar.position.x - plane.position.x;
+        float c = tar.position.z - plane.position.z;// + 50*(xpos-300.0f)/600.0f*angle2;
+        glm::vec3 dir = glm::vec3(a,b,c);
+        dir = glm::normalize(dir);
+        plane.shoot(dir);
+    } 
     if(mod0) cam_mode = 0;
     if(mod1) cam_mode = 1;
     if(mod2) cam_mode = 2;
@@ -264,9 +272,9 @@ void tick_elements() {
     glfwGetCursorPos(window, &xpos, &ypos);
         float angle1 = cos((plane.counter * M_PI / 180.0f));
     float angle2 = sin((plane.counter * M_PI / 180.0f));
-    float camx = plane.position.x + 50*(xpos-300.0f)/600.0f*angle1;
+    float camx = plane.position.x + 50*(xpos-300.0f)/600.0f*angle1 -50*angle2;
     float camy = plane.position.y-50*(ypos-300.0f)/600.0f;
-    float camz = plane.position.z- 50*(xpos-300.0f)/600.0f*angle2;
+    float camz = plane.position.z- 50*(xpos-300.0f)/600.0f*angle2 -50*angle1;
     tar.tick(glm::vec3(camx,camy,camz),plane.counter);
     // terrain.tick();
 }

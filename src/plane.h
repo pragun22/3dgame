@@ -6,10 +6,11 @@
 class Missile {
 public:
     Missile() {}
-    Missile(float x, float y, float z,float yaw);
+    Missile(float x, float y, float z,glm::vec3 yaw);
     glm::vec3 position;
     bool flag;
     float rotation;
+    glm::vec3 dir;
     float pro;
     float counter;
     float tilt;
@@ -73,7 +74,7 @@ public:
     void rotate(int a,float v);    
     void set_position(float x, float y);
     void tick();
-    void shoot();
+    void shoot(glm::vec3 dir);
     void drop();
     double speed;
 private:
