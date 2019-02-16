@@ -234,7 +234,7 @@ void tick_elements() {
     ball1.tick();
     plane.tick();
     tapu.tick();
-    display.tick();
+    display.tick(plane.acc);
     score_tick(4.0f, 170218);
     for(int i = 0; i < ring.size(); i++){
         ring[i].tick();

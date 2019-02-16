@@ -51,6 +51,7 @@ Plane::Plane(float x, float y, color_t color) {
     this->speedy = 0.0f;
     this->speedz = 0.0f;
     this->flag = false;
+    this->acc = 0.0f;
     speed = 1;
     int n = 60;
     int inc = 0;
@@ -428,32 +429,18 @@ void Plane::forward(int a){
     float angle2 = sin((this->counter * M_PI / 180.0f));
     if(a){
         glm::vec3 dir = glm::vec3(-1*angle2,0 ,-1*angle1);
-        this->position.z += 0.7f*dir.z;
-        this->position.x += 0.7f*dir.x;
-        // this->flag = true;
-        // if(this->speedz <= 1.5f && this->speedz >= -1.5f) this->speedz += 0.1 * angle1;
-        // if(this->speedx <= 1.5f && this->speedx >= -1.5f) this->speedx -= 0.1 * angle2;
+        if(this->acc < 5.0f ) this->acc += 0.01f;
+        this->position.z += 0.7f*dir.z*this->acc;
+        this->position.x += 0.7f*dir.x*this->acc;
+        this->flag = true;
     } 
-    // else {
-    //     this->flag = false;
-    //     if(this->speedz > 0.0f){
-    //         this->speedz -= 0.1f;
-    //         if(this->speedz < 0.0f) this->speedz = 0.0f;
-    //     }
-    //     if(this->speedz < 0.0f){
-    //         this->speedz += 0.1f;
-    //         if(this->speedz > 0.0f) this->speedz = 0.0f;
-    //     }
-    //     if(this->speedx > 0.0f){
-    //         this->speedx -= 0.1f;
-    //         if(this->speedx < 0.0f) this->speedx = 0.0f;
-    //     }
-    //     if(this->speedx < 0.0f){
-    //         this->speedx += 0.1f;
-    //         if(this->speedx > 0.0f) this->speedx = 0.0f;
-    //     }
-
-    // }
+    else {
+        this->flag = false;
+        if(this->acc > 1.0f){
+            this->acc -= 0.03f;
+        }
+    if(this->acc < 1.0f) this->acc = 1.0f;
+    }
 
 }
 void Plane::Up(int a){

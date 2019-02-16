@@ -150,8 +150,9 @@ void Display::draw(glm::mat4 VP) {
     draw3DObject(this->fuel);
 }
 
-void Display::tick() {
-    if(this->speedo > -90.0f) this->speedo -= 0.1f;
+void Display::tick(float sp) {
+    float var = 0.5f*sp - 1.5f;
+     this->speedo = -1.0f*90.0f*var;
     if(this->fuelo < 90.0f ) this->fuelo += 0.03f;
     
 }

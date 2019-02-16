@@ -62,6 +62,7 @@ public:
     float tilt;
     float speedx;
     float speedy;
+    float acc;
     float speedz;
     void draw(glm::mat4 VP);
     void Up(int a);

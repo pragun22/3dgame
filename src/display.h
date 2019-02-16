@@ -14,7 +14,7 @@ public:
     float speedo;
     float fuelo;
     void draw(glm::mat4 VP);
-    void tick();
+    void tick(float sp);
 private:
     VAO *speed;
     VAO *pointer;
