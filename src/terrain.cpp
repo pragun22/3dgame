@@ -113,7 +113,7 @@ VAO* make_cylinder(float x, float z, float r, float r1, float h, float h1,color_
             vertex_buffer_data[9*n+i]=x+r1*cos(angle);
             vertex_buffer_data[9*n+i+1]=h1;
             vertex_buffer_data[9*n+i+2]=z+r1*sin(angle);
-            vertex_buffer_data[9*n+i+3]=z+r*cos(angle2);
+            vertex_buffer_data[9*n+i+3]=x+r*cos(angle2);
             vertex_buffer_data[9*n+i+4]=h;
             vertex_buffer_data[9*n+i+5]=z+r*sin(angle2);
             vertex_buffer_data[9*n+i+6]=x+r1*cos(2*M_PI*+(inc+1)/n);

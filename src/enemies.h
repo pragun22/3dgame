@@ -9,7 +9,6 @@ public:
     Parachute() {}
     Parachute(float x, float y, float z,float r);
     glm::vec3 position;
-    bool flag;
     float rotation;
     float pro;
     float counter;
@@ -27,5 +26,18 @@ private:
     VAO *ropes;
     std::vector<VAO*> para;
 };
+class Ring {
+public:
+    Ring() {}
+    Ring(float x, float y, float z,float radius);
+    glm::vec3 position;
+    float rotation;
+    void draw(glm::mat4 VP);
+    void set_position(float x, float y);
+    void tick();
 
+    double speed;
+private:
+    VAO *object;
+};
 #endif 

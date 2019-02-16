@@ -3,8 +3,6 @@ Parachute::Parachute(float x, float y, float z, float r) {
     this->position = glm::vec3(x, y, z);
     this->rotation = 0;
     speed = 1;
-    // Our vertices. Three consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
-    // A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
     float yc = 0.0f;
     float delta = 0.1f;
     GLfloat ropes_data[]={
@@ -40,10 +38,6 @@ Parachute::Parachute(float x, float y, float z, float r) {
         -1*(r/9.0f), -1*r , 0,
         (r/9.0f), -1*r , 0,
         -1*(r/9.0f), -0.8f*r , 0, //body
-
-
-
-    
     };
     while(yc <= r){
         float ycor = yc;
@@ -70,8 +64,6 @@ void Parachute::draw(glm::mat4 VP) {
     Matrices.model *= (translate * rotate*scale);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
-    // draw3DObject(this->object);
-    // draw3DObject(this->object1);
     for(int i = 0 ; i < para.size() ; i++){
         draw3DObject(this->para[i]);
     }
@@ -80,3 +72,65 @@ void Parachute::draw(glm::mat4 VP) {
 }
 
 
+Ring::Ring(float x, float y, float z,float r) {
+    this->position = glm::vec3(x, y, z);
+    this->rotation = 0.0f;
+    int n= 40;
+    int inc = 0;
+    GLfloat vertex_buffer_data[18*n];
+    float R = r + 0.1f;
+    float h = 0.0f;
+    float h1 = 0.7f;
+    for (int i = 0; i < 9*n; i+=9)
+    {
+        float angle = 2*M_PI*inc/n;
+        // if(inc==n) angle = 0;
+        float r1 = R + float(rand()%3)/6.0f;
+        vertex_buffer_data[i]=r*cos(angle);
+        vertex_buffer_data[i+2]=h;
+        vertex_buffer_data[i+1]=r*sin(angle);
+        vertex_buffer_data[i+3]=r1*cos(angle);
+        vertex_buffer_data[i+5]=h1;
+        vertex_buffer_data[i+4]=r1*sin(angle);
+        vertex_buffer_data[i+6]=r*cos(2*M_PI*+(inc+1)/n);
+        vertex_buffer_data[i+8]=h;
+        vertex_buffer_data[i+7]=r*sin(2*M_PI*+(inc+1)/n);
+        inc++;
+    }
+    inc = 0;
+    for (int i = 0; i < 9*n; i+=9)
+    {
+        float angle = 2*M_PI*inc/n;
+        float angle2 = 2*M_PI*(inc+1)/n;
+        float r1 = R + float(rand()%3)/6.0f;
+        vertex_buffer_data[9*n+i]=r1*cos(angle);
+        vertex_buffer_data[9*n+i+2]=h1;
+        vertex_buffer_data[9*n+i+1]=r1*sin(angle);
+        vertex_buffer_data[9*n+i+3]=r*cos(angle2);
+        vertex_buffer_data[9*n+i+5]=h;
+        vertex_buffer_data[9*n+i+4]=r*sin(angle2);
+        vertex_buffer_data[9*n+i+6]=r1*cos(2*M_PI*+(inc+1)/n);
+        vertex_buffer_data[9*n+i+8]=h1;
+        vertex_buffer_data[9*n+i+7]=r1*sin(2*M_PI*+(inc+1)/n);
+        inc++;
+    }
+    this->object = create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, COLOR_SMOKE, GL_FILL);
+}
+void Ring::draw(glm::mat4 VP) {
+    Matrices.model = glm::mat4(1.0);
+    glm::mat4 translate = glm::translate (this->position);    // glTranslatef
+    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(0, 0, 1));
+    Matrices.model *= (translate * rotate);
+    glm::mat4 MVP = VP * Matrices.model;
+    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
+    draw3DObject(this->object);
+}
+
+void Ring::set_position(float x, float y) {
+    this->position = glm::vec3(x, y, 0);
+}
+
+void Ring::tick() {
+    this->rotation += 1.0f;
+    if(this->rotation > 360.0f) this->rotation = 0.0f;
+}

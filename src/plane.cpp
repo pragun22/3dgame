@@ -1,6 +1,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "plane.h"
 #include "main.h"
+//this makes cylinder along z axis
+// while make_c makes cylinder along y axis
 VAO* make_cyl(float x, float z, float r, float r1, float h, float h1,color_t color){
         int n= 40;
         int inc = 0;
@@ -28,7 +30,7 @@ VAO* make_cyl(float x, float z, float r, float r1, float h, float h1,color_t col
             vertex_buffer_data[9*n+i]=x+r1*cos(angle);
             vertex_buffer_data[9*n+i+2]=h1;
             vertex_buffer_data[9*n+i+1]=z+r1*sin(angle);
-            vertex_buffer_data[9*n+i+3]=z+r*cos(angle2);
+            vertex_buffer_data[9*n+i+3]=x+r*cos(angle2);
             vertex_buffer_data[9*n+i+5]=h;
             vertex_buffer_data[9*n+i+4]=z+r*sin(angle2);
             vertex_buffer_data[9*n+i+6]=x+r1*cos(2*M_PI*+(inc+1)/n);
@@ -47,7 +49,7 @@ Plane::Plane(float x, float y, color_t color) {
     this->shoot_timer = clock();
     this->speedx = 0.0f;
     this->speedy = 0.0f;
-    this->speedz = 2.0f;
+    this->speedz = 0.2f;
     this->flag = false;
     speed = 1;
     int n = 60;
@@ -366,7 +368,7 @@ void Plane::draw(glm::mat4 VP) {
     float ang = this->counter * M_PI / 180.0f;
     Matrices.model = glm::mat4(1.0f);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
-    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 0, 0));
+    glm::mat4 rotate    = rotationMatrix(glm::vec3(-1*cos(ang),0,sin(ang)),(this->rotation * M_PI / 180.0f));
     // glm::mat4 til    = glm::rotate((float) (this->tilt * M_PI / 180.0f), glm::vec3(0, 0, 1));
     glm::mat4 til = rotationMatrix(glm::vec3(sin(ang),0,cos(ang)),(this->tilt * M_PI / 180.0f));
     glm::mat4 count    = glm::rotate((float) (this->counter * M_PI / 180.0f), glm::vec3(0, 1, 0));
@@ -400,8 +402,8 @@ void Plane::tilt_fn(int a,float value){
     if(a){
         this->tilt += value;
         float ang = this->counter * M_PI / 180.0f;
-        this->position.x += this->tilt/100.0f*cos(ang);
-        this->position.z -= this->tilt/100.0f*sin(ang);
+        this->position.x += (this->tilt/100.0f)*cos(ang);
+        this->position.z -= (this->tilt/100.0f)*sin(ang);
         if(this->tilt > 75.0f) this->tilt= 75.0f;
         if(this->tilt < -75.0f) this->tilt= -75.0f;        
     }
@@ -429,18 +431,32 @@ void Plane::forward(int a){
     float angle2 = sin((this->counter * M_PI / 180.0f));
     if(a){
         this->flag = true;
-        this->speedz += 0.5f*angle1;
-        this->speedx -= 0.5f*angle2;
-        if(this->speedz>4.0f) this->speedz = 4.0f;
-        if(this->speedx<-4.0f) this->speedx = -4.0f;
+        this->speedz += 0.1f*angle1;
+        this->speedx -= 0.1f*angle2;
+        if(this->speedz>1.0f) this->speedz = 1.0f;
+        if(this->speedz<-1.0f) this->speedz = -1.0f;
+        if(this->speedx<-1.0f) this->speedx = -1.0f;
+        if(this->speedx>1.0f) this->speedx = 1.0f;
     } 
     else {
         this->flag = false;
-        if(this->speedz > 2.0f) this->speedz -= 0.4f;
-        if(this->speedz<2.0f) this->speedz = 2.0f;
+        if(this->speedz > 0.2f){
+            this->speedz -= 0.15f;
+            if(this->speedz< 0.2f) this->speedz = 0.2f;
+        } 
+        if(this->speedz < -0.2f){
+            this->speedz += 0.15f;
+            if(this->speedz> -0.2f) this->speedz = -0.2f;
+        } 
 
-        if(this->speedx < 0.0f) this->speedx += 0.4f;
-        if(this->speedx>0.0f) this->speedx = 0.0f;
+        if(this->speedx < 0.0f){
+            this->speedx += 0.1f;
+             if(this->speedx>0.0f) this->speedx = 0.0f;
+        } 
+        if(this->speedx > 0.0f){
+            this->speedx -= 0.1f;
+             if(this->speedx<0.0f) this->speedx = 0.0f;
+        } 
     }
 
 }
@@ -461,7 +477,7 @@ void Plane::Up(int a){
 void Plane::tick() {
     this->pro += 8.0f;
     if(this->pro > 360.0f) this->pro = 0.0f;
-    // this->position.z -= this->speedz;
+    this->position.z -= this->speedz;
     this->position.x += this->speedx;
     this->position.y += this->speedy;
     for(int i = 0 ; i < this->ammo.size() ; i++){

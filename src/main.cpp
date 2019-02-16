@@ -22,6 +22,7 @@ Ball ball1;
 Terrain terrain;
 Plane plane;
 Tapu tapu;
+vector<Ring> ring;
 vector<Parachute> para;
 vector<Lava> lava;
 vector<Canon> canon;
@@ -152,6 +153,9 @@ void draw() {
     for(int  i = 0; i < para.size(); i++){
         para[i].draw(VP);
     }
+    for(int  i = 0; i < ring.size(); i++){
+        ring[i].draw(VP);
+    }
     
     display.draw(VP1);
     for(int i = 0; i < zero.size();i++) zero[i].draw(VP1);
@@ -232,6 +236,9 @@ void tick_elements() {
     tapu.tick();
     display.tick();
     score_tick(4.0f, 170218);
+    for(int i = 0; i < ring.size(); i++){
+        ring[i].tick();
+    }
     for(int i = 0; i < canon.size(); i++){
         canon[i].tick(&plane);
         canon[i].shoot(&plane);
@@ -250,8 +257,9 @@ void initGL(GLFWwindow *window, int width, int height) {
     terrain = Terrain(0.0f,10.0f,1000,2600);
     tapu = Tapu(35.0f,-35.0f);
     canon.push_back(Canon(90.0f,-90.0f));
+    para.push_back(Parachute(10.0f,42.0f,-10.0f,3.0f));
+    ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
-    para.push_back(Parachute(3.0f,14.0f,-3.0f,3.0f));
     display = Display(-3.0f,3.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
