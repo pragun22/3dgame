@@ -49,7 +49,7 @@ Plane::Plane(float x, float y, color_t color) {
     this->shoot_timer = clock();
     this->speedx = 0.0f;
     this->speedy = 0.0f;
-    this->speedz = 0.2f;
+    this->speedz = 0.0f;
     this->flag = false;
     speed = 1;
     int n = 60;
@@ -369,13 +369,10 @@ void Plane::draw(glm::mat4 VP) {
     Matrices.model = glm::mat4(1.0f);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
     glm::mat4 rotate    = rotationMatrix(glm::vec3(-1*cos(ang),0,sin(ang)),(this->rotation * M_PI / 180.0f));
-    // glm::mat4 til    = glm::rotate((float) (this->tilt * M_PI / 180.0f), glm::vec3(0, 0, 1));
     glm::mat4 til = rotationMatrix(glm::vec3(sin(ang),0,cos(ang)),(this->tilt * M_PI / 180.0f));
     glm::mat4 count    = glm::rotate((float) (this->counter * M_PI / 180.0f), glm::vec3(0, 1, 0));
     glm::mat4 rotate1    = glm::rotate((float) (this->pro * M_PI / 180.0f), glm::vec3(0, 0, 1));
-    // Matrices.model *= (translate * count* rotate *til );
     Matrices.model *= (translate * til* rotate * count );
-    // Matrices.model *= (translate * rotate * count);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->object);
@@ -430,34 +427,33 @@ void Plane::forward(int a){
     float angle1 = cos((this->counter * M_PI / 180.0f));
     float angle2 = sin((this->counter * M_PI / 180.0f));
     if(a){
-        this->flag = true;
-        this->speedz += 0.1f*angle1;
-        this->speedx -= 0.1f*angle2;
-        if(this->speedz>1.0f) this->speedz = 1.0f;
-        if(this->speedz<-1.0f) this->speedz = -1.0f;
-        if(this->speedx<-1.0f) this->speedx = -1.0f;
-        if(this->speedx>1.0f) this->speedx = 1.0f;
+        glm::vec3 dir = glm::vec3(-1*angle2,0 ,-1*angle1);
+        this->position.z += 0.7f*dir.z;
+        this->position.x += 0.7f*dir.x;
+        // this->flag = true;
+        // if(this->speedz <= 1.5f && this->speedz >= -1.5f) this->speedz += 0.1 * angle1;
+        // if(this->speedx <= 1.5f && this->speedx >= -1.5f) this->speedx -= 0.1 * angle2;
     } 
-    else {
-        this->flag = false;
-        if(this->speedz > 0.2f){
-            this->speedz -= 0.15f;
-            if(this->speedz< 0.2f) this->speedz = 0.2f;
-        } 
-        if(this->speedz < -0.2f){
-            this->speedz += 0.15f;
-            if(this->speedz> -0.2f) this->speedz = -0.2f;
-        } 
+    // else {
+    //     this->flag = false;
+    //     if(this->speedz > 0.0f){
+    //         this->speedz -= 0.1f;
+    //         if(this->speedz < 0.0f) this->speedz = 0.0f;
+    //     }
+    //     if(this->speedz < 0.0f){
+    //         this->speedz += 0.1f;
+    //         if(this->speedz > 0.0f) this->speedz = 0.0f;
+    //     }
+    //     if(this->speedx > 0.0f){
+    //         this->speedx -= 0.1f;
+    //         if(this->speedx < 0.0f) this->speedx = 0.0f;
+    //     }
+    //     if(this->speedx < 0.0f){
+    //         this->speedx += 0.1f;
+    //         if(this->speedx > 0.0f) this->speedx = 0.0f;
+    //     }
 
-        if(this->speedx < 0.0f){
-            this->speedx += 0.1f;
-             if(this->speedx>0.0f) this->speedx = 0.0f;
-        } 
-        if(this->speedx > 0.0f){
-            this->speedx -= 0.1f;
-             if(this->speedx<0.0f) this->speedx = 0.0f;
-        } 
-    }
+    // }
 
 }
 void Plane::Up(int a){
@@ -477,8 +473,8 @@ void Plane::Up(int a){
 void Plane::tick() {
     this->pro += 8.0f;
     if(this->pro > 360.0f) this->pro = 0.0f;
-    this->position.z -= this->speedz;
-    this->position.x += this->speedx;
+    // this->position.z -= this->speedz;
+    // this->position.x += this->speedx;
     this->position.y += this->speedy;
     for(int i = 0 ; i < this->ammo.size() ; i++){
         this->ammo[i].tick();

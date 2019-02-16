@@ -207,10 +207,10 @@ void tick_input(GLFWwindow *window) {
     else if (space == GLFW_RELEASE) plane.Up(0);
     if(w == GLFW_PRESS) plane.forward(1);
     else if (w == GLFW_RELEASE) plane.forward(0);
-    if(A == GLFW_PRESS) plane.tilt_fn(1,-3.0f);
-    else if (A == GLFW_RELEASE) plane.tilt_fn(0,-3.0f);
-    if(D == GLFW_PRESS) plane.tilt_fn(1,3.0f);
-    else if (D == GLFW_RELEASE) plane.tilt_fn(0,3.0f);
+    if(A == GLFW_PRESS) plane.tilt_fn(1,-2.0f);
+    else if (A == GLFW_RELEASE) plane.tilt_fn(0,-2.0f);
+    if(D == GLFW_PRESS) plane.tilt_fn(1,2.0f);
+    else if (D == GLFW_RELEASE) plane.tilt_fn(0,2.0f);
     if(Q == GLFW_PRESS){ 
         plane.rotate(1,-2.0f);
     }
