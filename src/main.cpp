@@ -13,6 +13,8 @@ GLMatrices Matrices1;
 GLuint     programID;
 GLFWwindow *window;
 Display display;
+Compass compass;
+Altitude alt;
 /**************************
 * Customizable functions *
 **************************/
@@ -158,6 +160,8 @@ void draw() {
     }
     
     display.draw(VP1);
+    alt.draw(VP1);
+    compass.draw(VP1);
     for(int i = 0; i < zero.size();i++) zero[i].draw(VP1);
     for(int i = 0; i < one.size();i++) one[i].draw(VP1);
     for(int i = 0; i < two.size();i++) two[i].draw(VP1);
@@ -246,7 +250,8 @@ void tick_elements() {
         canon[i].tick(&plane);
         canon[i].shoot(&plane);
     }
-    
+    alt.tick(plane.position.y);
+    compass.tick(plane.counter);
     // terrain.tick();
 }
 
@@ -264,6 +269,8 @@ void initGL(GLFWwindow *window, int width, int height) {
     ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
     display = Display(-3.0f,3.0f);
+    alt = Altitude(3.5f,0.0f);
+    compass = Compass(-3.0f,-3.0f);
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
