@@ -256,6 +256,10 @@ void tick_elements() {
     }
     alt.tick(plane.position.y);
     compass.tick(plane.counter);
+    for(int i = 0; i < arrow.size(); i++){
+        arrow[i].tick();
+    }
+    
     // terrain.tick();
 }
 
