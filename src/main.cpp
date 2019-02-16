@@ -196,6 +196,7 @@ void tick_input(GLFWwindow *window) {
     int mod4 = glfwGetKey(window, GLFW_KEY_4);
     int up = glfwGetKey(window, GLFW_KEY_UP);
     int b = glfwGetKey(window, GLFW_KEY_B);
+    int down  = glfwGetKey(window, GLFW_KEY_V);
     if(b)  plane.drop();
     if(up) plane.shoot();
     if(mod0) cam_mode = 0;
@@ -203,6 +204,8 @@ void tick_input(GLFWwindow *window) {
     if(mod2) cam_mode = 2;
     if(mod3) cam_mode = 3;
     if(mod4) cam_mode = 4;
+    if(down == GLFW_PRESS) plane.Down(1);
+    else if (down == GLFW_RELEASE) plane.Down(0);
     if(space == GLFW_PRESS) plane.Up(1);
     else if (space == GLFW_RELEASE) plane.Up(0);
     if(w == GLFW_PRESS) plane.forward(1);

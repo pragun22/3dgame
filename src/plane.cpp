@@ -342,6 +342,7 @@ Plane::Plane(float x, float y, color_t color) {
         -1.0f, -2.5f, 0.0f,
 
     };
+    this->pitch = true;
     this->wing = create3DObject(GL_TRIANGLES, 16*3, vertex_wing_data, COLOR_SILVER, GL_FILL);
     this->propelar = create3DObject(GL_TRIANGLES, 6, vertex_prop, COLOR_RED, GL_FILL);
     this->tail_wing = create3DObject(GL_TRIANGLES, 16*3, vertex_tail_wing, COLOR_JET, GL_FILL);
@@ -451,10 +452,25 @@ void Plane::Up(int a){
         }
         this->speedy = 0.3f;
     } 
-    else {
+    else if(this->pitch){
         this->speedy = 0.0f;
         if(this->rotation<0.0f) this->rotation = 0.0f;
         else if(this->rotation>0.0f) this->rotation -= 1.2f;
+    }
+}
+void Plane::Down(int a){
+    if(a){
+        this->pitch = false;
+        if(this->rotation<-22.0f) this->rotation = -22.0f;
+        else if(this->rotation>-22.0f){   
+            this->rotation -= 0.6f;
+        }
+        this->speedy = -0.3f;
+    } 
+    else if(!this->pitch) {
+        this->speedy = 0.0f;
+        if(this->rotation>0.0f) this->pitch = true,this->rotation = 0.0f;
+        else if(this->rotation<0.0f) this->rotation += 1.2f;
     }
 }
 void Plane::tick() {

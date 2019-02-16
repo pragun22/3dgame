@@ -19,6 +19,7 @@ private:
     VAO *speed;
     VAO *pointer;
     VAO *fuel;
+    VAO *cover;
 };
 
 #endif 

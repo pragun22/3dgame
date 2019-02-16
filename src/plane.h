@@ -64,8 +64,10 @@ public:
     float speedy;
     float acc;
     float speedz;
+    bool pitch;
     void draw(glm::mat4 VP);
     void Up(int a);
+    void Down(int a);
     void forward(int a);
     void tilt_fn(int a,float value);
     void rotate(int a,float v);    

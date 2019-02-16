@@ -43,7 +43,7 @@ Display::Display(float x, float y) {
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     this->speedo = 45.0f;
-    this->fuelo = 0.0f;
+    this->fuelo = 0.3f;
     int n = 40;
     GLfloat vertex_buffer_data[9*n];
     float r1 = 3.3f;
@@ -112,18 +112,38 @@ Display::Display(float x, float y) {
          0.3f, 0, 0,
          0, 2.8f, 0
     };
-    const GLfloat fuel_data[]={
+    const GLfloat cover_fuel[]={
         0.0f, -0.3f, 0.0f,
-        0.0f, -0.8f, 0.0f,
-        6.6f, -0.3f, 0.0f,
+        0.0f, -0.5f, 0.0f,
+        6.7f, -0.3f, 0.0f,
+          
+        6.7f, -0.3f, 0.0f,
+        6.7f, -0.3f, 0.0f,
+        0.0f, -0.5f, 0.0f,// up
         
-        6.6f, -0.3f, 0.0f,
-        0.0f, -0.8f, 0.0f,
-        6.6f, -0.8f, 0.0f
+        0.0f, -0.9f, 0.0f,
+        0.0f, -1.1f, 0.0f,
+        6.7f, -0.9f, 0.0f,
+          
+        6.7f, -1.1f, 0.0f,
+        6.7f, -0.9f, 0.0f,
+        0.0f, -1.1f, 0.0f,// bottom
+
+        
+    };
+    const GLfloat fuel_data[]={
+        0.0f, -0.5f, 0.0f,
+        0.0f, -0.9f, 0.0f,
+        6.6f, -0.5f, 0.0f,
+        
+        6.6f, -0.5f, 0.0f,
+        0.0f, -0.9f, 0.0f,
+        6.6f, -0.9f, 0.0f
     };
     this->speed = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, color, GL_FILL);
     this->pointer = create3DObject(GL_TRIANGLES, 3, pointer_data,COLOR_YELLOW,GL_FILL);
     this->fuel =  create3DObject(GL_TRIANGLES, 6, fuel_data,COLOR_FUEL,GL_FILL);
+    this->cover =  create3DObject(GL_TRIANGLES, 12, cover_fuel,COLOR_FUEL,GL_FILL);
 }
 
 void Display::draw(glm::mat4 VP) {
@@ -143,17 +163,18 @@ void Display::draw(glm::mat4 VP) {
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->pointer);
     glm::mat4 translate1 = glm::translate (glm::vec3(this->position.x-1.1f,this->position.y,this->position.z));    // glTranslatef
-    glm::mat4 rotate2 = glm::rotate((float) (this->fuelo * M_PI / 180.0f), glm::vec3(0, 1, 0));
-    Matrices.model = (translate1  * rotate * scale * rotate2);
+    glm::mat4 scale1 = glm::scale(glm::vec3(this->fuelo,0.3,0.3));    
+    Matrices.model = (translate1  * rotate * scale1 );
     MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->fuel);
+    // draw3DObject(this->cover);
 }
 
 void Display::tick(float sp) {
     float var = 0.5f*sp - 1.5f;
      this->speedo = -1.0f*90.0f*var;
-    if(this->fuelo < 90.0f ) this->fuelo += 0.03f;
+    if(this->fuelo > 0.0f ) this->fuelo -= 0.00001f;
     
 }
 
