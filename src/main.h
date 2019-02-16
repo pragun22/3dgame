@@ -45,6 +45,7 @@ void reshapeWindow(GLFWwindow *window, int width, int height);
 
 //needed functions
 VAO* make_cylinder(float x, float z, float r, float r1, float h, float h1,color_t color);
+VAO* make_cyl(float x, float z, float r, float r1, float h, float h1,color_t color);
 glm::mat4 rotationMatrix(glm::vec3 axis, float angle);
 VAO* make_c(float x, float y, float z, float r, float r1, float h, float h1,color_t color);
 // Types

@@ -15,6 +15,7 @@ GLuint     programID;
 GLFWwindow *window;
 Display display;
 Compass compass;
+Target tar;
 Altitude alt;
 /**************************
 * Customizable functions *
@@ -163,6 +164,7 @@ void draw() {
     for(int  i = 0; i < arrow.size(); i++){
         arrow[i].draw(VP);
     }
+    tar.draw(VP);
     display.draw(VP1);
     alt.draw(VP1);
     compass.draw(VP1);
@@ -259,7 +261,13 @@ void tick_elements() {
     for(int i = 0; i < arrow.size(); i++){
         arrow[i].tick();
     }
-    
+    glfwGetCursorPos(window, &xpos, &ypos);
+        float angle1 = cos((plane.counter * M_PI / 180.0f));
+    float angle2 = sin((plane.counter * M_PI / 180.0f));
+    float camx = plane.position.x + 50*(xpos-300.0f)/600.0f*angle1;
+    float camy = plane.position.y-50*(ypos-300.0f)/600.0f;
+    float camz = plane.position.z- 50*(xpos-300.0f)/600.0f*angle2;
+    tar.tick(glm::vec3(camx,camy,camz),plane.counter);
     // terrain.tick();
 }
 
@@ -276,6 +284,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     para.push_back(Parachute(10.0f,42.0f,-10.0f,3.0f));
     ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
+    tar = Target(0,0,0);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
