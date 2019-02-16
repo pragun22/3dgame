@@ -26,6 +26,7 @@ Ball ball1;
 Terrain terrain;
 Plane plane;
 Tapu tapu;
+vector<Checks> checks;
 vector<Arrow> arrow;
 vector<Ring> ring;
 vector<Parachute> para;
@@ -164,6 +165,9 @@ void draw() {
     for(int  i = 0; i < arrow.size(); i++){
         arrow[i].draw(VP);
     }
+    for(int  i = 0; i < checks.size(); i++){
+        checks[i].draw(VP);
+    }
     tar.draw(VP);
     display.draw(VP1);
     alt.draw(VP1);
@@ -294,6 +298,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     // gola.push_back(Gola(15,5,4));
     tar = Target(0,0,0);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));
+    checks.push_back(Checks(1.0f,1.0f,-20.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
     compass = Compass(-3.0f,-3.0f);

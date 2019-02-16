@@ -34,4 +34,18 @@ private:
     VAO *object;
     VAO *circle;
 };
+
+class Checks {
+public:
+    Checks() {}
+    Checks(float x, float y,float z);
+    glm::vec3 position;
+    bool flag;
+    float rotation;
+    void draw(glm::mat4 VP);
+    void tick();
+private:
+    VAO *object;
+    VAO *circle;
+};
 #endif 
