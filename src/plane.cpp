@@ -490,7 +490,7 @@ void Plane::shoot(glm::vec3 dir){
     clock_t end = clock();
     float t =  (float)(end - this->shoot_timer)/CLOCKS_PER_SEC;
     if(t > 0.3){
-        this->ammo.push_back(Missile(this->position.x, this->position.y - 2.0f, this->position.z + 2.0f,dir));
+        this->ammo.push_back(Missile(this->position.x, this->position.y - 2.0f, this->position.z + 2.0f,dir,this->counter));
         this->shoot_timer = clock();
     } 
 }
@@ -502,8 +502,9 @@ void Plane::drop(){
         this->shoot_timer = clock();
     } 
 }
-Missile::Missile(float x, float y,float z,glm::vec3 yaw) {
+Missile::Missile(float x, float y,float z,glm::vec3 yaw,float rot) {
     this->position = glm::vec3(x, y, z);
+    this->rotation = rot;
     this->dir = yaw;
     this->object = make_cyl(0,0,3.0f,2.8f,0.0f,-6.0f,COLOR_OLIVE);
     this->object1 = make_cyl(0,0,2.8f,0.4f,-6.0f,-10.0f,COLOR_OLIVE);
@@ -524,11 +525,9 @@ void Missile::draw(glm::mat4 VP) {
 }
 
 void Missile::tick() {
-    // float angle1 = cos((this->rotation * M_PI / 180.0f));
-    // float angle2 = sin((this->rotation * M_PI / 180.0f));
-    // this->position.z -= 0.5f*angle1;
-    // this->position.x -= 0.5f*angle2;
-    this->position += this->dir;
+    this->position.x += 1.5f*this->dir.x;
+    this->position.y += 1.5f*this->dir.y;
+    this->position.z += 1.5f*this->dir.z;
 
 }
 

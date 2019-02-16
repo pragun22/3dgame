@@ -6,7 +6,7 @@
 class Missile {
 public:
     Missile() {}
-    Missile(float x, float y, float z,glm::vec3 yaw);
+    Missile(float x, float y, float z,glm::vec3 yaw,float rot);
     glm::vec3 position;
     bool flag;
     float rotation;
