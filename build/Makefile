@@ -150,6 +150,33 @@ src/ball.cpp.s:
 	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/ball.cpp.s
 .PHONY : src/ball.cpp.s
 
+src/checkpoints.o: src/checkpoints.cpp.o
+
+.PHONY : src/checkpoints.o
+
+# target to build an object file
+src/checkpoints.cpp.o:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/checkpoints.cpp.o
+.PHONY : src/checkpoints.cpp.o
+
+src/checkpoints.i: src/checkpoints.cpp.i
+
+.PHONY : src/checkpoints.i
+
+# target to preprocess a source file
+src/checkpoints.cpp.i:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/checkpoints.cpp.i
+.PHONY : src/checkpoints.cpp.i
+
+src/checkpoints.s: src/checkpoints.cpp.s
+
+.PHONY : src/checkpoints.s
+
+# target to generate assembly for a file
+src/checkpoints.cpp.s:
+	$(MAKE) -f CMakeFiles/graphics_asgn1.dir/build.make CMakeFiles/graphics_asgn1.dir/src/checkpoints.cpp.s
+.PHONY : src/checkpoints.cpp.s
+
 src/color.o: src/color.cpp.o
 
 .PHONY : src/color.o
@@ -459,6 +486,9 @@ help:
 	@echo "... src/ball.o"
 	@echo "... src/ball.i"
 	@echo "... src/ball.s"
+	@echo "... src/checkpoints.o"
+	@echo "... src/checkpoints.i"
+	@echo "... src/checkpoints.s"
 	@echo "... src/color.o"
 	@echo "... src/color.i"
 	@echo "... src/color.s"

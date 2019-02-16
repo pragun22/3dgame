@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/ball.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/ball.cpp.o"
+  "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/checkpoints.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/checkpoints.cpp.o"
   "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/color.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/color.cpp.o"
   "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/display.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/display.cpp.o"
   "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.cpp" "/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/build/CMakeFiles/graphics_asgn1.dir/src/enemies.cpp.o"

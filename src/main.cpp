@@ -6,6 +6,7 @@
 #include "display.h"
 #include "score.h"
 #include "enemies.h"
+#include "checkpoints.h"
 using namespace std;
 
 GLMatrices Matrices;
@@ -24,6 +25,7 @@ Ball ball1;
 Terrain terrain;
 Plane plane;
 Tapu tapu;
+vector<Arrow> arrow;
 vector<Ring> ring;
 vector<Parachute> para;
 vector<Lava> lava;
@@ -158,7 +160,9 @@ void draw() {
     for(int  i = 0; i < ring.size(); i++){
         ring[i].draw(VP);
     }
-    
+    for(int  i = 0; i < arrow.size(); i++){
+        arrow[i].draw(VP);
+    }
     display.draw(VP1);
     alt.draw(VP1);
     compass.draw(VP1);
@@ -268,6 +272,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     para.push_back(Parachute(10.0f,42.0f,-10.0f,3.0f));
     ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
+    arrow.push_back(Arrow(5.0f,5.0,-10.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
     compass = Compass(-3.0f,-3.0f);

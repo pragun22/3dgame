@@ -16,6 +16,16 @@ main.h
 main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
 
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/checkpoints.cpp
+checkpoints.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/checkpoints.h
+main.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/checkpoints.h
+main.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/color.cpp
 main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
@@ -79,6 +89,8 @@ score.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/score.h
 enemies.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.h
+checkpoints.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/checkpoints.h
 
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
 iostream
