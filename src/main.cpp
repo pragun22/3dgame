@@ -270,12 +270,15 @@ void tick_elements() {
     air.height = 3.4f;
     for(int i = 0; i < ring.size(); i++){
         bounding_box_t ringa;
-        ringa.x = ring[i].position.x;
-        ringa.y = ring[i].position.y;
+        ringa.x = ring[i].position.x-ring[i].rad;
+        ringa.y = ring[i].position.y-ring[i].rad;
         ringa.z = ring[i].position.z;
-        ringa.height = ring[i].rad;
-        ringa.depth = ring[i].rad;
-        ringa.width = ring[i].rad;
+        ringa.height = 2*ring[i].rad;
+        ringa.depth = 2.0f;
+        ringa.width = 2*ring[i].rad;
+        std::cout<<ringa.x + ringa.width<<" "<<ringa.y<<" "<<ringa.z+ringa.depth<<" cx  cy cz"<<std::endl;
+        std::cout<<air.x + air.width<<" "<<air.y<<" "<<air.z+air.depth<<" ax  ay az"<<std::endl;
+        if(detect_collision(ringa,air)) {ring.erase(ring.begin()+i);break;}
         // for(int  i = 0; i < plane.ammo.size(); i++)
         // {
         //     bounding_box_t miss;
@@ -285,9 +288,7 @@ void tick_elements() {
         //     miss.height = 2.0f;
         //     miss.depth = 2.0f;
         //     miss.height = 2.0f;
-        // if(detect_collision(ringa,air)) cout<<"missile laga"<<endl,exit(0);
         // }
-        
         ring[i].tick();
     }
     for(int i = 0; i < canon.size(); i++){

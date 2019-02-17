@@ -228,8 +228,6 @@ bool Checks::tick(bounding_box_t a){
     check.height = 50.0f;
     check.width = 50*1.5f;
     check.depth = -1.0f;
-    // std::cout<<check.x + check.width<<" "<<check.y<<" "<<check.z+check.depth<<" cx  cy cz"<<std::endl;
-    // std::cout<<a.x + a.width<<" "<<a.y<<" "<<a.z+a.depth<<" ax  ay az"<<std::endl;
     if(detect_collision(a,check)) return true;
     return false;
 }
