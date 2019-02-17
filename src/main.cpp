@@ -284,7 +284,10 @@ void tick_elements() {
         ring[i].tick();
     }
     for(int i = 0; i < canon.size(); i++){
-        canon[i].tick(&plane,air);
+        if(canon[i].tick(&plane,air)){
+            canon.erase(canon.begin()+i);
+            break;
+        }
         // canon[i].shoot(&plane);
     }
     alt.tick(plane.position.y);

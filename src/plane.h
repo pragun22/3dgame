@@ -35,13 +35,14 @@ public:
     float rotation;
     float pro;
     float counter;
+    float rad;
     float tilt;
     float speedx;
     float speedy;
     float speedz;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick();
+    bool tick();
 
     double speed;
 private:

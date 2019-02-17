@@ -545,6 +545,7 @@ void Missile::tick() {
 Bomb::Bomb(float x, float y,float z,float r) {
     this->position = glm::vec3(x, y, z);
     this->rotation = 0.0f;
+    this->rad = r;
     float yc = 0.0f;
     float delta = 0.1f;
      this->object1 =  make_cylinder(0,0,0.1f,0.1f,r,r+0.4f,COLOR_RED);
@@ -576,8 +577,9 @@ void Bomb::draw(glm::mat4 VP) {
     draw3DObject(this->object1);
 }
 
-void Bomb::tick() {
+bool Bomb::tick() {
     this->position.y -= 0.2f;
+    return false;
 }
 
 

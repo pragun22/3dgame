@@ -102,7 +102,7 @@ public:
     int width;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick(Plane* plane,bounding_box_t air);
+    bool tick(Plane* plane,bounding_box_t air);
     void shoot(Plane* plane);
     double speed;
 private:

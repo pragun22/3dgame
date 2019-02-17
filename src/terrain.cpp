@@ -339,7 +339,14 @@ float maxu(float a,float b)
     return a>b?a:b;
 }
 
-void Canon::tick(Plane* plane,bounding_box_t air) {
+bool Canon::tick(Plane* plane,bounding_box_t air) {
+        bounding_box_t box;
+    box.x = this->position.x-25.0f;
+    box.y = this->position.y;
+    box.z = this->position.z+25.0f;
+    box.width = 50.0f;
+    box.depth = -50.0f;
+    box.height = 2.0f;
     float a = plane->position.y - this->position.y;
     float b = plane->position.x - this->position.x;
     float c = plane->position.z - this->position.z;
@@ -350,6 +357,21 @@ void Canon::tick(Plane* plane,bounding_box_t air) {
     for(int  i = 0; i < gola.size(); i++){
             gola[i].tick(air);
     }
+    for(int i = 0 ; i < plane->bomb.size() ; i++){
+            bounding_box_t barod;
+            barod.x = plane->bomb[i].position.x-plane->bomb[i].rad;
+            barod.y = plane->bomb[i].position.y-plane->bomb[i].rad;
+            barod.z = plane->bomb[i].position.z-plane->bomb[i].rad;
+            barod.depth = -2*plane->bomb[i].rad;
+            barod.height = 2 * plane->bomb[i].rad;
+            barod.width = 2 * plane->bomb[i].rad;
+            if(detect_collision(barod,box)) 
+            {
+                plane->bomb.erase(plane->bomb.begin()+i);
+                return true;
+            }
+    }
+    return false;
     
 }
 Gola::Gola(float x, float y,float z, float r, glm::vec3 dir){
