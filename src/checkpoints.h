@@ -43,7 +43,7 @@ public:
     bool flag;
     float rotation;
     void draw(glm::mat4 VP);
-    void tick();
+    bool tick(bounding_box_t a);
 private:
     VAO *object;
     VAO *circle;

@@ -261,7 +261,33 @@ void tick_elements() {
     tapu.tick();
     display.tick(plane.acc);
     score_tick(4.0f, 170218);
+    bounding_box_t air;
+    air.x = plane.position.x-1.7f;
+    air.y = plane.position.y-1.7f;
+    air.z = plane.position.z+7.0f;
+    air.depth = -7.0f;
+    air.width = 3.4f;
+    air.height = 3.4f;
     for(int i = 0; i < ring.size(); i++){
+        bounding_box_t ringa;
+        ringa.x = ring[i].position.x;
+        ringa.y = ring[i].position.y;
+        ringa.z = ring[i].position.z;
+        ringa.height = ring[i].rad;
+        ringa.depth = ring[i].rad;
+        ringa.width = ring[i].rad;
+        // for(int  i = 0; i < plane.ammo.size(); i++)
+        // {
+        //     bounding_box_t miss;
+        //     miss.x = plane.ammo[i].position.x;
+        //     miss.y = plane.ammo[i].position.y;
+        //     miss.z = plane.ammo[i].position.z;
+        //     miss.height = 2.0f;
+        //     miss.depth = 2.0f;
+        //     miss.height = 2.0f;
+        // if(detect_collision(ringa,air)) cout<<"missile laga"<<endl,exit(0);
+        // }
+        
         ring[i].tick();
     }
     for(int i = 0; i < canon.size(); i++){
@@ -272,6 +298,9 @@ void tick_elements() {
     compass.tick(plane.counter);
     for(int i = 0; i < arrow.size(); i++){
         arrow[i].tick();
+    }
+    for(int i = 0; i < checks.size(); i++){
+        if(checks[i].tick(air)) {checks.erase(checks.begin()+i);break;}
     }
     glfwGetCursorPos(window, &xpos, &ypos);
         float angle1 = cos((plane.counter * M_PI / 180.0f));
@@ -362,8 +391,10 @@ int main(int argc, char **argv) {
 }
 
 bool detect_collision(bounding_box_t a, bounding_box_t b) {
-    return (abs(a.x - b.x) * 2 < (a.width + b.width)) &&
-           (abs(a.y - b.y) * 2 < (a.height + b.height));
+    bool x = a.x + a.width >= b.x && b.x + b.width >= a.x?true:false;
+    bool y = a.y + a.height >= b.y && b.y + b.height >= a.y?true:false;       
+    bool z = a.z + a.depth <= b.z && b.z + b.depth <= a.z?true:false; 
+    return (x && y && z);      
 }
 
 void reset_screen() {

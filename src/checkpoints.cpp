@@ -220,3 +220,16 @@ void Checks::draw(glm::mat4 VP) {
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->object);
 }
+bool Checks::tick(bounding_box_t a){
+    bounding_box_t check;
+    check.x = this->position.x;
+    check.y = this->position.y;
+    check.z = this->position.z;
+    check.height = 50.0f;
+    check.width = 50*1.5f;
+    check.depth = -1.0f;
+    // std::cout<<check.x + check.width<<" "<<check.y<<" "<<check.z+check.depth<<" cx  cy cz"<<std::endl;
+    // std::cout<<a.x + a.width<<" "<<a.y<<" "<<a.z+a.depth<<" ax  ay az"<<std::endl;
+    if(detect_collision(a,check)) return true;
+    return false;
+}
