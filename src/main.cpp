@@ -57,8 +57,8 @@ float max(int a,int b)
 }
 
 void score_tick(float x, int score){
-    float pos = screen_center_x + 4 / screen_zoom-0.3f;
-    float top    = screen_center_y + 4 / screen_zoom - 0.3f;
+    float pos = screen_center_x + 4 -0.3f;
+    float top    = screen_center_y + 4  - 0.3f;
     if(score == 0 ){ if(zero.size()>0) zero.pop_back(); zero.push_back(Zero(pos, top));}
     while(score>0){
         int temp = score % 10;
@@ -119,8 +119,8 @@ void draw() {
     xpos = min(xpos,600);
     ypos = min(ypos,600);
     // cout<<xpos<<"--"<<yposs<<endl;
-    float helicamx = camx  + (float(xpos-300.0f)/5.0f)*angle1  ;
-    float helicamz = camz  - (float(xpos-300.0f)/5.0f)*angle2 ;
+    float helicamx = camx  + (float(xpos-300.0f)/5.0f)*angle1/screen_zoom  ;
+    float helicamz = camz  - (float(xpos-300.0f)/5.0f)*angle2 - 10/screen_zoom ;
     float helicamy = plane.position.y + float(ypos-300.0f)/5.0f;
     eye[4] = glm::vec3( helicamx , helicamy , helicamz);
     target[4] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
@@ -389,10 +389,10 @@ bool detect_collision(bounding_box_t a, bounding_box_t b) {
 }
 
 void reset_screen() {
-    float top    = screen_center_y + 4 / screen_zoom;
-    float bottom = screen_center_y - 4 / screen_zoom;
-    float left   = screen_center_x - 4 / screen_zoom;
-    float right  = screen_center_x + 4 / screen_zoom;
+    float top    = screen_center_y + 4;
+    float bottom = screen_center_y - 4;
+    float left   = screen_center_x - 4;
+    float right  = screen_center_x + 4;
     Matrices.projection = glm::perspective(45.0f,1.0f,0.2f,10000.0f);
     // Matrices1.projection = glm::perspective(45.0f,1.0f,0.2f,10000.0f);
         Matrices1.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
