@@ -256,18 +256,20 @@ void tick_input(GLFWwindow *window) {
 }
 
 void tick_elements() {
-    ball1.tick();
-    plane.tick();
-    tapu.tick();
-    display.tick(plane.acc);
-    score_tick(4.0f, 170218);
+    float angle1 = cos((plane.counter * M_PI / 180.0f));
+    float angle2 = sin((plane.counter * M_PI / 180.0f));
     bounding_box_t air;
     air.x = plane.position.x-1.7f;
     air.y = plane.position.y-1.7f;
-    air.z = plane.position.z+7.0f;
-    air.depth = -7.0f;
+    air.z = plane.position.z+7.5f;
+    air.depth = -15.0f;
     air.width = 3.4f;
     air.height = 3.4f;
+    ball1.tick();
+    plane.tick();
+    tapu.tick(air);
+    display.tick(plane.acc);
+    score_tick(4.0f, 170218);
     for(int i = 0; i < ring.size(); i++){
         bounding_box_t ringa;
         ringa.x = ring[i].position.x-ring[i].rad;
@@ -276,24 +278,14 @@ void tick_elements() {
         ringa.height = 2*ring[i].rad;
         ringa.depth = 2.0f;
         ringa.width = 2*ring[i].rad;
-        std::cout<<ringa.x + ringa.width<<" "<<ringa.y<<" "<<ringa.z+ringa.depth<<" cx  cy cz"<<std::endl;
-        std::cout<<air.x + air.width<<" "<<air.y<<" "<<air.z+air.depth<<" ax  ay az"<<std::endl;
+        // std::cout<<ringa.x + ringa.width<<" "<<ringa.y<<" "<<ringa.z+ringa.depth<<" cx  cy cz"<<std::endl;
+        // std::cout<<air.x + air.width<<" "<<air.y<<" "<<air.z+air.depth<<" ax  ay az"<<std::endl;
         if(detect_collision(ringa,air)) {ring.erase(ring.begin()+i);break;}
-        // for(int  i = 0; i < plane.ammo.size(); i++)
-        // {
-        //     bounding_box_t miss;
-        //     miss.x = plane.ammo[i].position.x;
-        //     miss.y = plane.ammo[i].position.y;
-        //     miss.z = plane.ammo[i].position.z;
-        //     miss.height = 2.0f;
-        //     miss.depth = 2.0f;
-        //     miss.height = 2.0f;
-        // }
         ring[i].tick();
     }
     for(int i = 0; i < canon.size(); i++){
-        canon[i].tick(&plane);
-        canon[i].shoot(&plane);
+        canon[i].tick(&plane,air);
+        // canon[i].shoot(&plane);
     }
     alt.tick(plane.position.y);
     compass.tick(plane.counter);
@@ -304,8 +296,6 @@ void tick_elements() {
         if(checks[i].tick(air)) {checks.erase(checks.begin()+i);break;}
     }
     glfwGetCursorPos(window, &xpos, &ypos);
-        float angle1 = cos((plane.counter * M_PI / 180.0f));
-    float angle2 = sin((plane.counter * M_PI / 180.0f));
     float camx = plane.position.x + 50*(xpos-300.0f)/600.0f*angle1 -50*angle2;
     float camy = plane.position.y-50*(ypos-300.0f)/600.0f;
     float camz = plane.position.z- 50*(xpos-300.0f)/600.0f*angle2 -50*angle1;

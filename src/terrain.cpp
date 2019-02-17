@@ -173,7 +173,7 @@ void Tapu::set_position(float x, float y) {
     this->position = glm::vec3(x, y, 0);
 }
 
-void Tapu::tick() {
+void Tapu::tick(bounding_box_t air) {
     clock_t end = clock();
     int elape = (int)(end-this->timer)/CLOCKS_PER_SEC;
     if(elape > 4){
@@ -185,7 +185,14 @@ void Tapu::tick() {
             this->lava.erase(this->lava.begin()+i);
         }
     }
-    
+    bounding_box_t box;
+    box.x = this->position.x-15.0f;
+    box.y = this->position.y;
+    box.z = this->position.z+15.0f;
+    box.width = 30.0f;
+    box.depth = -30.0f;
+    box.height = 60.0f;
+    if(detect_collision(air,box)) std::cout<<" hel = int main "<<rand() << std::endl;
 }
 
 Lava::Lava(float x, float y){
@@ -332,7 +339,7 @@ float maxu(float a,float b)
     return a>b?a:b;
 }
 
-void Canon::tick(Plane* plane) {
+void Canon::tick(Plane* plane,bounding_box_t air) {
     float a = plane->position.y - this->position.y;
     float b = plane->position.x - this->position.x;
     float c = plane->position.z - this->position.z;
@@ -341,7 +348,7 @@ void Canon::tick(Plane* plane) {
     // this->rotation.z = atan(-1*float(b/a));
     // std::cout<<this->rotation.x<<"-this is position x"<<std::endl;
     for(int  i = 0; i < gola.size(); i++){
-            gola[i].tick();
+            gola[i].tick(air);
     }
     
 }
@@ -349,6 +356,7 @@ Gola::Gola(float x, float y,float z, float r, glm::vec3 dir){
     this->speed = 2.0f;
     this->position = glm::vec3(x, y, z);
     this->rotation = 0.0f; 
+    this->rad  = r;
     this->dir = dir;  
         float yc = 0.0f;
     float delta = 0.1f;
@@ -372,8 +380,16 @@ void Gola::draw(glm::mat4 VP) {
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     for(int i=0 ; i<this->object.size() ; i++ ) draw3DObject(this->object[i]);
 }
-void Gola::tick(){
+void Gola::tick(bounding_box_t air){
+    bounding_box_t gol;
     this->position.x = this->position.x + this->speed*(this->dir.x);
     this->position.y = this->position.y + this->speed*(this->dir.y);
     this->position.z = this->position.z + this->speed*(this->dir.z);
+    gol.x = this->position.x - this->rad;
+    gol.y = this->position.y - this->rad;
+    gol.z = this->position.z - this->rad;
+    gol.height = 2*this->rad;
+    gol.width = 2*this->rad;
+    gol.depth = 2*this->rad;
+    if(detect_collision(air,gol)) exit(0);
 }

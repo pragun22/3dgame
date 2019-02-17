@@ -41,7 +41,7 @@ VAO* make_cyl(float x, float z, float r, float r1, float h, float h1,color_t col
         return create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, color, GL_FILL);
 }
 Plane::Plane(float x, float y, color_t color) {
-    this->position = glm::vec3(x, y, 0);
+    this->position = glm::vec3(x , y, 7.5f);
     this->rotation = 0;
     this->pro = 0.0f;
     this->counter = 0.0f;
@@ -58,8 +58,8 @@ Plane::Plane(float x, float y, color_t color) {
     float r = 0.6f;
     float r1 = 1.5f;
 	GLfloat vertex_buffer_data[18*n];
-    float h1 = 3.0f;
-    float h2 = 9.0f;
+    float h1 = 3.0f-7.5f;
+    float h2 = 9.0f-7.5f;
 	for (int i = 0; i < 9*n; i+=9)
 	{
 		float angle = 2*M_PI*inc/n;
@@ -130,7 +130,7 @@ Plane::Plane(float x, float y, color_t color) {
     r = r1;
     r1 = 1.7f;
     h1 = h2;
-    h2 = 11;
+    h2 = 11-7.5f;
 	for (int i = 0; i < 9*n; i+=9)
 	{
 		float angle = 2*M_PI*inc/n;
@@ -165,7 +165,7 @@ Plane::Plane(float x, float y, color_t color) {
     r = 0.6f;
     r1 = 0.2f;
     h1 = h2;
-    h2 = 15;
+    h2 = 15-7.5f;
 	for (int i = 0; i < 9*n; i+=9)
 	{
 		float angle = 2*M_PI*inc/n;
@@ -196,7 +196,7 @@ Plane::Plane(float x, float y, color_t color) {
 		vertex_fire[9*n+i+8]=h2;
 		inc++;
 	}
-    float mov = 3.5f;
+    float mov = 3.5f-7.5f;
     float len = 1.5f;
 	const GLfloat vertex_wing_data[] ={
         0.0f, 0.0f, 0.0f+mov,
@@ -264,7 +264,7 @@ Plane::Plane(float x, float y, color_t color) {
         -5.0f, 0.0f, -1.0f+mov,  // fill in between in back
 
     };
-    mov = 9;
+    mov = 9.0f-7.5f;
     len = 1.2f;
     GLfloat vertex_tail_wing[] ={
         0.0f, 0.0f, 0.0f+mov,
@@ -332,14 +332,25 @@ Plane::Plane(float x, float y, color_t color) {
         -3.1f, 0.0f, -1.0f+mov,  // fill in between in back
 
     };
-    GLfloat vertex_prop[]={
-        0.0f, 0.0f, 0.0f,
-        -1.0f, 2.5f, 0.0f,
-        1.0f, 2.5f, 0.0f,
+    // GLfloat vertex_prop[]={
+    //     0.0f, 0.0f, 0.0f,
+    //     -1.0f, 2.5f, 0.0f,
+    //     1.0f, 2.5f, 0.0f,
 
-        0.0f, 0.0f, 0.0f,
-        1.0f, -2.5f, 0.0f,
-        -1.0f, -2.5f, 0.0f,
+    //     0.0f, 0.0f, 0.0f,
+    //     1.0f, -2.5f, 0.0f,
+    //     -1.0f, -2.5f, 0.0f,
+
+    // };
+
+    GLfloat vertex_prop[]={
+        0.0f, 0.0f, -7.5f,
+        -1.0f, 2.5f, -7.5f,
+        1.0f, 2.5f, -7.5f,
+
+        0.0f, 0.0f, -7.5f,
+        1.0f, -2.5f, -7.5f,
+        -1.0f, -2.5f, -7.5f,
 
     };
     this->pitch = true;

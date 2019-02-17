@@ -60,7 +60,7 @@ public:
     int width;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick();
+    void tick(bounding_box_t air);
     double speed;
 private:
     VAO *object;
@@ -74,6 +74,7 @@ public:
     Gola(float x, float y,float z,float radius,glm::vec3 dir);
     glm::vec3 position;
     glm::vec3 dir;
+    float rad;
     clock_t timer;
     float rotation;
     std::vector<Lava> lava; 
@@ -82,7 +83,7 @@ public:
     int width;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick();
+    void tick(bounding_box_t air);
     double speed;
 private:
     std::vector<VAO*> object;
@@ -101,7 +102,7 @@ public:
     int width;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick(Plane* plane);
+    void tick(Plane* plane,bounding_box_t air);
     void shoot(Plane* plane);
     double speed;
 private:
