@@ -300,18 +300,30 @@ void tick_elements() {
             canon.erase(canon.begin()+i);
             break;
         }
-        // canon[i].shoot(&plane);
+        canon[i].shoot(&plane);
     }
     alt.tick(plane.position.y);
     compass.tick(plane.counter);
-    cout<<1<<endl;
     for(int i = 0; i < arrow.size(); i++){
         arrow[0].tick(&plane);
     }
-    cout<<2<<endl;
-
     for(int i = 0; i < checks.size(); i++){
-        if(checks[i].tick(air)) {checks.erase(checks.begin()+i);break;}
+        if(checks[i].tick(air)) {
+            int ran = rand()%3;
+            int mult = 1;
+            int mul = 1;
+            int mu = 1;
+            if(ran==0) mult = -1;
+            if(ran==1) mul = -1;
+            if(ran==2) mu = -1;
+            checks[i].position.z += mult*175.0f;
+            checks[i].position.y += mul*30.0f;
+            checks[i].position.x += mu * 70.0f;
+            for(int j = 0 ; j< canon.size() ; j++){
+                canon[j].position.x = checks[i].position.x;
+                canon[j].position.z = checks[i].position.z;
+            }
+        }
     }
     for(int i = 0; i < para.size(); i++){
         if(para[i].tick()){
@@ -343,12 +355,13 @@ void initGL(GLFWwindow *window, int width, int height) {
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
     compass = Compass(-3.0f,-3.0f);
+    checks.push_back(Checks(75.0f,45.0f,-220.0f));
+    canon.push_back(Canon(25.0f,-220.0f));
+    canon.push_back(Canon(25.0f + 50*3.5f,-220.0f));
     //parts done complete
     
     tapu = Tapu(35.0f,-35.0f);
     ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
-    canon.push_back(Canon(90.0f,-90.0f));
-    checks.push_back(Checks(1.0f,1.0f,-20.0f));
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
