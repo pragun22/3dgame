@@ -110,5 +110,8 @@ extern const color_t COLOR_TEAL ;
 extern const color_t COLOR_VOILET_RED;
 extern const color_t COLOR_SLATE_GRAY;
 extern const color_t COLOR_WHITE;
-
+extern const color_t COLOR_BROWN ;
+extern const color_t COLOR_GREE;
+extern const color_t COLOR_GROUND;
+extern const color_t COLOR_GRAY;
 #endif

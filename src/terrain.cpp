@@ -130,7 +130,7 @@ Tapu::Tapu(float x, float y){
         int n= 50;
         int inc = 0;
         this->timer = clock();
-        float r1 = 25.0f;
+        float r1 = 19.0f;
         GLfloat vertex_buffer_data[9*n];
         float h1 = 1.0f;
         inc = 0;
@@ -149,8 +149,8 @@ Tapu::Tapu(float x, float y){
             vertex_buffer_data[i+8]=r1*sin(2*M_PI*+(inc+1)/n);
             inc++;
 	    }
-        this->object1 = make_cylinder(0, 0, 25.5f, 25.0f, 0 , 1.0f,COLOR_TAPU);
-        this->object = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, COLOR_TAPU, GL_FILL);
+        this->object1 = make_cylinder(0, 0, 25.5f, 15.0f, 0 , 1.0f,COLOR_GROUND);
+        this->object = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, COLOR_GRAY, GL_FILL);
         this->tope = make_cylinder(0.0f,0.0f,15.0f,2.0f, 3.0f, 15.0f,COLOR_VOL);
 
 }
@@ -192,7 +192,7 @@ void Tapu::tick(bounding_box_t air) {
     box.width = 30.0f;
     box.depth = -30.0f;
     box.height = 60.0f;
-    if(detect_collision(air,box)) std::cout<<" hel = int main "<<rand() << std::endl;
+    // if(detect_collision(air,box)) std::cout<<" hel = int main "<<rand() << std::endl;
 }
 
 Lava::Lava(float x, float y){
@@ -228,7 +228,7 @@ Canon::Canon(float x, float y){
         int n= 50;
         int inc = 0;
         this->timer = clock();
-        float r1 = 25.0f;
+        float r1 = 20.0f;
         GLfloat vertex_buffer_data[9*n];
         float h1 = 1.0f;
         inc = 0;
@@ -279,9 +279,9 @@ Canon::Canon(float x, float y){
             wheel_buffer_data[9*n+i+8]=r*cos(2*M_PI*+(inc+1)/n);
             inc++;
 	    }
-        this->object1 = make_cylinder(0, 0, 25.5f, 25.0f, 0 , 1.0f,COLOR_TAPU2);
-        this->object = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, COLOR_TAPU2, GL_FILL);
-        this->object2 = create3DObject(GL_TRIANGLES, 6*n, wheel_buffer_data, COLOR_BLACK, GL_FILL);
+        this->object1 = make_cylinder(0, 0, 25.5f, 20.0f, 0 , 1.0f,COLOR_GROUND);
+        this->object = create3DObject(GL_TRIANGLES, 3*n, vertex_buffer_data, COLOR_GREE, GL_FILL);
+        this->object2 = create3DObject(GL_TRIANGLES, 6*n, wheel_buffer_data, COLOR_BROWN, GL_FILL);
         this->tope = make_cylinder(0.0f,0.0f,3.5f,2.0f, 1.0f, 15.0f,COLOR_REAL_BLACK);
 
 

@@ -24,6 +24,10 @@ const color_t COLOR_TEAL = {0,128,128};
 const color_t COLOR_VOILET_RED = {199,21,133};
 const color_t COLOR_SLATE_GRAY = {112,128,144};
 const color_t COLOR_WHITE = {255,255,192};
+const color_t COLOR_BROWN = {153, 76, 0};
+const color_t COLOR_GREE = {0, 204, 0};
+const color_t COLOR_GROUND = {255, 255, 102};
+const color_t COLOR_GRAY = {64, 64, 64};
 
 
 
