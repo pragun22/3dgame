@@ -14,11 +14,13 @@ public:
     float counter;
     float tilt;
     float speedx;
+    float rad;
     float speedy;
     float speedz;
+    bounding_box_t attk;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick();
+    bool tick();
 
     double speed;
 private:

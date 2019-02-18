@@ -99,7 +99,14 @@ void draw() {
     glm::vec3 eye[6]; 
     glm::vec3 target[6];
     glm::vec3 up;
-    up = glm::vec3(0, 1, 0);
+    float ang = plane.counter * M_PI / 180.0f;
+    glm::mat4 rotate    = rotationMatrix(glm::vec3(-1*cos(ang),0,sin(ang)),(plane.rotation * M_PI / 180.0f));
+    glm::mat4 til = rotationMatrix(glm::vec3(sin(ang),0,cos(ang)),(plane.tilt * M_PI / 180.0f));
+    glm::mat4 count    = glm::rotate((float) (plane.counter * M_PI / 180.0f), glm::vec3(0, 1, 0));
+    glm::mat4 fin = til* rotate * count;
+    // fin = normalize(fin);
+    up = glm::vec3(fin[1][0], fin[1][1], fin[1][2]);
+    up = glm::normalize(up);
     // follow cam
     eye[0] = glm::vec3( camx ,  plane.position.y + 20 , camz);
     target[0] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
@@ -146,7 +153,7 @@ void draw() {
     glm::mat4 MVP;  // MVP = Projection * View * Model
 
     // Scene render
-    // ball1.draw(VP);  
+    // ball1.draw(VP); 
     plane.draw(VP);
     terrain.draw(VP);
     tapu.draw(VP);
@@ -232,9 +239,9 @@ void tick_input(GLFWwindow *window) {
     else if (space == GLFW_RELEASE) plane.Up(0);
     if(w == GLFW_PRESS) plane.forward(1);
     else if (w == GLFW_RELEASE) plane.forward(0);
-    if(A == GLFW_PRESS) plane.tilt_fn(1,-2.0f);
+    if(A == GLFW_PRESS) plane.tilt_fn(1,-1.5f);
     else if (A == GLFW_RELEASE) plane.tilt_fn(0,-2.0f);
-    if(D == GLFW_PRESS) plane.tilt_fn(1,2.0f);
+    if(D == GLFW_PRESS) plane.tilt_fn(1,1.5f);
     else if (D == GLFW_RELEASE) plane.tilt_fn(0,2.0f);
     if(Q == GLFW_PRESS){ 
         plane.rotate(1,-2.0f);
@@ -266,7 +273,7 @@ void tick_elements() {
     air.width = 3.4f;
     air.height = 3.4f;
     ball1.tick();
-    plane.tick();
+    plane.tick(para);
     tapu.tick(air);
     display.tick(plane.acc);
     score_tick(4.0f, 170218);
@@ -298,6 +305,10 @@ void tick_elements() {
     for(int i = 0; i < checks.size(); i++){
         if(checks[i].tick(air)) {checks.erase(checks.begin()+i);break;}
     }
+    for(int i = 0; i < para.size(); i++){
+        para[i].tick();
+    }
+    
     glfwGetCursorPos(window, &xpos, &ypos);
     float camx = plane.position.x + 50*(xpos-300.0f)/600.0f*angle1 -50*angle2;
     float camy = plane.position.y-50*(ypos-300.0f)/600.0f;
@@ -314,14 +325,14 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
     terrain = Terrain(0.0f,10.0f,1000,2600);
-    tapu = Tapu(35.0f,-35.0f);
-    canon.push_back(Canon(90.0f,-90.0f));
-    para.push_back(Parachute(10.0f,42.0f,-10.0f,3.0f));
-    ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
+    // tapu = Tapu(35.0f,-35.0f);
+    // canon.push_back(Canon(90.0f,-90.0f));
+    para.push_back(Parachute(10.0f,42.0f,-30.0f,3.0f));
+    // ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
     tar = Target(0,0,0);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));
-    checks.push_back(Checks(1.0f,1.0f,-20.0f));
+    // checks.push_back(Checks(1.0f,1.0f,-20.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
     compass = Compass(-3.0f,-3.0f);

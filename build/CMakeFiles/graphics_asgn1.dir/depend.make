@@ -41,6 +41,7 @@ CMakeFiles/graphics_asgn1.dir/src/nonedit.cpp.o: ../src/nonedit.cpp
 CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/other_handlers.cpp.o: ../src/other_handlers.cpp
 
+CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/enemies.h
 CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/plane.cpp
 CMakeFiles/graphics_asgn1.dir/src/plane.cpp.o: ../src/plane.h
@@ -49,6 +50,7 @@ CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/score.cpp
 CMakeFiles/graphics_asgn1.dir/src/score.cpp.o: ../src/score.h
 
+CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/enemies.h
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/main.h
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/plane.h
 CMakeFiles/graphics_asgn1.dir/src/terrain.cpp.o: ../src/terrain.cpp

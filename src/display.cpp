@@ -204,15 +204,6 @@ void Display::draw(glm::mat4 VP) {
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->fuel);
     
-    glm::mat4 translate2 = glm::translate (glm::vec3(this->position.x+6.3f,this->position.y-3.5f,this->position.z));    // glTranslatef
-    glm::mat4 scale2 = glm::scale(glm::vec3(0.1,1,1));    
-    Matrices.model = (translate2 * scale2);
-    MVP = VP * Matrices.model;
-    glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
-    draw3DObject(this->cover);
-    
-
-    // draw3DObject(this->cover);
 }
 
 void Display::tick(float sp) {

@@ -167,6 +167,8 @@ main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/plane.h
 main.h
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/main.h
+enemies.h
+/home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/enemies.h
 
 /home/pragun/pragun/sem4/graphics/Assignment2/3dgame/src/score.cpp
 score.h

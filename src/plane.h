@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include "enemies.h"
 #ifndef PLANE_H
 #define PLANE_H
 
@@ -19,7 +19,7 @@ public:
     float speedz;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick();
+    void tick(std::vector<Parachute> &para);
 
     double speed;
 private:
@@ -74,7 +74,7 @@ public:
     void tilt_fn(int a,float value);
     void rotate(int a,float v);    
     void set_position(float x, float y);
-    void tick();
+    void tick(std::vector<Parachute> &para);
     void shoot(glm::vec3 dir);
     void drop();
     double speed;

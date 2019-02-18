@@ -412,10 +412,10 @@ void Plane::tilt_fn(int a,float value){
     if(a){
         this->tilt += value;
         float ang = this->counter * M_PI / 180.0f;
-        this->position.x += (this->tilt/100.0f)*cos(ang);
-        this->position.z -= (this->tilt/100.0f)*sin(ang);
-        if(this->tilt > 75.0f) this->tilt= 75.0f;
-        if(this->tilt < -75.0f) this->tilt= -75.0f;        
+        this->position.x += (this->tilt/70.0f)*cos(ang);
+        this->position.z -= (this->tilt/70.0f)*sin(ang);
+        if(this->tilt > 35.0f) this->tilt= 35.0f;
+        if(this->tilt < -35.0f) this->tilt= -35.0f;        
     }
     else{
         if(this->tilt > 0.0f){
@@ -484,14 +484,14 @@ void Plane::Down(int a){
         else if(this->rotation<0.0f) this->rotation += 1.2f;
     }
 }
-void Plane::tick() {
+void Plane::tick(std::vector<Parachute> &para) {
     this->pro += 8.0f;
     if(this->pro > 360.0f) this->pro = 0.0f;
     // this->position.z -= this->speedz;
     // this->position.x += this->speedx;
     this->position.y += this->speedy;
     for(int i = 0 ; i < this->ammo.size() ; i++){
-        this->ammo[i].tick();
+        this->ammo[i].tick(para);
     }
     for(int i = 0 ; i < this->bomb.size() ; i++){
         this->bomb[i].tick();
@@ -535,11 +535,32 @@ void Missile::draw(glm::mat4 VP) {
     draw3DObject(this->object1);
 }
 
-void Missile::tick() {
+// void Missile::tick() {
+//     this->position.x += 1.5f*this->dir.x;
+//     this->position.y += 1.5f*this->dir.y;
+//     this->position.z += 1.5f*this->dir.z;
+
+// }
+void Missile::tick(std::vector<Parachute> &para) {
     this->position.x += 1.5f*this->dir.x;
     this->position.y += 1.5f*this->dir.y;
     this->position.z += 1.5f*this->dir.z;
+    bounding_box_t p;
+    p.x = this->position.x - 1.0f;
+    p.y = this->position.y - 1.0f;
+    p.z = this->position.z;
+    p.width = 2.0f;
+    p.height = 2.0f;
+    p.depth = -3.3f;
+    for(int  i = 0; i < para.size(); i++){
+        std::cout<<p.x<<" "<<p.y<<" "<<p.z<<std::endl;
+        std::cout<<para[i].attk.x<<" "<<para[i].attk.y<<" "<<para[i].attk.z<<std::endl;
+        if(detect_collision(p,para[i].attk)){
+            std::cout<<"pra ke sth"<<std::endl;
+            para.erase(para.begin()+i);
+        }
 
+    }
 }
 
 Bomb::Bomb(float x, float y,float z,float r) {

@@ -2,6 +2,7 @@
 Parachute::Parachute(float x, float y, float z, float r) {
     this->position = glm::vec3(x, y, z);
     this->rotation = 0;
+    this->rad = r;
     speed = 1;
     float yc = 0.0f;
     float delta = 0.1f;
@@ -51,6 +52,14 @@ Parachute::Parachute(float x, float y, float z, float r) {
     }
     this->ropes = create3DObject(GL_TRIANGLES, 6, ropes_data, COLOR_REAL_BLACK, GL_FILL); 
     this->person = create3DObject(GL_TRIANGLES, 18, person_data, COLOR_WOOD_GREEN, GL_FILL); 
+    bounding_box_t temp;
+    temp.x = this->position.x - 2.0f*r;
+    temp.z = this->position.z + 2.0f*r;
+    temp.y = this->position.y - 3.6f*r;
+    temp.width = 4*r;
+    temp.height = 5.6f*r;
+    temp.depth = -4*r;
+    this->attk = temp;
 
 }
 
@@ -70,7 +79,17 @@ void Parachute::draw(glm::mat4 VP) {
     draw3DObject(this->ropes);
     draw3DObject(this->person);
 }
-
+bool Parachute::tick(){
+    bounding_box_t temp;
+    temp.x = this->position.x - 2.0f*this->rad;
+    temp.z = this->position.z + 2.0f*this->rad;
+    temp.y = this->position.y - 3.6f*this->rad;
+    temp.width = 4*this->rad;
+    temp.height = 5.6f*this->rad;
+    temp.depth = -4*this->rad;
+    this->attk = temp;
+    return false;
+}
 
 Ring::Ring(float x, float y, float z,float r) {
     this->position = glm::vec3(x, y, z);
