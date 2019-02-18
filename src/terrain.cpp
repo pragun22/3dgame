@@ -355,8 +355,11 @@ bool Canon::tick(Plane* plane,bounding_box_t air) {
     this->rotation.x = atan(float(c/a));
     // this->rotation.z = atan(-1*float(b/a));
     // std::cout<<this->rotation.x<<"-this is position x"<<std::endl;
-    for(int  i = 0; i < gola.size(); i++){
-            gola[i].tick(air);
+    for(int  i = 0; i < this->gola.size(); i++){
+            if(this->gola[i].tick(air)){
+                this->gola.erase(this->gola.begin()+i);
+                break;
+            }
     }
     for(int i = 0 ; i < plane->bomb.size() ; i++){
             bounding_box_t barod;
@@ -381,6 +384,7 @@ Gola::Gola(float x, float y,float z, float r, glm::vec3 dir){
     this->rotation = 0.0f; 
     this->rad  = r;
     this->dir = dir;  
+    this->timer = clock();
         float yc = 0.0f;
     float delta = 0.1f;
     while(yc <= r){
@@ -403,7 +407,10 @@ void Gola::draw(glm::mat4 VP) {
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     for(int i=0 ; i<this->object.size() ; i++ ) draw3DObject(this->object[i]);
 }
-void Gola::tick(bounding_box_t air){
+bool Gola::tick(bounding_box_t air){
+    clock_t end = clock();
+    int tame = (int)(end - this->timer)/CLOCKS_PER_SEC;
+    if(tame > 9) return true;
     bounding_box_t gol;
     this->position.x = this->position.x + this->speed*(this->dir.x);
     this->position.y = this->position.y + this->speed*(this->dir.y);
@@ -415,4 +422,5 @@ void Gola::tick(bounding_box_t air){
     gol.width = 2*this->rad;
     gol.depth = 2*this->rad;
     if(detect_collision(air,gol)) exit(0);
+    return false;
 }

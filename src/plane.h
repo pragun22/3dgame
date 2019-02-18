@@ -13,6 +13,7 @@ public:
     glm::vec3 dir;
     float pro;
     float counter;
+    clock_t timer;
     float tilt;
     float speedx;
     float speedy;

@@ -484,7 +484,11 @@ void Plane::tick(std::vector<Parachute> &para) {
         }
     }
     for(int i = 0 ; i < this->bomb.size() ; i++){
-        this->bomb[i].tick();
+        if(this->bomb[i].tick())
+        {
+            this->bomb.erase(this->bomb.begin()+i);
+            break;
+        }
     }
 }
 void Plane::shoot(glm::vec3 dir){
@@ -507,6 +511,7 @@ Missile::Missile(float x, float y,float z,glm::vec3 yaw,float rot) {
     this->position = glm::vec3(x, y, z);
     this->rotation = rot;
     this->dir = yaw;
+    this->timer = clock();
     this->object = make_cyl(0,0,3.0f,2.8f,0.0f,-6.0f,COLOR_OLIVE);
     this->object1 = make_cyl(0,0,2.8f,0.4f,-6.0f,-10.0f,COLOR_OLIVE);
 }
@@ -524,13 +529,6 @@ void Missile::draw(glm::mat4 VP) {
     draw3DObject(this->object);
     draw3DObject(this->object1);
 }
-
-// void Missile::tick() {
-//     this->position.x += 1.5f*this->dir.x;
-//     this->position.y += 1.5f*this->dir.y;
-//     this->position.z += 1.5f*this->dir.z;
-
-// }
 bool Missile::tick(std::vector<Parachute> &para) {
     this->position.x += 1.5f*this->dir.x;
     this->position.y += 1.5f*this->dir.y;
@@ -551,6 +549,9 @@ bool Missile::tick(std::vector<Parachute> &para) {
             return true;
         }
     }
+    clock_t end = clock();
+    int tame = (int)(end - this->timer)/CLOCKS_PER_SEC;
+    if(tame > 10) return true;
     return false;
 }
 
@@ -558,6 +559,7 @@ Bomb::Bomb(float x, float y,float z,float r) {
     this->position = glm::vec3(x, y, z);
     this->rotation = 0.0f;
     this->rad = r;
+    this->speedy = 0.0f;
     float yc = 0.0f;
     float delta = 0.1f;
      this->object1 =  make_cylinder(0,0,0.1f,0.1f,r,r+0.4f,COLOR_RED);
@@ -590,7 +592,9 @@ void Bomb::draw(glm::mat4 VP) {
 }
 
 bool Bomb::tick() {
-    this->position.y -= 0.2f;
+    this->speedy -= 0.002;
+    this->position.y -= this->speedy;
+    if(this->position.y < 0.0f) return true;
     return false;
 }
 

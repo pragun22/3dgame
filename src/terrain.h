@@ -83,7 +83,7 @@ public:
     int width;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick(bounding_box_t air);
+    bool tick(bounding_box_t air);
     double speed;
 private:
     std::vector<VAO*> object;

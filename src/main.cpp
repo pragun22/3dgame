@@ -18,6 +18,7 @@ Compass compass;
 Target tar;
 Altitude alt;
 clock_t para_timer = clock();
+clock_t ring_timer = clock();
 /**************************
 * Customizable functions *
 **************************/
@@ -283,6 +284,7 @@ void tick_elements() {
     display.tick(plane.acc);
     score_tick(4.0f, 170218);
     for(int i = 0; i < ring.size(); i++){
+        if(ring[i].tick()) {ring.erase(ring.begin()+i);break;}
         bounding_box_t ringa;
         ringa.x = ring[i].position.x-ring[i].rad;
         ringa.y = ring[i].position.y-ring[i].rad;
@@ -293,7 +295,6 @@ void tick_elements() {
         // std::cout<<ringa.x + ringa.width<<" "<<ringa.y<<" "<<ringa.z+ringa.depth<<" cx  cy cz"<<std::endl;
         // std::cout<<air.x + air.width<<" "<<air.y<<" "<<air.z+air.depth<<" ax  ay az"<<std::endl;
         if(detect_collision(ringa,air)) {ring.erase(ring.begin()+i);break;}
-        ring[i].tick();
     }
     for(int i = 0; i < canon.size(); i++){
         if(canon[i].tick(&plane,air)){
@@ -362,7 +363,6 @@ void initGL(GLFWwindow *window, int width, int height) {
     //parts done complete
     
     tapu = Tapu(35.0f,-35.0f);
-    ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
@@ -409,6 +409,16 @@ int main(int argc, char **argv) {
                     para.push_back(Parachute(plane.position.x - 8.0f + 4*i, plane.position.y + 50.0f, plane.position.z - 150.0f,3.0f));
                 }
                 para_timer = clock();
+            }
+            int rin = (int)(end - ring_timer)/CLOCKS_PER_SEC;
+            if(rin > 4)
+            {
+                for(int i = 0 ; i < 8  && ring.size() < 13; i ++)
+                {
+                    int ra = rand()%2;
+                    if(ra==0) ra = -1;
+                    ring.push_back(Ring(plane.position.x + ra*120.0f , plane.position.y + i*50.0f, plane.position.z - 500.0f - i*100.0f,4.0f));
+                }
             }
             //ends here the part
             // 60 fps

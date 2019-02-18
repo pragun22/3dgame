@@ -117,6 +117,7 @@ Ring::Ring(float x, float y, float z,float r) {
     this->position = glm::vec3(x, y, z);
     this->rotation = 0.0f;
     this->rad = r;
+    this->timer = clock();
     int n= 40;
     int inc = 0;
     GLfloat vertex_buffer_data[18*n];
@@ -191,7 +192,11 @@ void Ring::set_position(float x, float y) {
     this->position = glm::vec3(x, y, 0);
 }
 
-void Ring::tick() {
+bool Ring::tick() {
     this->rotation += 1.0f;
+    clock_t end = clock();
+    int tame = (int)(end-this->timer)/CLOCKS_PER_SEC;
+    if(tame > 5) return true;
     if(this->rotation > 360.0f) this->rotation = 0.0f;
+    return false;
 }
