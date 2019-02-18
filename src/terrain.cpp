@@ -199,7 +199,7 @@ Lava::Lava(float x, float y){
         this->position = glm::vec3(x, 15.0f, y);
         this->rotation = 0.0f;
         this->s = 0.5;
-    this->object = make_cylinder(0.0f,0.0f,3.0f,3.0f,0.0f,1.5f,COLOR_SMOKE);
+    this->object = make_cylinder(0.0f,0.0f,3.0f,3.0f,0.0f,1.5f,COLOR_SLATE_GRAY);
 
 }
 void Lava::draw(glm::mat4 VP) {
