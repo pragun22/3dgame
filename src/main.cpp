@@ -335,9 +335,9 @@ void tick_elements() {
     }
     
     glfwGetCursorPos(window, &xpos, &ypos);
-    float camx = plane.position.x + 70*(xpos-300.0f)/600.0f*angle1 -30*angle2;
+    float camx = plane.position.x + 70*(xpos-300.0f)/600.0f*angle1 -60*angle2;
     float camy = plane.position.y-70*(ypos-300.0f)/600.0f;
-    float camz = plane.position.z- 70*(xpos-300.0f)/600.0f*angle2 -30*angle1;
+    float camz = plane.position.z- 70*(xpos-300.0f)/600.0f*angle2 -60*angle1;
     tar.tick(glm::vec3(camx,camy,camz),plane.counter);
     // terrain.tick();
 }
