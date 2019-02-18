@@ -19,4 +19,11 @@ const color_t COLOR_REAL_BLACK = { 1, 1, 1};
 const color_t COLOR_OLIVE = {107, 142, 35};
 const color_t COLOR_WOOD_GREEN = {0,100,0};
 // const color_t COLOR_WOOD_GREEN = {34,139,34};
-const color_t COLOR_SEA_GREEN = {143,188,143};
+const color_t COLOR_SEA_GREEN = {32,178,170};
+const color_t COLOR_TEAL = {0,128,128};
+const color_t COLOR_VOILET_RED = {199,21,133};
+const color_t COLOR_SLATE_GRAY = {112,128,144};
+const color_t COLOR_WHITE = {255,255,192};
+
+
+

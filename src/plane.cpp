@@ -332,17 +332,6 @@ Plane::Plane(float x, float y, color_t color) {
         -3.1f, 0.0f, -1.0f+mov,  // fill in between in back
 
     };
-    // GLfloat vertex_prop[]={
-    //     0.0f, 0.0f, 0.0f,
-    //     -1.0f, 2.5f, 0.0f,
-    //     1.0f, 2.5f, 0.0f,
-
-    //     0.0f, 0.0f, 0.0f,
-    //     1.0f, -2.5f, 0.0f,
-    //     -1.0f, -2.5f, 0.0f,
-
-    // };
-
     GLfloat vertex_prop[]={
         0.0f, 0.0f, -7.5f,
         -1.0f, 2.5f, -7.5f,
@@ -487,8 +476,6 @@ void Plane::Down(int a){
 void Plane::tick(std::vector<Parachute> &para) {
     this->pro += 8.0f;
     if(this->pro > 360.0f) this->pro = 0.0f;
-    // this->position.z -= this->speedz;
-    // this->position.x += this->speedx;
     this->position.y += this->speedy;
     for(int i = 0 ; i < this->ammo.size() ; i++){
         if(this->ammo[i].tick(para)){

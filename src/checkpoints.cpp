@@ -91,8 +91,6 @@ Arrow::Arrow(float x, float y,float z) {
 }
 
 void Arrow::draw(glm::mat4 VP, glm::vec3 dir) {
-    std::cout<<dir.x<<"  dir  "<<dir.z<<std::endl;
-    // this->rotation = glm::atan(dir.x/dir.z);
     if(dir.x < 0.0f){
         if(dir.z <0.0f) {
             this->rotation = atan(abs(dir.x)/abs(dir.z));
@@ -172,7 +170,7 @@ Checks::Checks(float x, float y , float z){
     this->rotation = 0;
     GLfloat vertex_data[180*5];
     GLfloat color_data[180*5];
-    float x_offset = 1.5f;
+    float x_offset = 3.5f;
     int inc = 0;
     float h = 50.0f;
     for(int i = 0; i < 180*5; i+=18){

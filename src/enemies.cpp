@@ -45,8 +45,8 @@ Parachute::Parachute(float x, float y, float z, float r) {
     };
     color_t color[3];
     color[0] = COLOR_BLACK;
-    color[1] = COLOR_SEA_GREEN;
-    color[2] = COLOR_WOOD_GREEN;
+    color[1] = COLOR_VOILET_RED;
+    color[2] = COLOR_SLATE_GRAY;
     int inc = 0;
     float theta = 0.0f;
     while(yc <= r){
@@ -119,6 +119,7 @@ Ring::Ring(float x, float y, float z,float r) {
     int n= 40;
     int inc = 0;
     GLfloat vertex_buffer_data[18*n];
+    GLfloat color_data[18*n];
     float R = r + 0.1f;
     float h = 0.0f;
     float h1 = 0.7f;
@@ -136,6 +137,15 @@ Ring::Ring(float x, float y, float z,float r) {
         vertex_buffer_data[i+6]=r*cos(2*M_PI*+(inc+1)/n);
         vertex_buffer_data[i+8]=h;
         vertex_buffer_data[i+7]=r*sin(2*M_PI*+(inc+1)/n);
+        color_data[i]=COLOR_FIRE.r/256.0f;
+        color_data[i+2]=COLOR_FIRE.g/256.0f;
+        color_data[i+1]=COLOR_FIRE.b/256.0f;
+        color_data[i+3]=COLOR_FIRE.r/256.0f;
+        color_data[i+5]=COLOR_FIRE.b/256.0f;
+        color_data[i+4]=COLOR_FIRE.g/256.0f;
+        color_data[i+6]=COLOR_FIRE.r/256.0f;
+        color_data[i+8]=COLOR_FIRE.g/256.0f;
+        color_data[i+7]=COLOR_FIRE.b/256.0f;
         inc++;
     }
     inc = 0;
@@ -153,9 +163,18 @@ Ring::Ring(float x, float y, float z,float r) {
         vertex_buffer_data[9*n+i+6]=r1*cos(2*M_PI*+(inc+1)/n);
         vertex_buffer_data[9*n+i+8]=h1;
         vertex_buffer_data[9*n+i+7]=r1*sin(2*M_PI*+(inc+1)/n);
+        color_data[9*n+i]=COLOR_WHITE.r/256.0f;
+        color_data[9*n+i+2]=COLOR_WHITE.g/256.0f;
+        color_data[9*n+i+1]=COLOR_WHITE.b/256.0f;
+        color_data[9*n+i+3]=COLOR_WHITE.r/256.0f;
+        color_data[9*n+i+5]=COLOR_WHITE.b/256.0f;
+        color_data[9*n+i+4]=COLOR_WHITE.g/256.0f;
+        color_data[9*n+i+6]=COLOR_WHITE.r/256.0f;
+        color_data[9*n+i+8]=COLOR_WHITE.g/256.0f;
+        color_data[9*n+i+7]=COLOR_WHITE.b/256.0f;
         inc++;
     }
-    this->object = create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, COLOR_SMOKE, GL_FILL);
+    this->object = create3DObject(GL_TRIANGLES, 6*n, vertex_buffer_data, color_data, GL_FILL);
 }
 void Ring::draw(glm::mat4 VP) {
     Matrices.model = glm::mat4(1.0);

@@ -335,6 +335,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
     terrain = Terrain(-2500.0f,1500.0f,5000,5000);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));
+    tar = Target(0,0,0);
     //parts done complete
     
     tapu = Tapu(35.0f,-35.0f);
@@ -342,7 +343,6 @@ void initGL(GLFWwindow *window, int width, int height) {
     para.push_back(Parachute(10.0f,42.0f,-30.0f,3.0f));
     ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
-    tar = Target(0,0,0);
     checks.push_back(Checks(1.0f,1.0f,-20.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
