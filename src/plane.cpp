@@ -450,7 +450,7 @@ void Plane::Up(int a){
         else if(this->rotation<22.0f){   
             this->rotation += 0.6f;
         }
-        this->speedy = 0.3f;
+        this->speedy = 0.7f;
     } 
     else if(this->pitch){
         this->speedy = 0.0f;
@@ -465,7 +465,7 @@ void Plane::Down(int a){
         else if(this->rotation>-22.0f){   
             this->rotation -= 0.6f;
         }
-        this->speedy = -0.3f;
+        this->speedy = -0.7f;
     } 
     else if(!this->pitch) {
         this->speedy = 0.0f;

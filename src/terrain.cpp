@@ -192,7 +192,7 @@ void Tapu::tick(bounding_box_t air) {
     box.width = 30.0f;
     box.depth = -30.0f;
     box.height = 60.0f;
-    // if(detect_collision(air,box)) std::cout<<" hel = int main "<<rand() << std::endl;
+    if(detect_collision(air,box)) exit(0);
 }
 
 Lava::Lava(float x, float y){
@@ -318,7 +318,7 @@ void Canon::shoot(Plane* plane){
     clock_t end = clock();
     float t =  (float)(end - this->shoot_timer)/CLOCKS_PER_SEC;
     float dis = glm::distance(plane->position,this->position);
-    if(t > 5.3f && dis <250.0f){
+    if(t > 2.8f && dis <250.0f){
         float b = plane->position.y - this->position.y;
         float a = plane->position.x - this->position.x;
         float c = plane->position.z - this->position.z;

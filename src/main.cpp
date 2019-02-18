@@ -19,6 +19,7 @@ Target tar;
 Altitude alt;
 clock_t para_timer = clock();
 clock_t ring_timer = clock();
+clock_t tapu_timer = clock();
 /**************************
 * Customizable functions *
 **************************/
@@ -27,7 +28,7 @@ bool flag = false;
 Ball ball1;
 Terrain terrain;
 Plane plane;
-Tapu tapu;
+vector<Tapu> tapu;
 vector<Checks> checks;
 vector<Arrow> arrow;
 vector<Ring> ring;
@@ -158,7 +159,9 @@ void draw() {
     // ball1.draw(VP); 
     plane.draw(VP);
     terrain.draw(VP);
-    tapu.draw(VP);
+    for(int i = 0; i < tapu.size(); i++){
+        tapu[i].draw(VP);
+    }
     for(int i = 0; i < canon.size(); i++){
         canon[i].draw(VP);
     }
@@ -280,7 +283,7 @@ void tick_elements() {
     air.height = 3.4f;
     ball1.tick();
     plane.tick(para);
-    tapu.tick(air);
+    for(int i = 0 ; i < tapu.size() ; i++) tapu[i].tick(air);
     display.tick(plane.acc);
     score_tick(4.0f, 170218);
     for(int i = 0; i < ring.size(); i++){
@@ -361,8 +364,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     canon.push_back(Canon(25.0f,-220.0f));
     canon.push_back(Canon(25.0f + 50*3.5f,-220.0f));
     //parts done complete
-    
-    tapu = Tapu(35.0f,-35.0f);
+
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
@@ -418,6 +420,15 @@ int main(int argc, char **argv) {
                     int ra = rand()%2;
                     if(ra==0) ra = -1;
                     ring.push_back(Ring(plane.position.x + ra*120.0f , plane.position.y + i*50.0f, plane.position.z - 500.0f - i*100.0f,4.0f));
+                }
+                ring_timer = clock();
+            }
+            int ran = (int)(end - tapu_timer)/CLOCKS_PER_SEC;
+            if(ran > 12)
+            {  
+                if(tapu.size()<15)
+                {
+                    tapu.push_back(Tapu(plane.position.x,plane.position.z-435.0f));
                 }
             }
             //ends here the part
