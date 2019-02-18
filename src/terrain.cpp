@@ -317,7 +317,8 @@ void Canon::set_position(float x, float y) {
 void Canon::shoot(Plane* plane){
     clock_t end = clock();
     float t =  (float)(end - this->shoot_timer)/CLOCKS_PER_SEC;
-    if(t > 5.3f){
+    float dis = glm::distance(plane->position,this->position);
+    if(t > 5.3f && dis <250.0f){
         float b = plane->position.y - this->position.y;
         float a = plane->position.x - this->position.x;
         float c = plane->position.z - this->position.z;

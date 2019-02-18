@@ -309,18 +309,19 @@ void tick_elements() {
     }
     for(int i = 0; i < checks.size(); i++){
         if(checks[i].tick(air)) {
-            int ran = rand()%3;
+            int ran = rand()%2;
             int mult = 1;
             int mul = 1;
             int mu = 1;
-            if(ran==0) mult = -1;
-            if(ran==1) mul = -1;
-            if(ran==2) mu = -1;
-            checks[i].position.z += mult*175.0f;
-            checks[i].position.y += mul*30.0f;
-            checks[i].position.x += mu * 70.0f;
+            // if(ran==0) mult = -1;
+            // if(ran==1) mul = -1;
+            if(ran==0) mu = -1;
+            checks[i].position.z -= mult*575.0f;
+            checks[i].position.y += 5.0f;
+            // if(checks[i].position.y <15.0f) checks[i].position.y = 15.0f;
+            checks[i].position.x += mu * 170.0f;
             for(int j = 0 ; j< canon.size() ; j++){
-                canon[j].position.x = checks[i].position.x;
+                canon[j].position.x = checks[i].position.x + j*140.0f;
                 canon[j].position.z = checks[i].position.z;
             }
         }
@@ -349,7 +350,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     
     //parts done start
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
-    terrain = Terrain(-2500.0f,1500.0f,5000,5000);
+    terrain = Terrain(-5000.0f,5000.0f,10000,55000);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));
     tar = Target(0,0,0);
     display = Display(-3.0f,3.0f);
