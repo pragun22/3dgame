@@ -109,6 +109,7 @@ bool Parachute::tick(){
     temp.height = 5.6f*this->rad;
     temp.depth = -4*this->rad;
     this->attk = temp;
+    if(this->position.y < 2.0f) return true;
     return false;
 }
 

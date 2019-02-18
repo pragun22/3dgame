@@ -17,6 +17,7 @@ Display display;
 Compass compass;
 Target tar;
 Altitude alt;
+clock_t para_timer = clock();
 /**************************
 * Customizable functions *
 **************************/
@@ -313,7 +314,10 @@ void tick_elements() {
         if(checks[i].tick(air)) {checks.erase(checks.begin()+i);break;}
     }
     for(int i = 0; i < para.size(); i++){
-        para[i].tick();
+        if(para[i].tick()){
+            para.erase(para.begin()+i);
+            break;
+        }
     }
     
     glfwGetCursorPos(window, &xpos, &ypos);
@@ -336,17 +340,15 @@ void initGL(GLFWwindow *window, int width, int height) {
     terrain = Terrain(-2500.0f,1500.0f,5000,5000);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));
     tar = Target(0,0,0);
-    //parts done complete
-    
-    tapu = Tapu(35.0f,-35.0f);
-    canon.push_back(Canon(90.0f,-90.0f));
-    para.push_back(Parachute(10.0f,42.0f,-30.0f,3.0f));
-    ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
-    // gola.push_back(Gola(15,5,4));
-    checks.push_back(Checks(1.0f,1.0f,-20.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
     compass = Compass(-3.0f,-3.0f);
+    //parts done complete
+    
+    tapu = Tapu(35.0f,-35.0f);
+    ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
+    canon.push_back(Canon(90.0f,-90.0f));
+    checks.push_back(Checks(1.0f,1.0f,-20.0f));
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
     // Get a handle for our "MVP" uniform
@@ -384,6 +386,17 @@ int main(int argc, char **argv) {
         // Process timers
 
         if (t60.processTick()) {
+            //genreate objects
+            clock_t end = clock();
+            int ene = (int)(end - para_timer)/CLOCKS_PER_SEC;
+            if(ene >7)
+            {
+                for(int i = 0 ; i < 4 ; i++){
+                    para.push_back(Parachute(plane.position.x - 8.0f + 4*i, plane.position.y + 50.0f, plane.position.z - 150.0f,3.0f));
+                }
+                para_timer = clock();
+            }
+            //ends here the part
             // 60 fps
             // OpenGL Draw commands
             draw();
