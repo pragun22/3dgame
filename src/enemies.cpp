@@ -1,8 +1,11 @@
 #include "enemies.h"
+float t;
 Parachute::Parachute(float x, float y, float z, float r) {
     this->position = glm::vec3(x, y, z);
     this->rotation = 0;
     this->rad = r;
+    this->mov_ang=0.0f;
+    this->speedy = 0.01f;
     speed = 1;
     float yc = 0.0f;
     float delta = 0.1f;
@@ -40,18 +43,29 @@ Parachute::Parachute(float x, float y, float z, float r) {
         (r/9.0f), -1*r , 0,
         -1*(r/9.0f), -0.8f*r , 0, //body
     };
+    color_t color[3];
+    color[0] = COLOR_BLACK;
+    color[1] = COLOR_SEA_GREEN;
+    color[2] = COLOR_WOOD_GREEN;
+    int inc = 0;
+    float theta = 0.0f;
     while(yc <= r){
+    // while(theta <= 90.0f){
         float ycor = yc;
         float theta = sqrt(1-float(yc/r));
         float r0 = r*theta;        
         yc += delta;
         theta = sqrt(1 - float(yc/r));
         float r1 = r * theta;
-        this->para.push_back(make_c(0,ycor,0,r0,r1,0.0f,delta,COLOR_SEA_GREEN));
-        // this->para.push_back(make_c(0,-1.0f*ycor,0,r0,r1,0.0f,delta,COLOR_REAL_BLACK));
+        // float r0 = r*cos((float)(theta*M_PI/180.0f));
+        // float r1 = r*cos((float)((theta+1.0f)*M_PI/180.0f));
+        // float ycor = r*(1-sin(theta));
+        this->para.push_back(make_c(0,ycor,0,r0,r1,0.0f,delta,color[inc%3]));
+        inc++;
+        // theta+=1.0f;
     }
     this->ropes = create3DObject(GL_TRIANGLES, 6, ropes_data, COLOR_REAL_BLACK, GL_FILL); 
-    this->person = create3DObject(GL_TRIANGLES, 18, person_data, COLOR_WOOD_GREEN, GL_FILL); 
+    this->person = create3DObject(GL_TRIANGLES, 18, person_data, COLOR_REAL_BLACK, GL_FILL); 
     bounding_box_t temp;
     temp.x = this->position.x - 2.0f*r;
     temp.z = this->position.z + 2.0f*r;
@@ -60,6 +74,8 @@ Parachute::Parachute(float x, float y, float z, float r) {
     temp.height = 5.6f*r;
     temp.depth = -4*r;
     this->attk = temp;
+    t = x;
+
 
 }
 
@@ -80,6 +96,11 @@ void Parachute::draw(glm::mat4 VP) {
     draw3DObject(this->person);
 }
 bool Parachute::tick(){
+    this->speedy -= (1.0f/60.0f)*0.008f;
+    this->position.y += this->speedy;
+    this->mov_ang += 0.7f;
+    if(this->mov_ang > 360.0f) this->mov_ang = 0.0f;
+    this->position.x = t + 6*cos((float) (this->mov_ang * M_PI / 180.0f));
     bounding_box_t temp;
     temp.x = this->position.x - 2.0f*this->rad;
     temp.z = this->position.z + 2.0f*this->rad;

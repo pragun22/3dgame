@@ -19,7 +19,7 @@ public:
     float speedz;
     void draw(glm::mat4 VP);
     void set_position(float x, float y);
-    void tick(std::vector<Parachute> &para);
+    bool tick(std::vector<Parachute> &para);
 
     double speed;
 private:

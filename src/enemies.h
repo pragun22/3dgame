@@ -15,6 +15,7 @@ public:
     float tilt;
     float speedx;
     float rad;
+    float mov_ang;
     float speedy;
     float speedz;
     bounding_box_t attk;

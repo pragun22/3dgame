@@ -325,10 +325,10 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
     terrain = Terrain(0.0f,10.0f,1000,2600);
-    // tapu = Tapu(35.0f,-35.0f);
-    // canon.push_back(Canon(90.0f,-90.0f));
+    tapu = Tapu(35.0f,-35.0f);
+    canon.push_back(Canon(90.0f,-90.0f));
     para.push_back(Parachute(10.0f,42.0f,-30.0f,3.0f));
-    // ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
+    ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
     tar = Target(0,0,0);
     arrow.push_back(Arrow(5.0f,5.0,-10.0f));

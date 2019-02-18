@@ -541,7 +541,7 @@ void Missile::draw(glm::mat4 VP) {
 //     this->position.z += 1.5f*this->dir.z;
 
 // }
-void Missile::tick(std::vector<Parachute> &para) {
+bool Missile::tick(std::vector<Parachute> &para) {
     this->position.x += 1.5f*this->dir.x;
     this->position.y += 1.5f*this->dir.y;
     this->position.z += 1.5f*this->dir.z;
@@ -553,14 +553,15 @@ void Missile::tick(std::vector<Parachute> &para) {
     p.height = 2.0f;
     p.depth = -3.3f;
     for(int  i = 0; i < para.size(); i++){
-        std::cout<<p.x<<" "<<p.y<<" "<<p.z<<std::endl;
-        std::cout<<para[i].attk.x<<" "<<para[i].attk.y<<" "<<para[i].attk.z<<std::endl;
+        // std::cout<<p.x<<" "<<p.y<<" "<<p.z<<std::endl;
+        // std::cout<<para[i].attk.x<<" "<<para[i].attk.y<<" "<<para[i].attk.z<<std::endl;
         if(detect_collision(p,para[i].attk)){
             std::cout<<"pra ke sth"<<std::endl;
             para.erase(para.begin()+i);
+            return true;
         }
-
     }
+    return false;
 }
 
 Bomb::Bomb(float x, float y,float z,float r) {
