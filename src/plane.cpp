@@ -491,7 +491,10 @@ void Plane::tick(std::vector<Parachute> &para) {
     // this->position.x += this->speedx;
     this->position.y += this->speedy;
     for(int i = 0 ; i < this->ammo.size() ; i++){
-        this->ammo[i].tick(para);
+        if(this->ammo[i].tick(para)){
+            this->ammo.erase(this->ammo.begin()+i);
+            break;
+        }
     }
     for(int i = 0 ; i < this->bomb.size() ; i++){
         this->bomb[i].tick();

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "plane.h"
 
 #ifndef CHECKPOINTS_H
 #define CHECKPOINTS_H
@@ -10,10 +11,11 @@ public:
     glm::vec3 position;
     bool flag;
     float value;
+    float value2;
     float rotation;
     float alt;
-    void draw(glm::mat4 VP);
-    void tick();
+    void draw(glm::mat4 VP,glm::vec3 dir);
+    void tick(Plane* plane);
 private:
     VAO *object;
 };

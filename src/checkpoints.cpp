@@ -87,13 +87,32 @@ Arrow::Arrow(float x, float y,float z) {
             3*w/2.0f,span, -h,
             w/2.0f, span, -4.0f*h/2.0f, // top view
     };
-    this->object = create3DObject(GL_TRIANGLES, 19*3, vertex_buffer_data, COLOR_TAPU2, GL_FILL);
+    this->object = create3DObject(GL_TRIANGLES, 19*3, vertex_buffer_data, COLOR_FIRE, GL_FILL);
 }
 
-void Arrow::draw(glm::mat4 VP) {
+void Arrow::draw(glm::mat4 VP, glm::vec3 dir) {
+    std::cout<<dir.x<<"  dir  "<<dir.z<<std::endl;
+    // this->rotation = glm::atan(dir.x/dir.z);
+    if(dir.x < 0.0f){
+        if(dir.z <0.0f) {
+            this->rotation = atan(abs(dir.x)/abs(dir.z));
+        }
+        else{
+            this->rotation = M_PI/2.0f + atan(abs(dir.z)/abs(dir.x));
+        }
+    }
+    else{
+        if(dir.z <0.0f) {
+            this->rotation = -1*(M_PI/2.0f-1*atan(abs(dir.z)/abs(dir.x)));
+        }
+        else{
+            this->rotation = -1*(M_PI/2.0f + atan(abs(dir.z)/abs(dir.x)));
+        }
+    }
     Matrices.model = glm::mat4(1.0f);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
-    glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(1, 0, 0));
+    // glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(0, 1, 0));
+    glm::mat4 rotate    = glm::rotate(this->rotation, glm::vec3(0, 1, 0));
     glm::mat4 scale = glm::scale(glm::vec3(0.9,0.6,1.2));
     Matrices.model *= (translate * rotate * scale);
     glm::mat4 MVP = VP * Matrices.model;
@@ -102,11 +121,16 @@ void Arrow::draw(glm::mat4 VP) {
 }
 
 
-void Arrow::tick() {
+void Arrow::tick(Plane *plane) {
     // float t = this->position.z;
+    this->value2 = plane->position.x - 1.5f;
+    this->position.y = plane->position.y+4.0f;
+    this->value = plane->position.z-3.0f;
+
     th += 4.0f;
     if(th>=360.0f) th = 0.0f;
-    this->position.z = this->value + 3*cos((float) (th * M_PI / 180.0f));
+    this->position.z = (this->value) + (3*cos((float) (th * M_PI / 180.0f)))*cos(this->rotation);
+    this->position.x = (this->value2) + (3*cos((float) (th * M_PI / 180.0f)))*sin(this->rotation);
 }
 
 Target::Target(float x, float y,float z) {

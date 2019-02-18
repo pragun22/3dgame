@@ -170,7 +170,11 @@ void draw() {
         ring[i].draw(VP);
     }
     for(int  i = 0; i < arrow.size(); i++){
-        arrow[i].draw(VP);
+        float check_x = checks[0].position.x - plane.position.x;
+        float check_y = checks[0].position.y - plane.position.y;
+        float check_z = checks[0].position.z - plane.position.z;
+        glm::vec3 check_dir = glm::vec3(check_x, check_y, check_z);
+        arrow[i].draw(VP,check_dir);
     }
     for(int  i = 0; i < checks.size(); i++){
         checks[i].draw(VP);
@@ -299,9 +303,12 @@ void tick_elements() {
     }
     alt.tick(plane.position.y);
     compass.tick(plane.counter);
+    cout<<1<<endl;
     for(int i = 0; i < arrow.size(); i++){
-        arrow[i].tick();
+        arrow[0].tick(&plane);
     }
+    cout<<2<<endl;
+
     for(int i = 0; i < checks.size(); i++){
         if(checks[i].tick(air)) {checks.erase(checks.begin()+i);break;}
     }
@@ -310,9 +317,9 @@ void tick_elements() {
     }
     
     glfwGetCursorPos(window, &xpos, &ypos);
-    float camx = plane.position.x + 50*(xpos-300.0f)/600.0f*angle1 -50*angle2;
-    float camy = plane.position.y-50*(ypos-300.0f)/600.0f;
-    float camz = plane.position.z- 50*(xpos-300.0f)/600.0f*angle2 -50*angle1;
+    float camx = plane.position.x + 70*(xpos-300.0f)/600.0f*angle1 -30*angle2;
+    float camy = plane.position.y-70*(ypos-300.0f)/600.0f;
+    float camz = plane.position.z- 70*(xpos-300.0f)/600.0f*angle2 -30*angle1;
     tar.tick(glm::vec3(camx,camy,camz),plane.counter);
     // terrain.tick();
 }
@@ -322,17 +329,21 @@ void tick_elements() {
 void initGL(GLFWwindow *window, int width, int height) {
     /* Objects should be created before any other gl function and shaders */
     // Create the models
-
+    
+    
+    //parts done start
     plane = Plane(0.0f,0.0f,COLOR_BLACK);
-    terrain = Terrain(0.0f,10.0f,1000,2600);
+    terrain = Terrain(-2500.0f,1500.0f,5000,5000);
+    arrow.push_back(Arrow(5.0f,5.0,-10.0f));
+    //parts done complete
+    
     tapu = Tapu(35.0f,-35.0f);
     canon.push_back(Canon(90.0f,-90.0f));
     para.push_back(Parachute(10.0f,42.0f,-30.0f,3.0f));
     ring.push_back(Ring(10.0f, 15.0f, -2.0f,6.0f));
     // gola.push_back(Gola(15,5,4));
     tar = Target(0,0,0);
-    arrow.push_back(Arrow(5.0f,5.0,-10.0f));
-    // checks.push_back(Checks(1.0f,1.0f,-20.0f));
+    checks.push_back(Checks(1.0f,1.0f,-20.0f));
     display = Display(-3.0f,3.0f);
     alt = Altitude(3.5f,0.0f);
     compass = Compass(-3.0f,-3.0f);
@@ -407,7 +418,7 @@ void reset_screen() {
     float bottom = screen_center_y - 4;
     float left   = screen_center_x - 4;
     float right  = screen_center_x + 4;
-    Matrices.projection = glm::perspective(45.0f,1.0f,0.2f,10000.0f);
+    Matrices.projection = glm::perspective(45.0f,1.0f,0.2f,1000.0f);
     // Matrices1.projection = glm::perspective(45.0f,1.0f,0.2f,10000.0f);
         Matrices1.projection = glm::ortho(left, right, bottom, top, 0.1f, 500.0f);
 
