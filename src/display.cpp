@@ -210,7 +210,8 @@ void Display::tick(float sp) {
     float var = 0.5f*sp - 1.5f;
     this->alt += 1.0f;
      this->speedo = -1.0f*90.0f*var;
-    if(this->fuelo > 0.0f ) this->fuelo -= 0.00001f;
+    if(this->fuelo < 0.0f ) exit(0);
+    this->fuelo -= 0.00001f;
     
 }
 

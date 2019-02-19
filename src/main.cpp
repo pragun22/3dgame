@@ -107,21 +107,23 @@ void draw() {
     glm::mat4 til = rotationMatrix(glm::vec3(sin(ang),0,cos(ang)),(plane.tilt * M_PI / 180.0f));
     glm::mat4 count    = glm::rotate((float) (plane.counter * M_PI / 180.0f), glm::vec3(0, 1, 0));
     glm::mat4 fin = til* rotate * count;
-    // fin = normalize(fin);
-    up = glm::vec3(fin[1][0], fin[1][1], fin[1][2]);
-    up = glm::normalize(up);
+    if(cam_mode == 0 || cam_mode == 3){
+        up = glm::vec3(fin[1][0], fin[1][1], fin[1][2]);
+        up = glm::normalize(up);
+    }
+    else up = glm::vec3(0,1,0);
     // follow cam
     eye[0] = glm::vec3( camx ,  plane.position.y + 20 , camz);
-    target[0] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
+    target[0] = glm::vec3(plane.position.x, plane.position.y +5.0f, plane.position.z-10.0f);
    // Top view
-    eye[1] = glm::vec3( plane.position.x , 200.0f  , plane.position.z + 50.0f);
+    eye[1] = glm::vec3( plane.position.x , plane.position.y+200.0f  , plane.position.z + 50.0f);
     target[1] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
     //tower view
-    eye[2] = glm::vec3( camx -200.0f,  plane.position.y+30.0f , plane.position.z + 50.0f);
+    eye[2] = glm::vec3( plane.position.x -200.0f,  plane.position.y+50.0f , plane.position.z);
     target[2] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z);
     // plane's view
-    eye[3] = glm::vec3( plane.position.x, plane.position.y +0, plane.position.z);
-    target[3] = glm::vec3(plane.position.x, plane.position.y +0, plane.position.z-30.0f);
+    eye[3] = glm::vec3( plane.position.x - 8.5f*angle2, plane.position.y +0, plane.position.z - 8.5f*angle1);
+    target[3] = glm::vec3(plane.position.x - (50)*angle2, plane.position.y +0, plane.position.z-50.0f*angle1);
     // helicopter view
     glfwGetCursorPos(window, &xpos, &ypos);
     xpos = max(xpos,0);
