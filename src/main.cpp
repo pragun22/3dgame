@@ -25,7 +25,7 @@ clock_t tapu_timer = clock();
 **************************/
 double xpos, ypos;
 bool flag = false;
-Ball ball1;
+vector<Ball> fuelup;
 Terrain terrain;
 Plane plane;
 vector<Tapu> tapu;
@@ -161,6 +161,9 @@ void draw() {
     // ball1.draw(VP); 
     plane.draw(VP);
     terrain.draw(VP);
+    for(int i= 0 ; i < fuelup.size() ; i++){
+        fuelup[i].draw(VP);
+    }
     for(int i = 0; i < tapu.size(); i++){
         tapu[i].draw(VP);
     }
@@ -283,7 +286,6 @@ void tick_elements() {
     air.depth = -15.0f;
     air.width = 3.4f;
     air.height = 3.4f;
-    ball1.tick();
     plane.tick(para);
     for(int i = 0 ; i < tapu.size() ; i++) tapu[i].tick(air);
     display.tick(plane.acc);
@@ -308,6 +310,22 @@ void tick_elements() {
         }
         canon[i].shoot(&plane);
     }
+    for(int i = 0 ; i < fuelup.size() ; i++){
+        fuelup[i].tick();
+        bounding_box_t ful;
+        int scale = 10;
+        ful.x = fuelup[i].position.x - 1.0f*scale;
+        ful.y = fuelup[i].position.y - 1.0f*scale;
+        ful.z = fuelup[i].position.z + 1.0f*scale;
+        ful.width = 2.0f*scale;
+        ful.depth = -2.0f*scale;
+        ful.height = 2.0f*scale;
+        if(detect_collision(air,ful)){
+            display.fuelo = 0.3f;
+            fuelup.erase(fuelup.begin()+i);
+            break;
+        } 
+    } 
     alt.tick(plane.position.y);
     compass.tick(plane.counter);
     for(int i = 0; i < arrow.size(); i++){
@@ -433,6 +451,9 @@ int main(int argc, char **argv) {
                     tapu.push_back(Tapu(plane.position.x,plane.position.z-435.0f));
                 }
             }
+            int a1 = rand()%1000;
+            int a2 = rand()%1000;
+            if(a2 == a1 && fuelup.size() < 4) fuelup.push_back(Ball(plane.position.x, plane.position.y+30.0f,plane.position.z-182.0f,COLOR_VOILET_RED));
             //ends here the part
             // 60 fps
             // OpenGL Draw commands
