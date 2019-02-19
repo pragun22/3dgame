@@ -384,6 +384,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     checks.push_back(Checks(75.0f,45.0f,-220.0f));
     canon.push_back(Canon(25.0f,-220.0f));
     canon.push_back(Canon(25.0f + 50*3.5f,-220.0f));
+    tapu.push_back(Tapu(plane.position.x + rand()%50,plane.position.z-335.0f));
     //parts done complete
 
     // Create and compile our GLSL program from the shaders
@@ -447,10 +448,11 @@ int main(int argc, char **argv) {
             int ran = (int)(end - tapu_timer)/CLOCKS_PER_SEC;
             if(ran > 12)
             {  
-                if(tapu.size()<15)
+                if(tapu.size()<16)
                 {
-                    tapu.push_back(Tapu(plane.position.x,plane.position.z-435.0f));
+                    tapu.push_back(Tapu(plane.position.x + rand()%50,plane.position.z-335.0f));
                 }
+                tapu_timer = clock();
             }
             int a1 = rand()%1000;
             int a2 = rand()%1000;
