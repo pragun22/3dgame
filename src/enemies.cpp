@@ -182,7 +182,8 @@ void Ring::draw(glm::mat4 VP) {
     Matrices.model = glm::mat4(1.0);
     glm::mat4 translate = glm::translate (this->position);    // glTranslatef
     glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(0, 0, 1));
-    Matrices.model *= (translate * rotate);
+    glm::mat4 scale = glm::scale(glm::vec3(5,5,5));
+    Matrices.model *= (translate * rotate * scale);
     glm::mat4 MVP = VP * Matrices.model;
     glUniformMatrix4fv(Matrices.MatrixID, 1, GL_FALSE, &MVP[0][0]);
     draw3DObject(this->object);
@@ -196,7 +197,7 @@ bool Ring::tick() {
     this->rotation += 1.0f;
     clock_t end = clock();
     int tame = (int)(end-this->timer)/CLOCKS_PER_SEC;
-    if(tame > 5) return true;
+    if(tame > 10) return true;
     if(this->rotation > 360.0f) this->rotation = 0.0f;
     return false;
 }

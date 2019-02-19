@@ -293,12 +293,13 @@ void tick_elements() {
     for(int i = 0; i < ring.size(); i++){
         if(ring[i].tick()) {ring.erase(ring.begin()+i);break;}
         bounding_box_t ringa;
-        ringa.x = ring[i].position.x-ring[i].rad;
-        ringa.y = ring[i].position.y-ring[i].rad;
+        int scale = 5;
+        ringa.x = ring[i].position.x-ring[i].rad*scale;
+        ringa.y = ring[i].position.y-ring[i].rad*scale;
         ringa.z = ring[i].position.z;
-        ringa.height = 2*ring[i].rad;
-        ringa.depth = 2.0f;
-        ringa.width = 2*ring[i].rad;
+        ringa.height = 2*ring[i].rad*scale;
+        ringa.depth = 2.0f*scale;
+        ringa.width = 2*ring[i].rad*scale;
         // std::cout<<ringa.x + ringa.width<<" "<<ringa.y<<" "<<ringa.z+ringa.depth<<" cx  cy cz"<<std::endl;
         // std::cout<<air.x + air.width<<" "<<air.y<<" "<<air.z+air.depth<<" ax  ay az"<<std::endl;
         if(detect_collision(ringa,air)) {ring.erase(ring.begin()+i);break;}
