@@ -234,6 +234,7 @@ void tick_input(GLFWwindow *window) {
     int down  = glfwGetKey(window, GLFW_KEY_V);
     if(rclick)  plane.drop();
     if(lclick){
+        system("aplay -c 1 -t wav ../src/sounds/miss.wav&");
     float angle2 = sin((plane.counter * M_PI / 180.0f));
         float b = tar.position.y - plane.position.y;
         float a = tar.position.x - plane.position.x;
@@ -251,7 +252,10 @@ void tick_input(GLFWwindow *window) {
     else if (down == GLFW_RELEASE) plane.Down(0);
     if(space == GLFW_PRESS) plane.Up(1);
     else if (space == GLFW_RELEASE) plane.Up(0);
-    if(w == GLFW_PRESS) plane.forward(1);
+    if(w == GLFW_PRESS){
+        plane.forward(1);
+        // system("aplay -c 1 -t wav ../src/sounds/air.wav&");
+    } 
     else if (w == GLFW_RELEASE) plane.forward(0);
     if(A == GLFW_PRESS) plane.tilt_fn(1,-1.5f);
     else if (A == GLFW_RELEASE) plane.tilt_fn(0,-2.0f);
@@ -302,7 +306,9 @@ void tick_elements() {
         ringa.width = 2*ring[i].rad*scale;
         // std::cout<<ringa.x + ringa.width<<" "<<ringa.y<<" "<<ringa.z+ringa.depth<<" cx  cy cz"<<std::endl;
         // std::cout<<air.x + air.width<<" "<<air.y<<" "<<air.z+air.depth<<" ax  ay az"<<std::endl;
-        if(detect_collision(ringa,air)) {ring.erase(ring.begin()+i);break;}
+        if(detect_collision(ringa,air)) {ring.erase(ring.begin()+i);
+        system("aplay -c 1 -t wav ../src/sounds/check.wav&");        
+        break;}
     }
     for(int i = 0; i < canon.size(); i++){
         if(canon[i].tick(&plane,air)){
@@ -322,6 +328,7 @@ void tick_elements() {
         ful.depth = -2.0f*scale;
         ful.height = 2.0f*scale;
         if(detect_collision(air,ful)){
+        system("aplay -c 1 -t wav ../src/sounds/check.wav&");        
             display.fuelo = 0.3f;
             fuelup.erase(fuelup.begin()+i);
             break;
@@ -338,6 +345,7 @@ void tick_elements() {
             int mult = 1;
             int mul = 1;
             int mu = 1;
+        system("aplay -c 1 -t wav ../src/sounds/check.wav&");
             // if(ran==0) mult = -1;
             // if(ran==1) mul = -1;
             if(ran==0) mu = -1;
@@ -384,7 +392,7 @@ void initGL(GLFWwindow *window, int width, int height) {
     checks.push_back(Checks(75.0f,45.0f,-220.0f));
     canon.push_back(Canon(25.0f,-220.0f));
     canon.push_back(Canon(25.0f + 50*3.5f,-220.0f));
-    tapu.push_back(Tapu(plane.position.x + rand()%50,plane.position.z-335.0f));
+    tapu.push_back(Tapu(plane.position.x + rand()%50,plane.position.z-235.0f));
     //parts done complete
 
     // Create and compile our GLSL program from the shaders
@@ -430,7 +438,7 @@ int main(int argc, char **argv) {
             if(ene >7)
             {
                 for(int i = 0 ; i < 4 ; i++){
-                    para.push_back(Parachute(plane.position.x - 8.0f + 4*i, plane.position.y + 50.0f, plane.position.z - 150.0f,3.0f));
+                    para.push_back(Parachute(plane.position.x - 54.0f + 25*i, plane.position.y + 50.0f, plane.position.z - 150.0f,3.0f));
                 }
                 para_timer = clock();
             }

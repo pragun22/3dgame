@@ -327,6 +327,7 @@ void Canon::shoot(Plane* plane){
         glm::vec3 dir = glm::vec3(a,b,c);
         dir = normalize(dir);
         // std::cout<<dir.x<<"  "<<dir.y<<"  "<<dir.z<<" this is the direction"<<std::endl;
+        system("aplay -c 1 -t wav ../src/sounds/canon.wav&");
         this->gola.push_back(Gola(this->position.x, this->position.y + 2.0f, this->position.z ,2.8f,dir));
         this->shoot_timer = clock();
     } 
