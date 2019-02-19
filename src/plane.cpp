@@ -593,7 +593,7 @@ void Bomb::draw(glm::mat4 VP) {
 
 bool Bomb::tick() {
     this->speedy -= 0.002;
-    this->position.y -= this->speedy;
+    this->position.y += this->speedy;
     if(this->position.y < 0.0f) return true;
     return false;
 }

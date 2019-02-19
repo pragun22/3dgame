@@ -229,11 +229,11 @@ void tick_input(GLFWwindow *window) {
     int mod2 = glfwGetKey(window, GLFW_KEY_2);
     int mod3 = glfwGetKey(window, GLFW_KEY_3);
     int mod4 = glfwGetKey(window, GLFW_KEY_4);
-    int up = glfwGetKey(window, GLFW_KEY_UP);
-    int b = glfwGetKey(window, GLFW_KEY_B);
+    int lclick = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
+    int rclick = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
     int down  = glfwGetKey(window, GLFW_KEY_V);
-    if(b)  plane.drop();
-    if(up){
+    if(rclick)  plane.drop();
+    if(lclick){
     float angle2 = sin((plane.counter * M_PI / 180.0f));
         float b = tar.position.y - plane.position.y;
         float a = tar.position.x - plane.position.x;
@@ -457,6 +457,9 @@ int main(int argc, char **argv) {
             //ends here the part
             // 60 fps
             // OpenGL Draw commands
+            int a3 = rand()%100000;
+            int a4 = rand()%100000;
+            if(a3==a4 && canon.size()<4) canon.push_back(Canon(checks[0].position.x+ rand()%200,checks[0].position.z));
             draw();
             // Swap Frame Buffer in double buffering
             glfwSwapBuffers(window);
